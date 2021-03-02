@@ -7,79 +7,37 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    // add company info by admin
+    public function create(Request $request)
     {
-        //
+        $company = new Company($request->all());
+        $company->save();
+         return response()->json(["message"=>"Created!","data"=>$company]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\models\Company  $company
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Company $company)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\models\Company  $company
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Company $company)
+    // update company by admin
+    public function update(Request $request,$id)
     {
-        //
-    }
+          $company = Company::find($id);
+          if(is_null($company))
+          {
+            return response()->json(["message"=>"Not found"]);
+           }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\Company  $company
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Company $company)
-    {
-        //
-    }
+           $company->update($request->all());
+           return response()->json('updated') ;
+          }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\models\Company  $company
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Company $company)
-    {
-        //
-    }
+
+
+        // get company info 
+        public function getCompanyInfo()
+        {
+            $company = Company::all() ;
+            return $company;
+        }
 }
+
