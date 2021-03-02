@@ -7,79 +7,66 @@ use Illuminate\Http\Request;
 
 class PaperTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+            // create new PaperType By admin
+            public function create(Request $request)
+            {
+                $paperType=PaperType::create([
+                    'paper_name'=> $request->input('paper_name'),
+                    'paper_type'=> $request->input('paper_type'),
+                    // 'email_id'=> $request->input('email_id'),
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+                ]);
+                return response()->json(['message'=>'created']) ;
+            }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\models\PaperType  $paperType
-     * @return \Illuminate\Http\Response
-     */
-    public function show(PaperType $paperType)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\models\PaperType  $paperType
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(PaperType $paperType)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\PaperType  $paperType
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, PaperType $paperType)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\models\PaperType  $paperType
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(PaperType $paperType)
-    {
-        //
-    }
+            // update PaperType by user&admin
+            public function update(Request $request, $id)
+            {
+                $paperType = PaperType::find($id) ;
+                if(is_null($paperType))
+                {
+                    return response()->json(["message"=>"Not found"]);
+                }
+                $paperType->update($request->all());
+                return response()->json('updated') ;
+            }
+
+
+
+            //get all PaperType for admin
+            public function getAllpaperTypes()
+            {
+                $paperTypes = PaperType::all() ;
+                return $paperTypes ;
+            }
+
+
+            // get PaperType By id
+            public function getpaperTypeById($id)
+            {
+                $paperType = PaperType::find($id);
+                if(is_null($paperType))
+                {
+                    return response()->json(["message"=>"Not found"]);
+                }
+                return $paperType ;
+            }
+
+
+            // delete PaperType by admin
+            public function delete($id)
+            {
+                $paperType = PaperType::find($id) ;
+                if(is_null($paperType))
+                {
+                    return response()->json(["message"=>"Not found"]);
+                }
+                $paperType->delete() ;
+                return response()->json(['message'=>'Deleted']) ;
+
+            }
 }

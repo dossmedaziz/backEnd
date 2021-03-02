@@ -7,79 +7,67 @@ use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+            // create new project By admin
+            public function create(Request $request)
+            {
+                $project = Project::create([
+                    'project_name'=> $request->input('project_name'),
+                    'description'=> $request->input('description'),
+                    'status'=> $request->input('status') ,
+                    'start_date' => $request->input('start_date'),
+                    // 'client_id' => '1',
+                ]);
+                return response()->json(['message'=>'created']) ;
+            }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Project $project)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Project $project)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Project $project)
-    {
-        //
-    }
+            // update Project by user&admin
+            public function update(Request $request, $id)
+            {
+                $project = Project::find($id) ;
+                if(is_null($project))
+                {
+                    return response()->json(["message"=>"Not found"]);
+                }
+                $project->update($request->all());
+                return response()->json('updated') ;
+            }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Project $project)
-    {
-        //
-    }
+
+
+            //get all project for admin
+            public function getAllProjects()
+            {
+                $projects = Project::all() ;
+                return $projects ;
+            }
+
+
+            // get Project By id
+            public function getProjectById($id)
+            {
+                $project = Project::find($id);
+                if(is_null($project))
+                {
+                    return response()->json(["message"=>"Not found"]);
+                }
+                return $project ;
+            }
+
+
+            // delete project by admin
+            public function delete($id)
+            {
+                $project = Project::find($id) ;
+                if(is_null($project))
+                {
+                    return response()->json(["message"=>"Not found"]);
+                }
+                $project->delete() ;
+                return response()->json(['message'=>'Deleted']) ;
+
+            }
 }

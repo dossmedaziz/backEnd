@@ -7,79 +7,62 @@ use Illuminate\Http\Request;
 
 class MailContentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+   // create new MailContent By admin
+   public function create(Request $request)
+   {
+       $mailContent=MailContent::create([
+           
+       ]);
+       return response()->json(['message'=>'created']) ;
+   }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\models\MailContent  $mailContent
-     * @return \Illuminate\Http\Response
-     */
-    public function show(MailContent $mailContent)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\models\MailContent  $mailContent
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(MailContent $mailContent)
-    {
-        //
-    }
+   // update MailContent by user&admin
+   public function update(Request $request, $id)
+   {
+       $mailContent = MailContent::find($id) ;
+       if(is_null($mailContent))
+       {
+           return response()->json(["message"=>"Not found"]);
+       }
+       $mailContent->update($request->all());
+       return response()->json('updated') ;
+   }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\MailContent  $mailContent
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, MailContent $mailContent)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\models\MailContent  $mailContent
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(MailContent $mailContent)
-    {
-        //
-    }
+
+   //get all MailContents for admin
+   public function getAllMailContents()
+   {
+       $mailContents = MailContent::all() ;
+       return $mailContents ;
+   }
+
+
+   // get MailContent By id
+   public function getMailContentById($id)
+   {
+       $mailContent = MailContent::find($id);
+       if(is_null($mailContent))
+       {
+           return response()->json(["message"=>"Not found"]);
+       }
+       return $mailContent ;
+   }
+
+
+   // delete MailContent by admin
+   public function delete($id)
+   {
+       $mailContent = MailContent::find($id) ;
+       if(is_null($mailContent))
+       {
+           return response()->json(["message"=>"Not found"]);
+       }
+       $mailContent->delete() ;
+       return response()->json(['message'=>'Deleted']) ;
+
+   }
 }

@@ -7,79 +7,68 @@ use Illuminate\Http\Request;
 
 class PaperController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    // create new paper By admin
+    public function create(Request $request)
     {
-        //
+        $paper=Paper::create([
+            'paper_file'=> $request->input('paper_file'),
+            'description'=> $request->input('description'),
+            'expiration_date'=> $request->input('expiration_date'),
+            'auto_email' => $request->input('auto_email'),
+            // 'project_id' => $request->input('project_id'),
+            // 'paper_type' => $request->input('paper_type'),
+
+        ]);
+        return response()->json(['message'=>'created']) ;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+
+
+    // update paper by user&admin
+    public function update(Request $request, $id)
     {
-        //
+        $paper = Paper::find($id) ;
+        if(is_null($paper))
+        {
+            return response()->json(["message"=>"Not found"]);
+        }
+        $paper->update($request->all());
+        return response()->json('updated') ;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+
+    //get all papers for admin
+    public function getAllPapers()
     {
-        //
+        $papers = Paper::all() ;
+        return $papers ;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\models\Paper  $paper
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Paper $paper)
+
+    // get Paper By id
+    public function getPaperById($id)
     {
-        //
+        $paper = Paper::find($id);
+        if(is_null($paper))
+        {
+            return response()->json(["message"=>"Not found"]);
+        }
+        return $paper ;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\models\Paper  $paper
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Paper $paper)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\Paper  $paper
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Paper $paper)
+    // delete paper by admin
+    public function delete($id)
     {
-        //
-    }
+        $paper = Paper::find($id) ;
+        if(is_null($paper))
+        {
+            return response()->json(["message"=>"Not found"]);
+        }
+        $paper->delete() ;
+        return response()->json(['message'=>'Deleted']) ;
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\models\Paper  $paper
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Paper $paper)
-    {
-        //
     }
 }

@@ -4,82 +4,63 @@ namespace App\Http\Controllers;
 
 use App\models\Bill;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class BillController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    // create new bill By admin
+    public function create(Request $request)
     {
-        //
+        $bill = Bill::create([
+            'file'=> $request->input('file'),
+            // 'email'=> $request->input('email'),
+            // 'role_id'=> $request->input('role_id'),
+        ]);
+        return response()->json(['message'=>'created']) ;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    // update bill by user&admin
+    public function update(Request $request, $id)
     {
-        //
+        $bill = Bill::find($id) ;
+        if(is_null($bill))
+        {
+            return response()->json(["message"=>"Not found"]);
+        }
+        $bill->update($request->all());
+        return response()->json('updated') ;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+     //get all bills for admin
+     public function getAllBills()
+     {
+         $bills = Bill::all() ;
+         return $bills ;
+     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\models\Bill  $bill
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Bill $bill)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\models\Bill  $bill
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Bill $bill)
-    {
-        //
-    }
+     // get bill By id
+     public function getBillById($id)
+     {
+         $bill = Bill::find($id);
+         if(is_null($bill))
+         {
+             return response()->json(["message"=>"Not found"]);
+         }
+         return $bill ;
+     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\Bill  $bill
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Bill $bill)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\models\Bill  $bill
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Bill $bill)
-    {
-        //
-    }
+     // delete Bill by admin
+     public function delete($id)
+     {
+         $bill = Bill::find($id) ;
+         if(is_null($bill))
+         {
+             return response()->json(["message"=>"Not found"]);
+         }
+         $bill->delete() ;
+         return response()->json(['message'=>'Deleted']) ;
+
+     }
 }
