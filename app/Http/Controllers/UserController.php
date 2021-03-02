@@ -21,7 +21,7 @@ class UserController extends Controller
                     'phone_number' => $request->input('phone_number'),
                     // 'role_id' => '1',
                 ]);
-                return response()->json(['message'=>'created']) ;
+                return response()->json(['message'=>'created','user'=>$user]) ;
             }
 
 

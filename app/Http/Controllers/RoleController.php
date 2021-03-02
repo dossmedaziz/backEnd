@@ -7,79 +7,64 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+   
+
+    // create  role by admin
+    public function create(Request $request)
     {
-        //
+        $role = new Role($request->all());
+        $role->save() ; 
+        return response()->json(['message'=>'created','role'=>$role]) ;
+ 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Role $role)
-    {
-        //
-    }
+       // update role by admin
+       public function update(Request $request, $id)
+       {
+           $role = Role::find($id) ;
+           if(is_null($role))
+           {
+               return response()->json(["message"=>"Not found"]);
+           }
+           $role->update($request->all());
+           return response()->json('updated') ;
+       }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Role $role)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Role $role)
-    {
-        //
-    }
+       // get all Roles by admin
+       public function getAllRoles()
+       {
+           $roles = Role::all();
+           return $roles ;
+       }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Role $role)
-    {
-        //
-    }
+
+
+       // get role by id
+       public function getRoleById($id)
+       {
+             $role = Role::find($id) ; 
+             if(is_null($role))
+             {
+                 return response()->json(["message"=>"Not found"]);
+             }
+             return $role;
+
+       }
+
+
+       // delete role by admin
+       public function delete($id)
+       {
+           $role = Role::find($id) ;
+           if(is_null($role))
+           {
+               return response()->json(["message"=>"Not found"]);
+           }
+           $role->delete() ;
+           return response()->json(['message'=>'Deleted']) ;
+
+       }
 }
