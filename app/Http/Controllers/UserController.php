@@ -86,16 +86,18 @@ class UserController extends Controller
                     'password' => 'required|string'
                 ]) ;
     
-             dd($login) ; 
+           
                     
                         if(!Auth::attempt($login))
                         {
                             return response(['message'=>'invalid login credentials','access'=>'0']);
                         }
                         
+                        
                         $accessToken = Auth::user()->createToken('authToken')->accessToken ; 
-    
                         return response(['user'=>Auth::user(), 'access_token' => $accessToken ,'access' =>'1']) ;
     
                     }
-}
+
+
+                }

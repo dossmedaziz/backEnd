@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+
 use App\models\User ; 
 
 class UserSeeder extends Seeder
@@ -16,7 +18,7 @@ class UserSeeder extends Seeder
         User::create([
                       'name'=>'admin',
                       'email'=>'admin@admin.com',
-                      'password'=>'nachd-it',
+                      'password'=>Hash::make('nachd-it'),
                       'phone_number'=>'12345678',
                     //   'role_id'=>'1',
                       'verified'=>'1',

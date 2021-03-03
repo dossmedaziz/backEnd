@@ -123,3 +123,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
             Route::post('/createCompany','CompanyController@create') ;
             Route::put('/updateCompany/{id}','CompanyController@update') ;
             Route::get('/getCompanyInfo','CompanyController@getCompanyInfo') ;
+
+
+
+
+
+            Route::group(['middleware' => 'auth:api'], function () {
+
+                  Route::get('/test','UserController@test');
+            });
