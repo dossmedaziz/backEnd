@@ -86,7 +86,7 @@ class UserController extends Controller
                     'password' => 'required|string'
                 ]) ;
     
-           
+            //   dd(Auth::attempt($login)) ; 
                     
                         if(!Auth::attempt($login))
                         {
@@ -97,7 +97,5 @@ class UserController extends Controller
                         $accessToken = Auth::user()->createToken('authToken')->accessToken ; 
                         return response(['user'=>Auth::user(), 'access_token' => $accessToken ,'access' =>'1']) ;
     
-                    }
-
-
-                }
+ }
+ }
