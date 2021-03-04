@@ -10,4 +10,12 @@ class Action extends Model
     protected $fillable = [
         'action_name'
     ];
+
+
+
+
+    public function privileges()
+    {
+        return $this->hasMany(Privilege::class);
+    }
 }

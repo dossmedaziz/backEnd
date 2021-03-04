@@ -10,4 +10,12 @@ class Role extends Model
     protected $fillable =[
         'role_name'
     ];
+
+
+
+    
+    public function priviliges()
+    {
+        return $this->HasMany('App\models\Privilege') ;
+    }
 }

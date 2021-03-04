@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\models\User;
+use App\models\Role;
+use App\models\Action;
+use App\models\Space;
+use App\models\Privilege;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth ; 
@@ -114,5 +118,24 @@ class UserController extends Controller
     
             }
 
+
+            public function test()
+            {
+                $user = Auth::user();
+                $role_id = $user->role_id;
+                $privilege = Privilege::WHERE('role_id',$role_id)->with('space')->with('action')->get() ;
+               
+
+                // foreach ($privilege as $priv)
+                // {
+                //     $action = Action::SELECT('*')->WHERE('id',$priv->action_id)->get();
+                //     $space = Space::SELECT('*')->WHERE('id',$priv->space_id)->get();
+                //     $res =  array_merge(json_decode($action, true), json_decode($space, true));
+                //     $res= $res.concat($space);
+                // }
+                
+                
+                return response()->json($privilege);
+            }
             
  }

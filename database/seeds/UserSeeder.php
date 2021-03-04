@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
                       'email'=>'admin@admin.com',
                       'password'=>Hash::make('nachd-it'),
                       'phone_number'=>'12345678',
-                    //   'role_id'=>'1',
+                      'role_id'=>'1',
                       'verified'=>'1',
                       ]);
     

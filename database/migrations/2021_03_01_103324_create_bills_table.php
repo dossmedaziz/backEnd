@@ -20,12 +20,7 @@ class CreateBillsTable extends Migration
             $table->foreign('client_id')
                 ->references('id')
                 ->on('clients')
-                ->onDelete('CASCADE');
-            $table->unsignedBigInteger('role_id')->nullable();
-            $table->foreign('role_id')
-                    ->references('id')
-                    ->on('roles')
-                    ->onDelete('SET NULL');
+                ->onDelete('SET NULL');
             $table->timestamps();
         });
     }

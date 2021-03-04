@@ -139,5 +139,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
             // Manage user by admin
                Route::post('/createUser','UserController@create') ;
                Route::delete('/deleteUser/{id}','UserController@delete') ;
+               Route::get('/test','UserController@test');
 
              });

@@ -10,4 +10,10 @@ class Space extends Model
     protected $fillable = [
         'space_name'
     ];
+
+
+    public function privileges()
+    {
+        return $this->hasMany(Privilege::class);
+    }
 }
