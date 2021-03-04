@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RolePrivilege extends Migration
+class CreatePrivilegesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,23 @@ class RolePrivilege extends Migration
      */
     public function up()
     {
-        Schema::create('role_privileges', function (Blueprint $table) {
+        Schema::create('privileges', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('role_id')->nullable();
             $table->foreign('role_id')
                 ->references('id')
                 ->on('roles')
-                ->onDelete('cascade');
-            $table->unsignedBigInteger('privilege_id')->nullable();
-            $table->foreign('privilege_id')
+                ->onDelete('SET NULL');
+            $table->unsignedBigInteger('space_id')->nullable();
+            $table->foreign('space_id')
                 ->references('id')
-                ->on('privileges')
-                ->onDelete('cascade');
+                ->on('spaces')
+                ->onDelete('SET NULL');
+            $table->unsignedBigInteger('action_id')->nullable();
+            $table->foreign('action_id')
+                    ->references('id')
+                    ->on('actions')
+                    ->onDelete('SET NULL');
             $table->timestamps();
         });
     }
@@ -36,7 +41,6 @@ class RolePrivilege extends Migration
      */
     public function down()
     {
-        //
-        Schema::dropIfExists('role_privileges');
+        Schema::dropIfExists('privileges');
     }
 }

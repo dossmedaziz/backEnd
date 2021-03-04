@@ -21,11 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
             // User Routes
-            Route::post('/createUser','UserController@create') ;
             Route::put('/updateUser/{id}','UserController@update') ;
             Route::get('/getUsers','UserController@getAllUsers') ;
             Route::get('/getUsers/{id}','UserController@getUserById') ;
-            Route::delete('/deleteUser/{id}','UserController@delete') ;
             Route::get('/login','UserController@login') ;
 
 
@@ -99,7 +97,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
             //Role Routes
-            Route::post('/createRole','RoleController@create') ;
             Route::put('/updateRole/{id}','RoleController@update') ;
             Route::get('/getRoles','RoleController@getAllRoles') ;
             Route::get('/getRoles/{id}','RoleController@getRoleById') ;
@@ -128,6 +125,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 
-            Route::group(['middleware' => 'auth:api'], function () {
 
-            });
+
+            Route::group(['middleware' => 'auth:api'], function () {
+              
+            // create new role by admin
+               Route::post('/createRole','RoleController@create') ;
+              
+              
+
+
+
+            // Manage user by admin
+               Route::post('/createUser','UserController@create') ;
+               Route::delete('/deleteUser/{id}','UserController@delete') ;
+
+             });

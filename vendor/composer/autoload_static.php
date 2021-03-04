@@ -577,10 +577,12 @@ class ComposerStaticInit1a1dfef65c19b19571360206aa767d95
     );
 
     public static $classMap = array (
+        'ActionSeeder' => __DIR__ . '/../..' . '/database/seeds/ActionSeeder.php',
         'ActivityLogSeeder' => __DIR__ . '/../..' . '/database/seeds/ActivityLogSeeder.php',
         'ActivityTypeSeeder' => __DIR__ . '/../..' . '/database/seeds/ActivityTypeSeeder.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\ActionController' => __DIR__ . '/../..' . '/app/Http/Controllers/ActionController.php',
         'App\\Http\\Controllers\\ActivityLogController' => __DIR__ . '/../..' . '/app/Http/Controllers/ActivityLogController.php',
         'App\\Http\\Controllers\\ActivityTypeController' => __DIR__ . '/../..' . '/app/Http/Controllers/ActivityTypeController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
@@ -616,6 +618,7 @@ class ComposerStaticInit1a1dfef65c19b19571360206aa767d95
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\models\\Action' => __DIR__ . '/../..' . '/app/models/Action.php',
         'App\\models\\ActivityLog' => __DIR__ . '/../..' . '/app/models/ActivityLog.php',
         'App\\models\\ActivityType' => __DIR__ . '/../..' . '/app/models/ActivityType.php',
         'App\\models\\Bill' => __DIR__ . '/../..' . '/app/models/Bill.php',
@@ -628,6 +631,7 @@ class ComposerStaticInit1a1dfef65c19b19571360206aa767d95
         'App\\models\\Privilege' => __DIR__ . '/../..' . '/app/models/Privilege.php',
         'App\\models\\Project' => __DIR__ . '/../..' . '/app/models/Project.php',
         'App\\models\\Role' => __DIR__ . '/../..' . '/app/models/Role.php',
+        'App\\models\\Space' => __DIR__ . '/../..' . '/app/models/Space.php',
         'App\\models\\User' => __DIR__ . '/../..' . '/app/models/User.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/CorsService.php',
@@ -4582,6 +4586,7 @@ class ComposerStaticInit1a1dfef65c19b19571360206aa767d95
         'SebastianBergmann\\Type\\UnknownType' => __DIR__ . '/..' . '/sebastian/type/src/UnknownType.php',
         'SebastianBergmann\\Type\\VoidType' => __DIR__ . '/..' . '/sebastian/type/src/VoidType.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
+        'SpaceSeeder' => __DIR__ . '/../..' . '/database/seeds/SpaceSeeder.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'Symfony\\Bridge\\PsrHttpMessage\\ArgumentValueResolver\\PsrServerRequestResolver' => __DIR__ . '/..' . '/symfony/psr-http-message-bridge/ArgumentValueResolver/PsrServerRequestResolver.php',
         'Symfony\\Bridge\\PsrHttpMessage\\EventListener\\PsrResponseListener' => __DIR__ . '/..' . '/symfony/psr-http-message-bridge/EventListener/PsrResponseListener.php',

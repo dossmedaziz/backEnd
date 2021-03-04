@@ -8,6 +8,6 @@ class Privilege extends Model
 {
     protected $table ="privileges";
     protected $fillable = [
-    'privilege_name'
+    'role_id','space_id','action_id'
     ] ;
 }

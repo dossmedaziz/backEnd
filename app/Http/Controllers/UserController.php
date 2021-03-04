@@ -16,15 +16,23 @@ class UserController extends Controller
             // create new user By admin
             public function create(Request $request)
             {
-                $user=User::create([
-                    'name'=> $request->input('name'),
-                    'email'=> $request->input('email'),
-                    'password'=> Hash::make($request->input('password')) , 
-                    'phone_number' => $request->input('phone_number'),
-                    // 'role_id' => '1',
-                ]);
-                return response()->json(['message'=>'created','user'=>$user]) ;
-            }
+                $role_id = Auth::user()->role_id ;
+
+                if($role_id == 1)
+                {
+                    $user=User::create([
+                        'name'=> $request->input('name'),
+                        'email'=> $request->input('email'),
+                        'password'=> Hash::make($request->input('password')) , 
+                        'phone_number' => $request->input('phone_number'),
+                        'role_id' => $request->input('role_id'),
+                    ]);
+                    return response()->json(['message'=>'created','user'=>$user]) ;
+                }else{
+                    return response()->json(["message"=>"unauthorized"]);
+                }
+
+ }
 
 
 
@@ -47,6 +55,7 @@ class UserController extends Controller
             public function getAllUsers()
             {
                 $users = User::all() ;
+                
                 return $users ; 
             }
 
@@ -59,6 +68,7 @@ class UserController extends Controller
                 {
                     return response()->json(["message"=>"Not found"]);
                 }
+                $role_id=$user->role_id ;
                 return $user ;
             }
 
@@ -66,6 +76,8 @@ class UserController extends Controller
             // delete user by admin
             public function delete($id)
             {
+
+                if(Auth::user()->role_id == 1){
                 $user = User::find($id) ;
                 if(is_null($user))
                 {
@@ -73,6 +85,9 @@ class UserController extends Controller
                 }
                 $user->delete() ;
                 return response()->json(['message'=>'Deleted']) ;
+                }else{
+                    return response()->json(["message"=>"unauthorized"]);
+                }
 
             }
 
@@ -86,7 +101,7 @@ class UserController extends Controller
                     'password' => 'required|string'
                 ]) ;
     
-            //   dd(Auth::attempt($login)) ; 
+      
                     
                         if(!Auth::attempt($login))
                         {
@@ -97,5 +112,7 @@ class UserController extends Controller
                         $accessToken = Auth::user()->createToken('authToken')->accessToken ; 
                         return response(['user'=>Auth::user(), 'access_token' => $accessToken ,'access' =>'1']) ;
     
- }
+            }
+
+            
  }
