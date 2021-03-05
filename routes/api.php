@@ -83,6 +83,8 @@ Route::delete('/deleteType/{id}','PaperTypeController@delete') ;
             Route::get('/getUsers','UserController@getAllUsers') ;
             Route::get('/getUsers/{id}','UserController@getUserById') ;
             Route::delete('/deleteUser/{id}','UserController@delete') ;
+            Route::get('/login','UserController@login') ;
+
 
 
 
