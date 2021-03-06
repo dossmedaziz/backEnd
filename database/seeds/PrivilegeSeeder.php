@@ -11,6 +11,6 @@ class PrivilegeSeeder extends Seeder
      */
     public function run()
     {
-        //
+  
     }
 }

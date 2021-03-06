@@ -8,6 +8,19 @@ class Privilege extends Model
 {
     protected $table ="privileges";
     protected $fillable = [
-    'privilege_name'
+    'role_id','space_id','action_id'
     ] ;
+
+
+
+    public function action()
+    {
+        return $this->belongsTo(Action::class);
+    }
+
+    public function space()
+    {
+        return $this->belongsTo(Space::class);
+    }
+   
 }

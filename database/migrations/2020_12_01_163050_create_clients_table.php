@@ -17,7 +17,7 @@ class CreateClientsTable extends Migration
             $table->id();
             $table->string('client_name');
             $table->string('email');
-            $table->string('WebSite');
+            $table->string('WebSite')->nullable();
             $table->string('local');
             $table->string('matFisc');
             $table->timestamps();
