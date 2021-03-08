@@ -20,7 +20,7 @@ class UserController extends Controller
             public function create(Request $request)
             {
 
-                
+
                     $user=User::create([
                         'name'=> $request->input('name'),
                         'email'=> $request->input('email'),
@@ -29,7 +29,7 @@ class UserController extends Controller
                         'role_id' => $request->input('role_id'),
                     ]);
                     return response()->json(['message'=>'created','user'=>$user]) ;
-                
+
 
  }
 
@@ -75,7 +75,7 @@ class UserController extends Controller
             public function delete($id)
             {
 
-              
+
                 $user = User::find($id) ;
                 if(is_null($user))
                 {
@@ -83,7 +83,7 @@ class UserController extends Controller
                 }
                 $user->delete() ;
                 return response()->json(['message'=>'Deleted']) ;
-               
+
 
             }
 
@@ -113,7 +113,7 @@ class UserController extends Controller
 
 
 
-            // sending privileges of user 
+            // sending privileges of user
             public function test()
             {
                 $user = Auth::user();

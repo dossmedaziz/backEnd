@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\models\ActivityType ;
 
 class ActivityTypeSeeder extends Seeder
 {
@@ -11,6 +12,17 @@ class ActivityTypeSeeder extends Seeder
      */
     public function run()
     {
-        //
+
+        ActivityType::create([
+            'type_name'=>'Create',
+             ]);
+
+        ActivityType::create([
+                'type_name'=>'Update',
+                 ]);
+        ActivityType::create([
+                    'type_name'=>'Delete',
+                ]);
+
     }
 }

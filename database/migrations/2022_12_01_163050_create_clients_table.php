@@ -20,6 +20,11 @@ class CreateClientsTable extends Migration
             $table->string('WebSite')->nullable();
             $table->string('local');
             $table->string('matFisc');
+            $table->unsignedBigInteger('creator_id')->nullable();
+            $table->foreign('creator_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('SET NULL');
             $table->timestamps();
         });
     }

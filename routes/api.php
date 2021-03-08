@@ -119,6 +119,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
                Route::post('/createClient','ClientController@create') ;
                Route::put('/updateClient/{id}','ClientController@update') ;
                Route::delete('/deleteClient/{id}','ClientController@delete') ;
+               Route::get('/getUclients/{id}','ClientController@getUserClients') ;
+
 
             //Manage Projects by admin
                Route::post('/createProject','ProjectController@create') ;
@@ -130,4 +132,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
                Route::put('/updateBill/{id}','BillController@update') ;
                Route::delete('/deleteBill/{id}','BillController@delete') ;
 
+
+
+
+
+
+            // Get all activity log by admin
+            Route::get('/getActivities','ActivityLogController@activities');
+            Route::get('/getActivities/{id}','ActivityLogController@userActivities');
+
              });
+

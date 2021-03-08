@@ -23,7 +23,12 @@ class CreateProjectsTable extends Migration
             $table->foreign('client_id')
                 ->references('id')
                 ->on('clients')
-                ->onDelete('cascade');
+                ->onDelete('SET NULL');
+            $table->unsignedBigInteger('creator_id')->nullable();
+            $table->foreign('creator_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('SET NULL');
             $table->timestamps();
         });
     }

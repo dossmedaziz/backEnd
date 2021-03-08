@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\models\Client;
 use App\models\User;
+use App\models\ActivityType;
+use App\models\ActivityLog;
 use Illuminate\Support\Facades\Auth ;
 use Illuminate\Http\Request;
 class ClientController extends Controller
@@ -14,20 +16,19 @@ class ClientController extends Controller
     // create Client
     public function create(Request $request)
     {
-        $role_id = Auth::user()->role_id ;
-        if($role_id == 1)
-                {
-                    $client = Client::create([
-                        'client_name'=> $request->input('client_name'),
-                        'email'=> $request->input('email'),
-                        'WebSite'=> $request->input('WebSite'),
-                        'local' => $request->input('local'),
-                        'matFisc' => $request->input('matFisc'),
-                    ]);
+        $id = Auth::user()->id;
+
+        $client = new Client($request->all());
+        $client->creator_id = $id ;
+        $client->save();
+
+                    $activity = ActivityLog::create([
+                        'user_id'=> $id,
+                        'activitytype_id'=> 1,
+                        'service_id'=> $client->id
+                     ]);
                     return response()->json(['message'=>'created','client'=>$client]) ;
-                }else{
-                    return response()->json(["message"=>"unauthorized"]);
-                }
+
     }
 
 
@@ -36,8 +37,7 @@ class ClientController extends Controller
     // update client
     public function update(Request $request, $id)
     {
-        if(Auth::user()->role_id == 1)
-        {
+
         $client = Client::find($id) ;
         if(is_null($client))
         {
@@ -45,9 +45,7 @@ class ClientController extends Controller
         }
         $client->update($request->all());
         return response()->json('updated') ;
-    }else{
-        return response()->json(["message"=>"unauthorized"]);
-    }
+
     }
 
 
@@ -55,7 +53,7 @@ class ClientController extends Controller
         public function delete($id)
         {
 
-            if(Auth::user()->role_id == 1){
+
             $client = Client::find($id) ;
             if(is_null($client))
             {
@@ -63,9 +61,7 @@ class ClientController extends Controller
             }
             $client->delete() ;
             return response()->json(['message'=>'Deleted']) ;
-            }else{
-                return response()->json(["message"=>"unauthorized"]);
-            }
+
 
         }
 
@@ -73,6 +69,21 @@ class ClientController extends Controller
    public function getAllclients()
    {
        $clients = Client::all() ;
+       return $clients ;
+   }
+
+    // get user clients
+   public function getUserClients($id)
+   {
+
+       $clients = Client::where('creator_id',$id)->get();
+
+
+       if(is_null($clients))
+       {
+           return response()->json(["message"=> "not found"]);
+       }
+
        return $clients ;
    }
 

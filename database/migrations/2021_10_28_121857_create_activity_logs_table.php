@@ -19,13 +19,13 @@ class CreateActivityLogsTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onDELETE('cascade');
+                ->onDelete('SET NULL');
             $table->unsignedBigInteger('activitytype_id')->nullable();
             $table->foreign('activitytype_id')
                     ->references('id')
                     ->on('activity_types')
-                    ->onDelete('cascade');
-            $table->string('service_id')->nullable();
+                    ->onDelete('SET NULL');
+            $table->integer('service_id')->nullable();
             $table->timestamps();
         });
     }

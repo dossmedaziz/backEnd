@@ -23,7 +23,7 @@ class CreatePapersTable extends Migration
             $table->foreign('project_id')
                 ->references('id')
                 ->on('projects')
-                ->onDELETE('cascade');
+                ->onDelete('cascade');
             $table->unsignedBigInteger('paper_type')->nullable();
             $table->foreign('paper_type')
                 ->references('id')
