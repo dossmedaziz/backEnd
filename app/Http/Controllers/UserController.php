@@ -75,7 +75,7 @@ class UserController extends Controller
             public function delete($id)
             {
 
-                if(Auth::user()->role_id == 1){
+              
                 $user = User::find($id) ;
                 if(is_null($user))
                 {
@@ -83,9 +83,7 @@ class UserController extends Controller
                 }
                 $user->delete() ;
                 return response()->json(['message'=>'Deleted']) ;
-                }else{
-                    return response()->json(["message"=>"unauthorized"]);
-                }
+               
 
             }
 
