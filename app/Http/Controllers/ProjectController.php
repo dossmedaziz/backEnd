@@ -12,9 +12,7 @@ class ProjectController extends Controller
             // create new project By admin
             public function create(Request $request)
             {
-                $role_id = Auth::user()->role_id ;
-                if($role_id == 1)
-                        {
+
                             $project = Project::create([
                                 'project_name'=> $request->input('project_name'),
                                 'description'=> $request->input('description'),
@@ -23,8 +21,6 @@ class ProjectController extends Controller
                                 // 'client_id' => '1',
                             ]);
                             return response()->json(['message'=>'created','project'=>$project]) ;
-                        }else{
-                            return response()->json(["message"=>"unauthorized"]);
                         }
             }
 
