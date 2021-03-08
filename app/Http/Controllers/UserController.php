@@ -19,10 +19,8 @@ class UserController extends Controller
             // create new user By admin
             public function create(Request $request)
             {
-                $role_id = Auth::user()->role_id ;
 
-                if($role_id == 1)
-                {
+                
                     $user=User::create([
                         'name'=> $request->input('name'),
                         'email'=> $request->input('email'),
@@ -31,9 +29,7 @@ class UserController extends Controller
                         'role_id' => $request->input('role_id'),
                     ]);
                     return response()->json(['message'=>'created','user'=>$user]) ;
-                }else{
-                    return response()->json(["message"=>"unauthorized"]);
-                }
+                
 
  }
 
@@ -117,20 +113,14 @@ class UserController extends Controller
             }
 
 
+
+
+            // sending privileges of user 
             public function test()
             {
                 $user = Auth::user();
                 $role_id = $user->role_id;
                 $privilege = Privilege::WHERE('role_id',$role_id)->with('space')->with('action')->get() ;
-
-
-                // foreach ($privilege as $priv)
-                // {
-                //     $action = Action::SELECT('*')->WHERE('id',$priv->action_id)->get();
-                //     $space = Space::SELECT('*')->WHERE('id',$priv->space_id)->get();
-                //     $res =  array_merge(json_decode($action, true), json_decode($space, true));
-                //     $res= $res.concat($space);
-                // }
 
 
                 return response()->json($privilege);
