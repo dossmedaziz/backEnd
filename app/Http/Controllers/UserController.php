@@ -28,10 +28,11 @@ class UserController extends Controller
                         'phone_number' => $request->input('phone_number'),
                         'role_id' => $request->input('role_id'),
                     ]);
-                    return response()->json(['message'=>'created','user'=>$user]) ;
+
+                return response()->json(['message'=>'created','user'=>$user]) ;
 
 
- }
+            }
 
 
 

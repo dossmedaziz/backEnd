@@ -101,9 +101,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 
+
+            // auth routes
+
             Route::group(['middleware' => 'auth:api'], function () {
 
-            // create new role by admin
+            // Manage role by admin
                Route::post('/createRole','RoleController@create') ;
                Route::put('/updateRole/{id}','RoleController@update') ;
                Route::delete('/deleteRole/{id}','RoleController@delete') ;

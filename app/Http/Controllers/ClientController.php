@@ -19,7 +19,6 @@ class ClientController extends Controller
         $id = Auth::user()->id;
 
         $client = new Client($request->all());
-        $client->creator_id = $id ;
         $client->save();
 
                     $activity = ActivityLog::create([
@@ -38,13 +37,23 @@ class ClientController extends Controller
     public function update(Request $request, $id)
     {
 
+        $user_id = Auth::user()->id;
+
+
         $client = Client::find($id) ;
         if(is_null($client))
         {
             return response()->json(["message"=>"Not found"]);
         }
         $client->update($request->all());
-        return response()->json('updated') ;
+        $client->save();
+
+        $activity = ActivityLog::create([
+            'user_id'=> $user_id,
+            'activitytype_id'=> 2,
+            'service_id'=> $client->id
+         ]);
+        return response()->json(['message'=>'updated','client'=>$client]) ;
 
     }
 
@@ -52,6 +61,7 @@ class ClientController extends Controller
         // delete client by admin
         public function delete($id)
         {
+          $user_id = Auth::user()->id;
 
 
             $client = Client::find($id) ;
@@ -59,6 +69,11 @@ class ClientController extends Controller
             {
                 return response()->json(["message"=>"Not found"]);
             }
+            $activity = ActivityLog::create([
+                'user_id'=> $user_id,
+                'activitytype_id'=> 3,
+                'service_id'=> $client->id
+             ]);
             $client->delete() ;
             return response()->json(['message'=>'Deleted']) ;
 
