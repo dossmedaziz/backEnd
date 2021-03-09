@@ -11,26 +11,31 @@ class SpaceSeeder extends Seeder
      */
     public function run()
     {
+        // Space::create([
+        //         'space_name'=>'Client',
+        // ]
+        // );
+        // Space::create([
+        //     'space_name'=>'Project',
+        // ]
+        // );
+        // Space::create([
+        //         'space_name'=>'User',
+        // ]
+        // );
+        // Space::create([
+        //     'space_name'=>'Paper',
+        // ]
+        // );
+        // Space::create([
+        //     'space_name'=>'Bills',
+        // ]
+        // );
         Space::create([
-                'space_name'=>'Client',
+            'space_name'=>'PaperType',
         ]
         );
-        Space::create([
-            'space_name'=>'Project',
-        ]
-        );
-        Space::create([
-                'space_name'=>'User',
-        ]
-        );
-        Space::create([
-            'space_name'=>'Contract',
-        ]
-        );
-        Space::create([
-            'space_name'=>'Bills',
-        ]
-        );
+
 
     }
 }

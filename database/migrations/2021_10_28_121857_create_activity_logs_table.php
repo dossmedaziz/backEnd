@@ -20,12 +20,17 @@ class CreateActivityLogsTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('SET NULL');
-            $table->unsignedBigInteger('activitytype_id')->nullable();
-            $table->foreign('activitytype_id')
+            $table->unsignedBigInteger('action_id')->nullable();
+            $table->foreign('action_id')
                     ->references('id')
-                    ->on('activity_types')
+                    ->on('actions')
                     ->onDelete('SET NULL');
             $table->integer('service_id')->nullable();
+            $table->unsignedBigInteger('space_id')->nullable();
+            $table->foreign('space_id')
+                    ->references('id')
+                    ->on('spaces')
+                    ->onDelete('SET NULL');
             $table->timestamps();
         });
     }

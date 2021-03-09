@@ -19,12 +19,12 @@ class ClientController extends Controller
         $id = Auth::user()->id;
 
         $client = new Client($request->all());
-        $client->creator_id = $id ;
         $client->save();
 
                     $activity = ActivityLog::create([
                         'user_id'=> $id,
-                        'activitytype_id'=> 1,
+                        'action_id'=> 1,
+                        'space_id'=> 1,
                         'service_id'=> $client->id
                      ]);
                     return response()->json(['message'=>'created','client'=>$client]) ;
@@ -38,12 +38,19 @@ class ClientController extends Controller
     public function update(Request $request, $id)
     {
 
+        $id = Auth::user()->id;
         $client = Client::find($id) ;
         if(is_null($client))
         {
             return response()->json(["message"=>"Not found"]);
         }
         $client->update($request->all());
+        $activity = ActivityLog::create([
+            'user_id'=> $id,
+            'action_id'=> 3,
+            'space_id'=> 1,
+            'service_id'=> $client->id
+         ]);
         return response()->json('updated') ;
 
     }
@@ -53,13 +60,19 @@ class ClientController extends Controller
         public function delete($id)
         {
 
-
+            $id = Auth::user()->id;
             $client = Client::find($id) ;
             if(is_null($client))
             {
                 return response()->json(["message"=>"Not found"]);
             }
             $client->delete() ;
+            $activity = ActivityLog::create([
+                'user_id'=> $id,
+                'action_id'=> 4,
+                'space_id'=> 1,
+                'service_id'=> $client->id
+             ]);
             return response()->json(['message'=>'Deleted']) ;
 
 
@@ -100,5 +113,13 @@ class ClientController extends Controller
 
 
 
+
+
+
+// get project of the client
+public function projectClient($id){
+    $client = Client::Where('id',$id)->with('project')->get();
+    return $client;
+}
 
 }

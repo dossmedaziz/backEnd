@@ -2,23 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\models\PaperType;
 use App\models\Paper;
+use App\models\ActivityLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth ;
 
 class PaperController extends Controller
 {
     // create new paper By admin
     public function create(Request $request)
     {
-        $paper=Paper::create([
-            'paper_file'=> $request->input('paper_file'),
-            'description'=> $request->input('description'),
-            'expiration_date'=> $request->input('expiration_date'),
-            'auto_email' => $request->input('auto_email'),
-            // 'project_id' => $request->input('project_id'),
-            // 'paper_type' => $request->input('paper_type'),
+        $id = Auth::user()->id;
 
-        ]);
+        $paper = new Paper($request->all());
+        $paper->save();
+
+        $activity = ActivityLog::create([
+            'user_id'=> $id,
+            'action_id'=> 1,
+            'space_id'=> 4,
+            'service_id'=> $paper->id
+         ]);
         return response()->json(['message'=>'created']) ;
     }
 
@@ -34,6 +39,12 @@ class PaperController extends Controller
             return response()->json(["message"=>"Not found"]);
         }
         $paper->update($request->all());
+        $activity = ActivityLog::create([
+            'user_id'=> $id,
+            'action_id'=> 3,
+            'space_id'=> 4,
+            'service_id'=> $paper->id
+         ]);
         return response()->json('updated') ;
     }
 
@@ -68,7 +79,20 @@ class PaperController extends Controller
             return response()->json(["message"=>"Not found"]);
         }
         $paper->delete() ;
+        $activity = ActivityLog::create([
+            'user_id'=> $id,
+            'action_id'=> 4,
+            'space_id'=> 4,
+            'service_id'=> $paper->id
+         ]);
         return response()->json(['message'=>'Deleted']) ;
 
+    }
+
+//get type of the paper
+    public function getTypeofThePaper($id)
+    {
+        $paper = Paper::where('id',$id)->with('paperType')->get();
+        return response($paper);
     }
 }

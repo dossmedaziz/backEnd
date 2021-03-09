@@ -8,7 +8,13 @@ class Client extends Model
 {
     protected $table = 'clients' ;
     protected $fillable = [
-        'client_name','email','webSite','local','matFisc','creator_id'
+        'client_name','email','webSite','local','matFisc',
     ];
 
+
+
+    public function project()
+    {
+        return $this->HasMany(Project::class) ;
+    }
 }
