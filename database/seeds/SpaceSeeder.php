@@ -24,13 +24,18 @@ class SpaceSeeder extends Seeder
         ]
         );
         Space::create([
-            'space_name'=>'Contract',
+            'space_name'=>'Paper',
         ]
         );
         Space::create([
             'space_name'=>'Bills',
         ]
         );
+        Space::create([
+            'space_name'=>'PaperType',
+        ]
+        );
+
 
     }
 }

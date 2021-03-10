@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ActionSeeder::class);
         $this->call(SpaceSeeder::class);
         $this->call(ActivityTypeSeeder::class);
+        $this->call(PaperTypeSeeder::class);
 
     }
 }

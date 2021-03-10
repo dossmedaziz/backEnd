@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\models\PaperType ;
 
 class PaperTypeSeeder extends Seeder
 {
@@ -11,6 +12,24 @@ class PaperTypeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        PaperType::create([
+            'paper_type'=> "Update"
+            ]);
+        PaperType::create([
+                'paper_type'=> "Maintenance"
+            ]);
+
+        PaperType::create([
+               'paper_type'=> "Hosting"
+            ]);
+
+        PaperType::create([
+                'paper_type'=> "Purchase order"
+            ]);
+        PaperType::create([
+                'paper_type'=> "Quote"
+            ]);
+
+
     }
 }

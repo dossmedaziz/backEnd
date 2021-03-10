@@ -23,7 +23,8 @@ class ClientController extends Controller
 
                     $activity = ActivityLog::create([
                         'user_id'=> $id,
-                        'activitytype_id'=> 1,
+                        'action_id'=> 1,
+                        'space_id'=> 1,
                         'service_id'=> $client->id
                      ]);
                     return response()->json(['message'=>'created','client'=>$client]) ;
@@ -38,8 +39,6 @@ class ClientController extends Controller
     {
 
         $user_id = Auth::user()->id;
-
-
         $client = Client::find($id) ;
         if(is_null($client))
         {
@@ -63,7 +62,7 @@ class ClientController extends Controller
         {
           $user_id = Auth::user()->id;
 
-
+            $id = Auth::user()->id;
             $client = Client::find($id) ;
             if(is_null($client))
             {
@@ -75,6 +74,12 @@ class ClientController extends Controller
                 'service_id'=> $client->id
              ]);
             $client->delete() ;
+            $activity = ActivityLog::create([
+                'user_id'=> $id,
+                'action_id'=> 4,
+                'space_id'=> 1,
+                'service_id'=> $client->id
+             ]);
             return response()->json(['message'=>'Deleted']) ;
 
 
@@ -115,5 +120,13 @@ class ClientController extends Controller
 
 
 
+
+
+
+// get project of the client
+public function projectClient($id){
+    $client = Client::Where('id',$id)->with('project')->get();
+    return $client;
+}
 
 }

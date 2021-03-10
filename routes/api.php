@@ -27,11 +27,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
             Route::get('/getProject/{id}','ProjectController@getprojectById') ;
 
             //Paper Routes
-            Route::post('/createPaper','PaperController@create') ;
-            Route::put('/updatePaper/{id}','PaperController@update') ;
             Route::get('/getPaper','PaperController@getAllPapers') ;
             Route::get('/getPaper/{id}','PaperController@getPaperById') ;
-            Route::delete('/deletePaper/{id}','PaperController@delete') ;
+
 
             //Contact Routes
             Route::post('/createContact','ContactController@create') ;
@@ -48,11 +46,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
             Route::delete('/deleteMailContent/{id}','MailContentController@delete') ;
 
             //Type Routes
-            Route::post('/createType','PaperTypeController@create') ;
-            Route::put('/updateType/{id}','PaperTypeController@update') ;
-            Route::get('/getType','PaperTypeController@getAllpaperTypes') ;
-            Route::get('/getType/{id}','PaperTypeController@getpaperTypeById') ;
-            Route::delete('/deleteType/{id}','PaperTypeController@delete') ;
+
 
             // User Routes
             Route::put('/updateUser/{id}','UserController@update') ;
@@ -101,48 +95,68 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 
+    Route::group(['middleware' => 'auth:api'], function () {
 
-            // auth routes
-
-            Route::group(['middleware' => 'auth:api'], function () {
-
-            // Manage role by admin
-               Route::post('/createRole','RoleController@create') ;
-               Route::put('/updateRole/{id}','RoleController@update') ;
-               Route::delete('/deleteRole/{id}','RoleController@delete') ;
+                        // create new role by admin
+                        Route::post('/createRole','RoleController@create') ;
+                        Route::put('/updateRole/{id}','RoleController@update') ;
+                        Route::delete('/deleteRole/{id}','RoleController@delete') ;
 
 
-            // Manage user by admin
-               Route::post('/createUser','UserController@create') ;
-               Route::delete('/deleteUser/{id}','UserController@delete') ;
-               Route::get('/test','UserController@test');
+                        // Manage user by admin
+                        Route::post('/createUser','UserController@create') ;
+                        Route::delete('/deleteUser/{id}','UserController@delete') ;
+                        //    Route::get('/test','UserController@test');
 
 
-            // Manage Client by admin
-               Route::post('/createClient','ClientController@create') ;
-               Route::put('/updateClient/{id}','ClientController@update') ;
-               Route::delete('/deleteClient/{id}','ClientController@delete') ;
-               Route::get('/getUclients/{id}','ClientController@getUserClients') ;
+                        // Manage Client by admin
+                        Route::post('/createClient','ClientController@create') ;
+                        Route::put('/updateClient/{id}','ClientController@update') ;
+                        Route::delete('/deleteClient/{id}','ClientController@delete') ;
+                        Route::get('/getUclients/{id}','ClientController@getUserClients') ;
+
+                        Route::get('/projectClient/{id}', 'ClientController@projectClient');
 
 
-            //Manage Projects by admin
-               Route::post('/createProject','ProjectController@create') ;
-               Route::put('/updateProject/{id}','ProjectController@update') ;
-               Route::delete('/deleteProject/{id}','ProjectController@delete') ;
+                        //Manage Projects by admin
+                        Route::post('/createProject','ProjectController@create') ;
+                        Route::put('/updateProject/{id}','ProjectController@update') ;
+                        Route::delete('/deleteProject/{id}','ProjectController@delete') ;
+                        Route::get('/getUserProjects/{id}','ProjectController@getUserProjects') ;
 
-            //Create  Bill By CFO
-               Route::post('/createBill','BillController@create') ;
-               Route::put('/updateBill/{id}','BillController@update') ;
-               Route::delete('/deleteBill/{id}','BillController@delete') ;
+                        Route::get('/paperProject/{id}', 'ProjectController@paperProject');
+
+                        //Create  Bill By admin
+                        Route::post('/createBill','BillController@create') ;
+                        Route::put('/updateBill/{id}','BillController@update') ;
+                        Route::delete('/deleteBill/{id}','BillController@delete') ;
+
+
+                        //manage paper by admin
+                        Route::post('/createPaper','PaperController@create') ;
+                        Route::put('/updatePaper/{id}','PaperController@update') ;
+                        Route::delete('/deletePaper/{id}','PaperController@delete') ;
+                        Route::get('getTypeofThePaper/{id}','PaperController@getTypeofThePaper');
+
+
+                        // Get all activity log by admin
+                            Route::get('/getActivities','ActivityLogController@activities');
+                            Route::get('/getActivities/{id}','ActivityLogController@userActivities');
+
+
+
+                        // manage paper type
+                            Route::post('/createType','PaperTypeController@create') ;
+                            Route::put('/updateType/{id}','PaperTypeController@update') ;
+                            Route::get('/getType','PaperTypeController@getAllpaperTypes') ;
+                            Route::get('/getType/{id}','PaperTypeController@getpaperTypeById') ;
+                            Route::delete('/deleteType/{id}','PaperTypeController@delete') ;
+                            Route::get('getPaperofTheType/{id}','PaperTypeController@getPaperofTheType');
 
 
 
 
 
 
-            // Get all activity log by admin
-            Route::get('/getActivities','ActivityLogController@activities');
-            Route::get('/getActivities/{id}','ActivityLogController@userActivities');
-
-             });
+    });
 

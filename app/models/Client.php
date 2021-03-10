@@ -11,4 +11,10 @@ class Client extends Model
         'client_name','email','webSite','local','matFisc',
     ];
 
+
+
+    public function project()
+    {
+        return $this->HasMany(Project::class) ;
+    }
 }

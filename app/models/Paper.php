@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Paper extends Model
 {
     protected $fillable = [
-        'paper_file', 'description', 'expiration_date','auto_email','project_id','paper_type'
+        'paper_file','paper_name', 'description', 'expiration_date',
+        'auto_email','project_id','paper_type'
     ];
+
+
+
+    public function paperType()
+    {
+        return $this->belongsTo(PaperType::class, 'paper_type');
+    }
 }
