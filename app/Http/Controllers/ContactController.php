@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth ;
 
 class ContactController extends Controller
 {
@@ -11,13 +12,8 @@ class ContactController extends Controller
             // create new Contact By admin
             public function create(Request $request)
             {
-                $contact=Contact::create([
-                    'contact_name'=> $request->input('contact_name'),
-                    'email'=> $request->input('email'),
-                    'description'=> $request->input('description') ,
-                    // 'client_id' => $request->input('phone_number'),
-                    'phone' => $request->input('phone'),
-                ]);
+                $contact = new Contact($request->all());
+                $contact->save();
                 return response()->json(['message'=>'created']) ;
             }
 
@@ -70,4 +66,6 @@ class ContactController extends Controller
                 return response()->json(['message'=>'Deleted']) ;
 
             }
+
+
 }

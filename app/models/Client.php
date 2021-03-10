@@ -17,4 +17,14 @@ class Client extends Model
     {
         return $this->HasMany(Project::class) ;
     }
+
+    public function bill()
+    {
+        return $this->HasMany(Bill::class) ;
+    }
+
+    public function contact()
+    {
+        return $this->HasMany(Contact::class) ;
+    }
 }

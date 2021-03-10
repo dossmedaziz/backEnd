@@ -15,7 +15,14 @@ class CreateBillsTable extends Migration
     {
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
-            $table->string('file');
+            $table->integer('total_ttc');
+            $table->integer('ht_price');
+            $table->integer('rate_tva');
+            $table->integer('price_tva');
+            $table->integer('fiscal_timber');
+            $table->integer('billNum');
+            $table->string('bill_file');
+            $table->timestamp('DateFacturation');
             $table->unsignedBigInteger('client_id')->nullable();
             $table->foreign('client_id')
                 ->references('id')

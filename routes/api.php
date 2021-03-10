@@ -32,7 +32,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
             //Contact Routes
-            Route::post('/createContact','ContactController@create') ;
             Route::put('/updateContact/{id}','ContactController@update') ;
             Route::get('/getContact','ContactController@getAllContact') ;
             Route::get('/getContact/{id}','ContactController@getContactById') ;
@@ -116,6 +115,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
                         Route::get('/getUclients/{id}','ClientController@getUserClients') ;
 
                         Route::get('/projectClient/{id}', 'ClientController@projectClient');
+                        Route::get('/getClientContact/{id}', 'ClientController@getClientContact');
 
 
                         //Manage Projects by admin
@@ -153,6 +153,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
                             Route::delete('/deleteType/{id}','PaperTypeController@delete') ;
                             Route::get('getPaperofTheType/{id}','PaperController@getPaperofTheType');
 
+                            //Manage contacts by admin
+                            Route::post('/createContact','ContactController@create') ;
+
+
+
+
+                            // manage item
+                            Route::post('/createItem','ItemController@create') ;
+                            Route::put('/updateItem/{id}','ItemController@update') ;
+                            Route::get('/getItems','ItemController@getAllpaperTypes') ;
+                            Route::get('/getItems/{id}','ItemController@getpaperTypeById') ;
+                            Route::delete('/deleteItem/{id}','ItemController@delete') ;
+
 
 
 
@@ -160,3 +173,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
     });
 
+Route::get('/test/{id}','BillController@test');
+Route::get('/test1/{id}','ClientController@test1');
