@@ -102,12 +102,15 @@ class UserController extends Controller
 
                         if(!Auth::attempt($login))
                         {
-                            return response(['message'=>'invalid login credentials','access'=>'0']);
+                            return response(['message'=>'invalid login credentials','access'=>'0'],403);
                         }
 
+                        $user = Auth::user();
+                        $role_id = $user->role_id;
+                        $privileges = Privilege::WHERE('role_id',$role_id)->with('space')->with('action')->get() ;
 
                         $accessToken = Auth::user()->createToken('authToken')->accessToken ;
-                        return response(['user'=>Auth::user(), 'access_token' => $accessToken ,'access' =>'1']) ;
+                        return response()->json(['user'=>Auth::user(), 'token' => $accessToken ,'privileges'=>$privileges,'access' =>'1']) ;
 
             }
 

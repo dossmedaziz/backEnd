@@ -20,12 +20,14 @@ class ProjectController extends Controller
                             $project->creator_id = $id;
                             $project->save();
 
-                            $activity = ActivityLog::create([
-                                'user_id'=> $id,
-                                'action_id'=> 1,
-                                'space_id'=> 2,
-                                'service_id'=> $project->id
-                             ]);
+                            // $activity = ActivityLog::create([
+                            //     'user_id'=> $id,
+                            //     'action_id'=> 1,
+                            //     'space_id'=> 2,
+                            //     'service_id'=> $project->id
+                            //  ]);
+                            $activity = new ActivityLog($user_id,1,2,$project->id);
+                            $activity->test();
 
                             return response()->json(['message'=>'created','project'=>$project]) ;
                         }
@@ -49,6 +51,7 @@ class ProjectController extends Controller
                     'space_id'=> 2,
                     'service_id'=> $project->id
                  ]);
+
 
                 return response()->json(['message'=>'updated','project'=>$project]) ;
 
@@ -103,18 +106,22 @@ class ProjectController extends Controller
 
                 $project->delete() ;
 
-                $activity = ActivityLog::create([
-                    'user_id'=> $id,
-                    'action_id'=> 4,
-                    'space_id'=> 2,
-                    'service_id'=> $project->id
-                 ]);
+                // $activity = ActivityLog::create([
+                //     'user_id'=> $id,
+                //     'action_id'=> 4,
+                //     'space_id'=> 2,
+                //     'service_id'=> $project->id
+                //  ]);
+
+                $activity = new ActivityLog($user_id,4,2,$project->id);
+                $activity->test();
 
                 return response()->json(['message'=>'Deleted']) ;
 
 
             }
-            //get papers project
+
+            //get project papers
             public function paperProject($id){
                 $project = Project::Where('id',$id)->with('paper')->get();
                 return $project;

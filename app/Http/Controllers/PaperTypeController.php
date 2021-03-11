@@ -97,6 +97,7 @@ class PaperTypeController extends Controller
                     'space_id'=> 6,
                     'service_id'=> $paperType->id
                  ]);
+                //  PaperController::class->getProjectById()
                 return response()->json(['message'=>'Deleted']) ;
 
             }

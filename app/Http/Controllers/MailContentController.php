@@ -11,7 +11,7 @@ class MailContentController extends Controller
    public function create(Request $request)
    {
        $mailContent=MailContent::create([
-           
+
        ]);
        return response()->json(['message'=>'created']) ;
    }

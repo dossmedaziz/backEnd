@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\models\Action ; 
+use App\models\Action ;
 class ActionSeeder extends Seeder
 {
     /**
@@ -13,22 +13,22 @@ class ActionSeeder extends Seeder
     {
         Action::create(
            [
-                'action_name'=>'Create'
+                'action_name'=>'create'
             ]
         );
         Action::create(
             [
-                 'action_name'=>'Read'
+                 'action_name'=>'read'
              ]
          );
          Action::create(
             [
-                 'action_name'=>'Update'
+                 'action_name'=>'update'
              ]
          );
          Action::create(
             [
-                 'action_name'=>'Delete'
+                 'action_name'=>'delete'
              ]
          );
     }

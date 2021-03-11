@@ -14,13 +14,13 @@ class RoleController extends Controller
     // create  role by admin
     public function create(Request $request)
     {
-    
+
                 $role = new Role();
                 $role->role_name = $request->input('role_name') ;
-                $role->save() ; 
+                $role->save() ;
 
 
-                $i = 0 ;
+                
                 $table=$request->table;
                 foreach ($table as $priv)
                 {
@@ -35,7 +35,7 @@ class RoleController extends Controller
 
          return response()->json(['message'=>'created','role'=>$role]) ;
 
-            
+
 
         }
 
@@ -47,7 +47,7 @@ class RoleController extends Controller
        public function update(Request $request, $id)
 
        {
-                    
+
                     $role = Role::find($id) ;
                     if(is_null($role))
                     {
@@ -55,7 +55,7 @@ class RoleController extends Controller
                     }
                     $role->update($request->all());
                     return response()->json('updated') ;
-                    
+
        }
 
 
@@ -91,7 +91,7 @@ class RoleController extends Controller
        // delete role by admin
        public function delete($id)
        {
-      
+
            $role = Role::find($id) ;
            if(is_null($role))
            {
@@ -99,7 +99,7 @@ class RoleController extends Controller
            }
            $role->delete() ;
            return response()->json(['message'=>'Deleted']) ;
-       
+
 
        }
 }

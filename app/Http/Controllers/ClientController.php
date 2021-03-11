@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\models\Client;
 use App\models\User;
+use App\models\Action;
+use App\models\Space;
 use App\models\ActivityType;
 use App\models\ActivityLog;
 use Illuminate\Support\Facades\Auth ;
@@ -21,12 +23,16 @@ class ClientController extends Controller
         $client = new Client($request->all());
         $client->save();
 
-                    $activity = ActivityLog::create([
-                        'user_id'=> $id,
-                        'action_id'=> 1,
-                        'space_id'=> 1,
-                        'service_id'=> $client->id
-                     ]);
+        $action = Action::where('action_name','create')->first();
+        $space  = Space::where('space_name','client')->first();
+        $action_id = $action->id;
+        $space_id  = $space->id;
+
+
+
+                    $activity = new ActivityLog();
+                    $activity->logSaver($id,$action_id,$space_id,$client->id);
+
                     return response()->json(['message'=>'created','client'=>$client]) ;
 
     }
@@ -120,13 +126,31 @@ class ClientController extends Controller
 
 
 
+        // get project of the client
+        public function projectClient($id){
+            $client = Client::Where('id',$id)->with('project')->get();
+            return $client;
+        }
 
+        //get contacts of the client
+        public function getClientContact($id)
+        {
+            $client = Client::where('id',$id)->with('contact')->get();
+            return $client;
+        }
 
+        // get bills of the client
+    public function test($id)
+    {
+        $client = Client::where('id',$id)->with('bill')->get();
+        return response($client);
 
-// get project of the client
-public function projectClient($id){
-    $client = Client::Where('id',$id)->with('project')->get();
-    return $client;
-}
+    }
 
+    public function test1($id)
+    {
+        $client = Client::where('id',$id)->with('contact')->get();
+        return response($client);
+
+    }
 }

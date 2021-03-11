@@ -15,4 +15,8 @@ class Project extends Model
     {
         return $this->HasMany(Paper::class) ;
     }
+    public function client()
+    {
+        return $this->belongsTo(Client::class) ;
+    }
 }
