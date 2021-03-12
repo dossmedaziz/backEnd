@@ -168,6 +168,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
                             Route::get('/getItems','ItemController@getAllpaperTypes') ;
                             Route::get('/getItems/{id}','ItemController@getpaperTypeById') ;
                             Route::delete('/deleteItem/{id}','ItemController@delete') ;
+                            
+
+
+                        //Manage actions 
+                             Route::get('/getActions','ActionController@getActions');
+
+
+                        // Manage spaces
+                             Route::get('/getSpaces','SpaceController@getSpaces');
 
 
 
@@ -176,5 +185,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
     });
 
-Route::get('/test/{id}','BillController@test');
+Route::get('/test/{id}','RoleController@test');
 Route::get('/test1/{id}','ClientController@test1');

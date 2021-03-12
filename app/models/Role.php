@@ -14,8 +14,8 @@ class Role extends Model
 
 
     
-    public function priviliges()
+    public function privilige()
     {
-        return $this->HasMany('App\models\Privilege') ;
+        return $this->HasMany(Privilege::class) ;
     }
 }

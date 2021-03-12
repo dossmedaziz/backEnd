@@ -23,15 +23,8 @@ class ClientController extends Controller
         $client = new Client($request->all());
         $client->save();
 
-        $action = Action::where('action_name','create')->first();
-        $space  = Space::where('space_name','client')->first();
-        $action_id = $action->id;
-        $space_id  = $space->id;
-
-
-
                     $activity = new ActivityLog();
-                    $activity->logSaver($id,$action_id,$space_id,$client->id);
+                    $activity->logSaver($id,'create','client',$client->id);
 
                     return response()->json(['message'=>'created','client'=>$client]) ;
 
@@ -53,11 +46,9 @@ class ClientController extends Controller
         $client->update($request->all());
         $client->save();
 
-        $activity = ActivityLog::create([
-            'user_id'=> $user_id,
-            'activitytype_id'=> 2,
-            'service_id'=> $client->id
-         ]);
+      
+        $activity = new ActivityLog();
+        $activity->logSaver($id,'update','client',$client->id);
         return response()->json(['message'=>'updated','client'=>$client]) ;
 
     }
@@ -74,18 +65,12 @@ class ClientController extends Controller
             {
                 return response()->json(["message"=>"Not found"]);
             }
-            $activity = ActivityLog::create([
-                'user_id'=> $user_id,
-                'activitytype_id'=> 3,
-                'service_id'=> $client->id
-             ]);
+           
             $client->delete() ;
-            $activity = ActivityLog::create([
-                'user_id'=> $id,
-                'action_id'=> 4,
-                'space_id'=> 1,
-                'service_id'=> $client->id
-             ]);
+            
+            $activity = new ActivityLog();
+            $activity->logSaver($id,'delete','client',$client->id);
+            
             return response()->json(['message'=>'Deleted']) ;
 
 

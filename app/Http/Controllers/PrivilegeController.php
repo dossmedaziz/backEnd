@@ -28,6 +28,7 @@ class PrivilegeController extends Controller
         return response()->json('updated') ;
     }
 
+
     // get all privilege by admin
     public function getAllPrivileges()
     {
@@ -35,6 +36,7 @@ class PrivilegeController extends Controller
         return $privilege;
     }
 
+    
 
     // get privilege by id
     public function getPrivilegeById($id)

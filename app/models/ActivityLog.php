@@ -13,12 +13,19 @@ class ActivityLog extends Model
 
 
 
-    public function logSaver($id,$ac_id,$sp_id,$serv_id)
+    public function logSaver($id,$action,$space,$serv_id)
     {
+
+
+        $action = Action::where('action_name',$action)->first();
+        $space  = Space::where('space_name',$space)->first();
+        $action_id = $action->id;
+        $space_id  = $space->id;
+
         $activity = ActivityLog::create([
             'user_id'=>  $id ,
-            'action_id'=> $ac_id,
-            'space_id'=> $sp_id,
+            'action_id'=> $action_id,
+            'space_id'=> $space_id,
             'service_id'=>  $serv_id
          ]);
 

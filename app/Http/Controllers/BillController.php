@@ -18,7 +18,9 @@ class BillController extends Controller
 
                     $bill = new Bill($request->all());
                     $bill->save();
+                    
                     return response()->json(['message'=>'created','bill'=>$bill]) ;
+
 
     }
 

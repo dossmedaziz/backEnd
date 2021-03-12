@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\models\Role;
 use App\models\Privilege;
+use App\models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth ;
 
@@ -13,12 +14,13 @@ class RoleController extends Controller
 
     // create  role by admin
     public function create(Request $request)
-    {
+    {  
 
+                $id = Auth::user()->id;
                 $role = new Role();
                 $role->role_name = $request->input('role_name') ;
                 $role->save() ;
-
+                 
 
                 
                 $table=$request->table;
@@ -32,6 +34,9 @@ class RoleController extends Controller
                     $privilege->save();
 
                 }
+                
+                $activity = new ActivityLog();
+                $activity->logSaver($id,'create','role',$role->id);
 
          return response()->json(['message'=>'created','role'=>$role]) ;
 
@@ -53,7 +58,22 @@ class RoleController extends Controller
                     {
                         return response()->json(["message"=>"Not found"]);
                     }
+                    $table=$request->table;
+                    foreach ($table as $priv)
+                    {
+                        $privilege = new Privilege();
+                        $privilege->action_id = $priv['action_id'];
+    
+                        $privilege->space_id  =  $priv['space_id'];
+                        $privilege->role_id   =   $role->id;
+                        $privilege->save();
+    
+                    }
+    
                     $role->update($request->all());
+                    
+                    $activity = new ActivityLog();
+                    $activity->logSaver($id,'update','role',$role->id);
                     return response()->json('updated') ;
 
        }
@@ -100,6 +120,14 @@ class RoleController extends Controller
            $role->delete() ;
            return response()->json(['message'=>'Deleted']) ;
 
+
+       }
+
+
+       public function getRoleprivilegess($id)
+       {
+            $role = Role::where('id',$id)->with('privilige')->get();
+            return $role;
 
        }
 }
