@@ -53,27 +53,38 @@ class RoleController extends Controller
 
        {
 
+                 $user_id = Auth::user()->id;
+
                     $role = Role::find($id) ;
                     if(is_null($role))
                     {
                         return response()->json(["message"=>"Not found"]);
                     }
-                    $table=$request->table;
-                    foreach ($table as $priv)
-                    {
-                        $privilege = new Privilege();
-                        $privilege->action_id = $priv['action_id'];
+
+                   $role->update($request->all()) ;
+
+                   $role_id = $role->id;
+                   $privilege = Privilege::where('role_id',$role_id)->delete();
+                   
+
+                   $table=$request->table;
+                   foreach ($table as $priv)
+                   {
+
+
+                       $privilege = new Privilege();
+                       $privilege->action_id = $priv['action_id'];
+   
+                       $privilege->space_id  =  $priv['space_id'];
+                       $privilege->role_id   =   $role->id;
+                       $privilege->save();
+   
+                   
+                   }
     
-                        $privilege->space_id  =  $priv['space_id'];
-                        $privilege->role_id   =   $role->id;
-                        $privilege->save();
-    
-                    }
-    
-                    $role->update($request->all());
                     
                     $activity = new ActivityLog();
-                    $activity->logSaver($id,'update','role',$role->id);
+                    $activity->logSaver($user_id,'update','role',$role->id);
                     return response()->json('updated') ;
 
        }
@@ -123,11 +134,11 @@ class RoleController extends Controller
 
        }
 
-
-       public function getRoleprivilegess($id)
+        //get role privs
+       public function getRoleprivileges($id)
        {
             $role = Role::where('id',$id)->with('privilige')->get();
-            return $role;
+          return response()->json($role);
 
        }
 }

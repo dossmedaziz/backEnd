@@ -3,7 +3,8 @@
 namespace App\models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\models\Action;
+use App\models\Space;
 class ActivityLog extends Model
 {
     protected $table ='activity_logs';
@@ -13,12 +14,12 @@ class ActivityLog extends Model
 
 
 
-    public function logSaver($id,$action,$space,$serv_id)
+    public function logSaver($id,$action_name,$space_name,$serv_id)
     {
 
 
-        $action = Action::where('action_name',$action)->first();
-        $space  = Space::where('space_name',$space)->first();
+        $action = Action::where('action_name',$action_name)->first();
+        $space  = Space::where('space_name',$space_name)->first();
         $action_id = $action->id;
         $space_id  = $space->id;
 
