@@ -7,6 +7,7 @@ use App\models\Role;
 use App\models\Action;
 use App\models\Space;
 use App\models\Privilege;
+use App\models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth ;
@@ -20,15 +21,23 @@ class UserController extends Controller
             public function create(Request $request)
             {
 
+                $user_id = Auth::user()->id;
+                $userr = $request->user;
+                $password = "nachd-it";
+
 
                     $user=User::create([
-                        'name'=> $request->input('name'),
-                        'email'=> $request->input('email'),
-                        'password'=> Hash::make($request->input('password')) ,
-                        'phone_number' => $request->input('phone_number'),
-                        'role_id' => $request->input('role_id'),
+                        'name'=> $userr['name'],
+                        'email'=> $userr['email'],
+                        'password'=> Hash::make($password) ,
+                        'role_id' => $userr['role_id'],
                     ]);
 
+                    $user->save();
+
+                    
+                    $activity = new ActivityLog();
+                    $activity->logSaver($user_id,'create','user',$user->id);
                 return response()->json(['message'=>'created','user'=>$user]) ;
 
 
@@ -40,12 +49,25 @@ class UserController extends Controller
             // update user by user&admin
             public function update(Request $request, $id)
             {
+                $user_id = Auth::user()->id;
                 $user = User::find($id) ;
+                $userr = $request->user;
+
+
                 if(is_null($user))
                 {
                     return response()->json(["message"=>"Not found"]);
                 }
-                $user->update($request->all());
+
+                $user->update([
+                        'name'=> $userr['name'],
+                        'email'=> $userr['email'],
+                        'role_id' => $userr['role_id'],
+                ]);
+                $user->save() ;
+
+                $activity = new ActivityLog();
+                $activity->logSaver($user_id,'update','user',$user->id);
                 return response()->json('updated') ;
             }
 
@@ -54,7 +76,8 @@ class UserController extends Controller
             //get all users for admin
             public function getAllUsers()
             {
-                $users = User::all() ;
+                // $users = User::all()->with('role')->get() ;
+                $users = User::with('role')->get() ;
                 return $users ;
             }
 
@@ -73,14 +96,19 @@ class UserController extends Controller
 
 
             // delete user by admin
-            public function delete($id)
+            public function delete(Request $request)
             {
 
+                $user_id = Auth::user()->id;
+                $table = $request->users_id;
 
-                $user = User::find($id) ;
-                if(is_null($user))
+                foreach ($table as $t)
                 {
-                    return response()->json(["message"=>"Not found"]);
+                    $id= ($t['user_id']);
+                    $user = User::find($id);
+                    $user->delete();
+                    $activity = new ActivityLog();
+                    $activity->logSaver($user_id,'delete','user',$user->id);
                 }
                 $user->delete() ;
                 return response()->json(['message'=>'Deleted']) ;

@@ -120,17 +120,21 @@ class RoleController extends Controller
 
 
        // delete role by admin
-       public function delete($id)
+       public function delete(Request $request)
        {
 
-           $role = Role::find($id) ;
-           if(is_null($role))
-           {
-               return response()->json(["message"=>"Not found"]);
-           }
-           $role->delete() ;
-           return response()->json(['message'=>'Deleted']) ;
-
+        $user_id = Auth::user()->id;
+        $table = $request->roles_id;
+        foreach ($table as $t)
+        {
+            $id= ($t['role_id']);
+            $role = Role::find($id);
+            $role->delete();
+            $activity = new ActivityLog();
+            $activity->logSaver($user_id,'delete','role',$role->id);
+        }
+     
+            return response()->json('was deleted');
 
        }
 

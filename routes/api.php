@@ -48,7 +48,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
             // User Routes
-            Route::put('/updateUser/{id}','UserController@update') ;
             Route::get('/getUsers/{id}','UserController@getUserById') ;
 
 
@@ -100,14 +99,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
                         // Manage role by admin
                         Route::post('/createRole','RoleController@create') ;
                         Route::put('/updateRole/{id}','RoleController@update') ;
-                        Route::delete('/deleteRole/{id}','RoleController@delete') ;
+                        Route::post('/deleteRole','RoleController@delete') ;
                         Route::get('/getRoleprivileges/{id}','RoleController@getRoleprivileges') ;
 
 
                         // Manage user by admin
                         Route::post('/createUser','UserController@create') ;
                         Route::get('/getUsers','UserController@getAllUsers') ;
-                        Route::delete('/deleteUser/{id}','UserController@delete') ;
+                        Route::post('/deleteUser','UserController@delete') ;
+                        Route::put('/updateUser/{id}','UserController@update') ;
+
                         //    Route::get('/test','UserController@test');
 
 
