@@ -6,6 +6,8 @@ use App\models\Client;
 use App\models\User;
 use App\models\Action;
 use App\models\Space;
+use App\models\Contact;
+use App\models\Project;
 use App\models\ActivityType;
 use App\models\ActivityLog;
 use Illuminate\Support\Facades\Auth ;
@@ -18,13 +20,12 @@ class ClientController extends Controller
     // create Client
     public function create(Request $request)
     {
-        $id = Auth::user()->id;
-
-        $client = new Client($request->all());
-        $client->save();
+        $user_id = Auth::user()->id;
+        $client = new Client($request->client);
+         $client->save();
 
                     $activity = new ActivityLog();
-                    $activity->logSaver($id,'create','client',$client->id);
+                    $activity->logSaver($user_id,'create','client',$client->id);
 
                     return response()->json(['message'=>'created','client'=>$client]) ;
 
@@ -43,34 +44,45 @@ class ClientController extends Controller
         {
             return response()->json(["message"=>"Not found"]);
         }
-        $client->update($request->all());
+        $client->update($request->client);
         $client->save();
 
       
         $activity = new ActivityLog();
-        $activity->logSaver($id,'update','client',$client->id);
+        $activity->logSaver($user_id,'update','client',$client->id);
         return response()->json(['message'=>'updated','client'=>$client]) ;
 
     }
 
 
         // delete client by admin
-        public function delete($id)
+        public function delete(Request $request)
         {
           $user_id = Auth::user()->id;
+          $table = $request->clients_id;
 
-            $id = Auth::user()->id;
-            $client = Client::find($id) ;
-            if(is_null($client))
-            {
-                return response()->json(["message"=>"Not found"]);
-            }
-           
-            $client->delete() ;
-            
-            $activity = new ActivityLog();
-            $activity->logSaver($id,'delete','client',$client->id);
-            
+
+          foreach ($table as $t)
+          {
+              $id= ($t['client_id']);
+              $client = Client::find($id);
+              $projects = Project::Where('client_id',$id)->first();
+
+
+              if(is_null($projects))
+              {
+                 $client->forceDelete();
+              }else{
+                $client->delete() ;
+
+              }
+
+              $activity = new ActivityLog();
+              $activity->logSaver($user_id,'delete','client',$client->id);
+          }
+
+          
+         
             return response()->json(['message'=>'Deleted']) ;
 
 
@@ -117,6 +129,7 @@ class ClientController extends Controller
             return $client;
         }
 
+
         //get contacts of the client
         public function getClientContact($id)
         {
@@ -137,5 +150,19 @@ class ClientController extends Controller
         $client = Client::where('id',$id)->with('contact')->get();
         return response($client);
 
+    }
+
+// get clients with projects
+   public function ClientsWithProjects()
+    {
+       $clients = Client::with('project')->get();
+       return $clients;
+    }
+
+    // get clients with contacts
+    public function clientWithContacts()
+    {
+        $clients = Client::with('contact')->get();
+       return $clients;
     }
 }

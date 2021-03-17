@@ -110,7 +110,6 @@ class UserController extends Controller
                     $activity = new ActivityLog();
                     $activity->logSaver($user_id,'delete','user',$user->id);
                 }
-                $user->delete() ;
                 return response()->json(['message'=>'Deleted']) ;
 
 

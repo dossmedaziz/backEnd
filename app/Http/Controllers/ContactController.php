@@ -12,7 +12,10 @@ class ContactController extends Controller
             // create new Contact By admin
             public function create(Request $request)
             {
-                $contact = new Contact($request->all());
+
+
+                
+                $contact = new Contact($request->contact);
                 $contact->save();
                 return response()->json(['message'=>'created']) ;
             }

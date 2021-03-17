@@ -15,20 +15,13 @@ class ProjectController extends Controller
             // create new project By admin
             public function create(Request $request)
             {
-                            $id = Auth::user()->id ;
+                            $user_id = Auth::user()->id ;
                             $project = new Project($request->all());
-                            $project->creator_id = $id;
+                            $project->creator_id = $user_id;
                             $project->save();
 
-                            // $activity = ActivityLog::create([
-                            //     'user_id'=> $id,
-                            //     'action_id'=> 1,
-                            //     'space_id'=> 2,
-                            //     'service_id'=> $project->id
-                            //  ]);
-                            $activity = new ActivityLog($user_id,1,2,$project->id);
-                            $activity->test();
-
+                            $activity = new ActivityLog();
+                            $activity->logSaver($user_id,'create','project',$project->id);
                             return response()->json(['message'=>'created','project'=>$project]) ;
                         }
 

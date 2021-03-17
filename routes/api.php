@@ -94,7 +94,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 
-    Route::group(['middleware' => 'auth:api'], function () {
+
+
+
+Route::group(['middleware' => 'auth:api'], function () {
 
                         // Manage role by admin
                         Route::post('/createRole','RoleController@create') ;
@@ -115,12 +118,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
                         // Manage Client by admin
                         Route::post('/createClient','ClientController@create') ;
                         Route::put('/updateClient/{id}','ClientController@update') ;
-                        Route::delete('/deleteClient/{id}','ClientController@delete') ;
+                        Route::post('/deleteClient','ClientController@delete') ;
                         Route::get('/getClients','ClientController@getAllclients') ;
                         Route::get('/getUclients/{id}','ClientController@getUserClients') ;
-
-
+                        Route::get('/ClientsWithProjects', 'ClientController@ClientsWithProjects');
                         Route::get('/projectClient/{id}', 'ClientController@projectClient');
+                        Route::get('/clientWithContacts','ClientController@clientWithContacts');
                         Route::get('/getClientContact/{id}', 'ClientController@getClientContact');
 
 
@@ -187,4 +190,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
     });
+
+    
 

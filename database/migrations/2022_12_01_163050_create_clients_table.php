@@ -18,8 +18,11 @@ class CreateClientsTable extends Migration
             $table->string('client_name');
             $table->string('email');
             $table->string('WebSite')->nullable();
-            $table->string('local');
+            $table->string('address');
             $table->string('matFisc');
+            $table->string('fax')->nullable();
+            $table->string('phone')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -32,5 +35,7 @@ class CreateClientsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('clients');
+
+        
     }
 }
