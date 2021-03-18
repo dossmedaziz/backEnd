@@ -34,10 +34,13 @@ class SpaceSeeder extends Seeder
         Space::create([
             'space_name'=>'paperType',
         ]
-        ); Space::create([
+        ); 
+        Space::create([
             'space_name'=>'role',
-        ]
-        );
+        ]);
+        Space::create([
+            'space_name'=>'contact',
+        ]);
 
 
     }

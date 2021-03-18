@@ -16,10 +16,10 @@ class CreateContactsTable extends Migration
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
             $table->string('contact_name');
-            $table->string('position');
-            $table->string('email');
-            $table->string('description');
-            $table->integer('phone');
+            $table->string('position')->nullable();
+            $table->string('contact_email')->nullable();
+            $table->string('description')->nullable();
+            $table->integer('contact_phone')->nullable();
             $table->unsignedBigInteger('client_id')->nullable();
             $table->foreign('client_id')
                 ->references('id')

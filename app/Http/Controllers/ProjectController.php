@@ -16,7 +16,7 @@ class ProjectController extends Controller
             public function create(Request $request)
             {
                             $user_id = Auth::user()->id ;
-                            $project = new Project($request->all());
+                            $project = new Project($request->project);
                             $project->creator_id = $user_id;
                             $project->save();
 
@@ -118,5 +118,15 @@ class ProjectController extends Controller
             public function paperProject($id){
                 $project = Project::Where('id',$id)->with('paper')->get();
                 return $project;
+            }
+
+
+
+
+            //get project with client
+            public function getProjectsWithClient()
+            {
+                $projects = Project::with('client')->get();
+                return $projects;
             }
 }

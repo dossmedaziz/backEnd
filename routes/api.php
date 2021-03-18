@@ -32,10 +32,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
             //Contact Routes
-            Route::put('/updateContact/{id}','ContactController@update') ;
             Route::get('/getContact','ContactController@getAllContact') ;
             Route::get('/getContact/{id}','ContactController@getContactById') ;
-            Route::delete('/deleteContact/{id}','ContactController@delete') ;
 
             //MailContent Routes
             Route::post('/createMailContent','MailContentController@create') ;
@@ -123,7 +121,6 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::get('/getUclients/{id}','ClientController@getUserClients') ;
                         Route::get('/ClientsWithProjects', 'ClientController@ClientsWithProjects');
                         Route::get('/projectClient/{id}', 'ClientController@projectClient');
-                        Route::get('/clientWithContacts','ClientController@clientWithContacts');
                         Route::get('/getClientContact/{id}', 'ClientController@getClientContact');
 
 
@@ -132,6 +129,8 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::put('/updateProject/{id}','ProjectController@update') ;
                         Route::delete('/deleteProject/{id}','ProjectController@delete') ;
                         Route::get('/getUserProjects/{id}','ProjectController@getUserProjects') ;
+                        Route::get('getProjectsWithClient','ProjectController@getProjectsWithClient');
+
 
                         Route::get('/paperProject/{id}', 'ProjectController@paperProject');
 
@@ -162,8 +161,13 @@ Route::group(['middleware' => 'auth:api'], function () {
                             Route::delete('/deleteType/{id}','PaperTypeController@delete') ;
                             Route::get('getPaperofTheType/{id}','PaperTypeController@getPaperofTheType');
 
+
                             //Manage contacts by admin
                             Route::post('/createContact','ContactController@create') ;
+                            Route::get('/clientWithContacts','ClientController@clientWithContacts');
+                            Route::put('/updateContact','ContactController@update') ;
+                            Route::post('/deleteContact','ContactController@delete') ;
+
 
 
 
@@ -192,4 +196,5 @@ Route::group(['middleware' => 'auth:api'], function () {
     });
 
     
+
 
