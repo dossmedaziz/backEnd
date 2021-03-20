@@ -23,11 +23,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
             Route::get('/getBill/{id}','BillController@getBillById') ;
 
             //Project Routes
-            Route::get('/getProject','ProjectController@getAllProjects') ;
             Route::get('/getProject/{id}','ProjectController@getprojectById') ;
 
             //Paper Routes
-            Route::get('/getPaper','PaperController@getAllPapers') ;
             Route::get('/getPaper/{id}','PaperController@getPaperById') ;
 
 
@@ -126,10 +124,12 @@ Route::group(['middleware' => 'auth:api'], function () {
 
                         //Manage Projects by admin
                         Route::post('/createProject','ProjectController@create') ;
-                        Route::put('/updateProject/{id}','ProjectController@update') ;
-                        Route::delete('/deleteProject/{id}','ProjectController@delete') ;
+                        Route::put('/updateProject','ProjectController@update') ;
+                        Route::post('/deleteProject','ProjectController@delete') ;
                         Route::get('/getUserProjects/{id}','ProjectController@getUserProjects') ;
                         Route::get('getProjectsWithClient','ProjectController@getProjectsWithClient');
+                        Route::get('/getProjects','ProjectController@getAllProjects') ;
+
 
 
                         Route::get('/paperProject/{id}', 'ProjectController@paperProject');
@@ -156,9 +156,10 @@ Route::group(['middleware' => 'auth:api'], function () {
                         // manage paper type
                             Route::post('/createType','PaperTypeController@create') ;
                             Route::put('/updateType/{id}','PaperTypeController@update') ;
-                            Route::get('/getType','PaperTypeController@getAllpaperTypes') ;
+                            Route::get('/getPaperTypes','PaperTypeController@getAllpaperTypes') ;
                             Route::get('/getType/{id}','PaperTypeController@getpaperTypeById') ;
                             Route::delete('/deleteType/{id}','PaperTypeController@delete') ;
+                            Route::get('/getPapers','PaperController@getAllPapers') ;
                             Route::get('getPaperofTheType/{id}','PaperTypeController@getPaperofTheType');
 
 

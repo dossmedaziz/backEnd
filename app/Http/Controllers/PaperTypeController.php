@@ -23,12 +23,6 @@ class PaperTypeController extends Controller
                 $papertype = new PaperType($request->all());
                 $papertype->save();
 
-                $activity = ActivityLog::create([
-                    'user_id'=> $id,
-                    'action_id'=> 1,
-                    'space_id'=> 6,
-                    'service_id'=> $papertype->id
-                 ]);
 
                 return response()->json(['message'=>'created']) ;
             }

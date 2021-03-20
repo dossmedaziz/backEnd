@@ -17,4 +17,9 @@ class Paper extends Model
     {
         return $this->belongsTo(PaperType::class, 'paper_type');
     }
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+
+    }
 }

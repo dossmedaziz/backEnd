@@ -15,9 +15,9 @@ class CreatePapersTable extends Migration
     {
         Schema::create('papers', function (Blueprint $table) {
             $table->id();
-            $table->string('paper_file');
+            $table->string('paper_file')->nullable();
             $table->string('paper_name');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->timestamp('expiration_date')->nullable();
             $table->boolean('auto_email')->nullable()->default(false);
             $table->unsignedBigInteger('project_id')->nullable();

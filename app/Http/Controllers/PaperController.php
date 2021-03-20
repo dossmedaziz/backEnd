@@ -13,17 +13,18 @@ class PaperController extends Controller
     // create new paper By admin
     public function create(Request $request)
     {
-        $id = Auth::user()->id;
+        $user_id = Auth::user()->id;
 
-        $paper = new Paper($request->all());
+
+        $paper = new Paper($request->paper);
+        $paper->paper_type = 1;
         $paper->save();
 
-        $activity = ActivityLog::create([
-            'user_id'=> $id,
-            'action_id'=> 1,
-            'space_id'=> 4,
-            'service_id'=> $paper->id
-         ]);
+
+
+
+        $activity = new ActivityLog();
+        $activity->logSaver($user_id,'create','paper',$paper->id);
         return response()->json(['message'=>'created']) ;
     }
 
@@ -53,7 +54,7 @@ class PaperController extends Controller
     //get all papers for admin
     public function getAllPapers()
     {
-        $papers = Paper::all() ;
+        $papers = Paper::with('paperType','project')->get();
         return $papers ;
     }
 

@@ -28,27 +28,21 @@ class ProjectController extends Controller
 
 
             // update Project by user&admin
-            public function update(Request $request, $id)
+            public function update(Request $request)
             {
-                $user_id = Auth::user()->id;
-                $project = Project::find($id) ;
-                if(is_null($project))
-                {
-                    return response()->json(["message"=>"Not found"]);
-                }
-                $project->update($request->all());
+                $user_id = Auth::user()->id ;
+                $project_id=$request->project_id ; 
+                $project = Project::find($project_id);
+                $project->update($request->newProject);
+                $project->save();
 
-                $activity = ActivityLog::create([
-                    'user_id'=> $id,
-                    'action_id'=> 3,
-                    'space_id'=> 2,
-                    'service_id'=> $project->id
-                 ]);
-
-
+                $activity = new ActivityLog();
+                $activity->logSaver($user_id,'update','project',$project->id);
                 return response()->json(['message'=>'updated','project'=>$project]) ;
-
             }
+
+
+            
 
 
             // get user projects
@@ -86,28 +80,20 @@ class ProjectController extends Controller
             }
 
             // delete project by admin
-            public function delete($id)
+            public function delete(Request $request)
 
             {
                 $user_id = Auth::user()->id;
-
-                $project = Project::find($id) ;
-                if(is_null($project))
+                $table = $request->projects;
+                foreach ($table as $t)
                 {
-                    return response()->json(["message"=>"Not found"]);
+                    $id= ($t['project_id']);
+                    $project = Project::find($id);
+                    $project->delete();
+                    $activity = new ActivityLog();
+                    $activity->logSaver($user_id,'delete','project',$project->id);
                 }
-
-                $project->delete() ;
-
-                // $activity = ActivityLog::create([
-                //     'user_id'=> $id,
-                //     'action_id'=> 4,
-                //     'space_id'=> 2,
-                //     'service_id'=> $project->id
-                //  ]);
-
-                $activity = new ActivityLog($user_id,4,2,$project->id);
-                $activity->test();
+                
 
                 return response()->json(['message'=>'Deleted']) ;
 
