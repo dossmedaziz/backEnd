@@ -142,8 +142,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
                         //manage paper by admin
                         Route::post('/createPaper','PaperController@create') ;
-                        Route::put('/updatePaper/{id}','PaperController@update') ;
-                        Route::delete('/deletePaper/{id}','PaperController@delete') ;
+                        Route::put('/updatePaper','PaperController@update') ;
+                        Route::post('/deletePaper','PaperController@delete') ;
                         Route::get('getTypeofThePaper/{id}','PaperController@getTypeofThePaper');
 
 

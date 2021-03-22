@@ -130,6 +130,7 @@ class ClientController extends Controller
         }
 
 
+
         //get contacts of the client
         public function getClientContact($id)
         {
@@ -137,6 +138,7 @@ class ClientController extends Controller
             return $client;
         }
 
+        
         // get bills of the client
     public function test($id)
     {

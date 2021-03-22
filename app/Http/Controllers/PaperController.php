@@ -32,20 +32,16 @@ class PaperController extends Controller
 
 
     // update paper by user&admin
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
+        
+        $user_id = Auth::user()->id;
+        $id = $request->paper_id;
         $paper = Paper::find($id) ;
-        if(is_null($paper))
-        {
-            return response()->json(["message"=>"Not found"]);
-        }
-        $paper->update($request->all());
-        $activity = ActivityLog::create([
-            'user_id'=> $id,
-            'action_id'=> 3,
-            'space_id'=> 4,
-            'service_id'=> $paper->id
-         ]);
+        $paper->update($request->newPaper);
+       $paper->save();
+        $activity = new ActivityLog();
+        $activity->logSaver($user_id,'update','paper',$paper->id);
         return response()->json('updated') ;
     }
 
@@ -72,24 +68,27 @@ class PaperController extends Controller
 
 
     // delete paper by admin
-    public function delete($id)
-    {
-        $paper = Paper::find($id) ;
-        if(is_null($paper))
+    public function delete(Request $request)
+
+    {   $user_id = Auth::user()->id;
+        $table = $request->papers_id;
+
+
+        foreach ($table as $t)
         {
-            return response()->json(["message"=>"Not found"]);
-        }
-        $paper->delete() ;
-        $activity = ActivityLog::create([
-            'user_id'=> $id,
-            'action_id'=> 4,
-            'space_id'=> 4,
-            'service_id'=> $paper->id
-         ]);
-        return response()->json(['message'=>'Deleted']) ;
+            $id= ($t['paper_id']);
+            $paper = Paper::find($id);
+            $paper->delete() ;
+
+        
+
+            $activity = new ActivityLog();
+            $activity->logSaver($user_id,'delete','paper',$paper->id);
 
     }
+    return response()->json(['message'=>'Deleted']) ;
 
+    }
 //get type of the paper
     public function getTypeofThePaper($id)
     {

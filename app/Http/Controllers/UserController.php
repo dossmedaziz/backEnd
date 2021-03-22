@@ -23,9 +23,15 @@ class UserController extends Controller
 
                 $user_id = Auth::user()->id;
                 $userr = $request->user;
-                $password = "nachd-it";
-
-
+                $email = $userr['email'];
+                $isFound = User::where('email',$email)->first();
+               if($isFound)
+               {
+                    return response()->json(["message" => "Email already Used"],409) ;
+               }
+               
+               
+                    $password = "nachd-it";
                     $user=User::create([
                         'name'=> $userr['name'],
                         'email'=> $userr['email'],
@@ -47,17 +53,21 @@ class UserController extends Controller
 
 
             // update user by user&admin
-            public function update(Request $request, $id)
+            public function update(Request $request,$id)
             {
                 $user_id = Auth::user()->id;
                 $user = User::find($id) ;
                 $userr = $request->user;
+                $email = $userr['email'];
+               
 
 
-                if(is_null($user))
-                {
-                    return response()->json(["message"=>"Not found"]);
-                }
+                $isFound = User::where('email',$email)->where('id','<>',$id)->first();
+               if($isFound)
+               {
+                    return response()->json(["message" => "Email already Used"],409) ;
+               }
+               
 
                 $user->update([
                         'name'=> $userr['name'],
