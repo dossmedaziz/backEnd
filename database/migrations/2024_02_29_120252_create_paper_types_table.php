@@ -16,6 +16,7 @@ class CreatePaperTypesTable extends Migration
         Schema::create('paper_types', function (Blueprint $table) {
             $table->id();
             $table->string('paper_type');
+            $table->boolean('is_renewing')->default(false);
             $table->unsignedBigInteger('email_id')->nullable();
             $table->foreign('email_id')
                 ->references('id')

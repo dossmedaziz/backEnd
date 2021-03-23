@@ -63,7 +63,7 @@ class ProjectController extends Controller
             //get all project for admin
             public function getAllProjects()
             {
-                $projects = Project::all() ;
+                $projects = Project::with('paper')->get() ;
                 return $projects ;
             }
 
@@ -110,9 +110,9 @@ class ProjectController extends Controller
 
 
             //get project with client
-            public function getProjectsWithClient()
+            public function getProjectsWithinfo()
             {
-                $projects = Project::with('client')->get();
+                $projects = Project::with('client','paper')->get();
                 return $projects;
             }
 }

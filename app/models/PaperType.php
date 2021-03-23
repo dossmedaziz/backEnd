@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PaperType extends Model
 {
     protected $fillable = [
-         'paper_type', 'email_id'
+         'paper_type', 'email_id','is_renewing'
     ];
 
 

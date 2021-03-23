@@ -17,8 +17,7 @@ class PaperController extends Controller
 
 
         $paper = new Paper($request->paper);
-        $paper->paper_type = 1;
-        $paper->save();
+            $paper->save();
 
 
 

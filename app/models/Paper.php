@@ -8,7 +8,7 @@ class Paper extends Model
 {
     protected $fillable = [
         'paper_file','paper_name', 'description', 'expiration_date',
-        'auto_email','project_id','paper_type'
+        'auto_email','project_id','paper_type','status'
     ];
 
 

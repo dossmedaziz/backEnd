@@ -127,9 +127,8 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::put('/updateProject','ProjectController@update') ;
                         Route::post('/deleteProject','ProjectController@delete') ;
                         Route::get('/getUserProjects/{id}','ProjectController@getUserProjects') ;
-                        Route::get('getProjectsWithClient','ProjectController@getProjectsWithClient');
                         Route::get('/getProjects','ProjectController@getAllProjects') ;
-
+                        
 
 
                         Route::get('/paperProject/{id}', 'ProjectController@paperProject');
@@ -145,6 +144,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::put('/updatePaper','PaperController@update') ;
                         Route::post('/deletePaper','PaperController@delete') ;
                         Route::get('getTypeofThePaper/{id}','PaperController@getTypeofThePaper');
+                        Route::get('getProjectsWithinfo','ProjectController@getProjectsWithinfo');
 
 
                         // Get all activity log by admin

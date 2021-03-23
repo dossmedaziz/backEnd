@@ -18,6 +18,7 @@ class CreatePapersTable extends Migration
             $table->string('paper_file')->nullable();
             $table->string('paper_name');
             $table->string('description')->nullable();
+            $table->integer('status')->nullable();
             $table->timestamp('expiration_date')->nullable();
             $table->boolean('auto_email')->nullable()->default(false);
             $table->unsignedBigInteger('project_id')->nullable();
