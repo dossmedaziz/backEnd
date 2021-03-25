@@ -144,6 +144,8 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::put('/updatePaper','PaperController@update') ;
                         Route::post('/deletePaper','PaperController@delete') ;
                         Route::get('getTypeofThePaper/{id}','PaperController@getTypeofThePaper');
+                        Route::post('uploadFile','PaperController@uploadFile');
+
                         Route::get('getProjectsWithinfo','ProjectController@getProjectsWithinfo');
 
 
@@ -161,6 +163,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                             Route::delete('/deleteType/{id}','PaperTypeController@delete') ;
                             Route::get('/getPapers','PaperController@getAllPapers') ;
                             Route::get('getPaperofTheType/{id}','PaperTypeController@getPaperofTheType');
+
 
 
                             //Manage contacts by admin

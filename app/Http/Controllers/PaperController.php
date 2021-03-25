@@ -7,6 +7,7 @@ use App\models\Paper;
 use App\models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth ;
+use Illuminate\Support\Facades\Storage;
 
 class PaperController extends Controller
 {
@@ -14,17 +15,18 @@ class PaperController extends Controller
     public function create(Request $request)
     {
         $user_id = Auth::user()->id;
-
-
         $paper = new Paper($request->paper);
-            $paper->save();
-
-
-
+        $paper->paper_file = $request->file_path ; 
+        $paper->save();
 
         $activity = new ActivityLog();
         $activity->logSaver($user_id,'create','paper',$paper->id);
         return response()->json(['message'=>'created']) ;
+
+
+
+
+
     }
 
 
@@ -94,4 +96,17 @@ class PaperController extends Controller
         $paper = Paper::where('id',$id)->with('paperType')->get();
         return response($paper);
     }
+
+    public function uploadFile(Request $request)
+    { 
+            $file = $request->file('file');
+            $ex = $file->getClientOriginalExtension();
+            $file_name = time().'.'.$ex ;
+            $file_path ='files/images' ;
+            $file->move($file_path,$file_name);
+            $path = $file_path.'/'.$file_name;
+            // $path =  $file->store('public/test') ;
+            return response()->json(["path"=>$path]) ;
+    }
 }
+
