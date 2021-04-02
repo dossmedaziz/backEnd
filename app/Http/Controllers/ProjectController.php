@@ -18,6 +18,7 @@ class ProjectController extends Controller
                             $user_id = Auth::user()->id ;
                             $project = new Project($request->project);
                             $project->creator_id = $user_id;
+                            $project->start_date = $project->start_date->addHour();
                             $project->save();
 
                             $activity = new ActivityLog();

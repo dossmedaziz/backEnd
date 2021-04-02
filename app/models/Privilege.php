@@ -23,4 +23,8 @@ class Privilege extends Model
         return $this->belongsTo(Space::class);
     }
    
+
+
+
+    
 }

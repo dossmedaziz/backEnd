@@ -13,21 +13,24 @@ class PaperTypeSeeder extends Seeder
     public function run()
     {
         PaperType::create([
-            'paper_type'=> "Update"
+            'paper_type'=> "update",
+            'is_renewing' => 1
             ]);
         PaperType::create([
-                'paper_type'=> "Maintenance"
+            'paper_type'=> "maintenance",
+            'is_renewing' => 1
             ]);
+        PaperType::create([
+               'paper_type'=> "hosting",
+               'is_renewing' => 1
+               ]);
+        PaperType::create([
+            'paper_type'=> "purchase order",
+               ]);
+
 
         PaperType::create([
-               'paper_type'=> "Hosting"
-            ]);
-
-        PaperType::create([
-                'paper_type'=> "Purchase order"
-            ]);
-        PaperType::create([
-                'paper_type'=> "Quote"
+                'paper_type'=> "quote"
             ]);
 
 

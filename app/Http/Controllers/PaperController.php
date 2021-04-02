@@ -13,20 +13,19 @@ class PaperController extends Controller
 {
     // create new paper By admin
     public function create(Request $request)
+
     {
+        
         $user_id = Auth::user()->id;
         $paper = new Paper($request->paper);
         $paper->paper_file = $request->file_path ; 
+        $paper->start_date = $paper->start_date->addHour();
+        $paper->end_date = $paper->end_date->addHour();
         $paper->save();
 
         $activity = new ActivityLog();
         $activity->logSaver($user_id,'create','paper',$paper->id);
         return response()->json(['message'=>'created']) ;
-
-
-
-
-
     }
 
 
@@ -36,10 +35,13 @@ class PaperController extends Controller
     public function update(Request $request)
     {
         
+        
         $user_id = Auth::user()->id;
         $id = $request->paper_id;
         $paper = Paper::find($id) ;
         $paper->update($request->newPaper);
+        if($request->file_path){ 
+        $paper->paper_file = $request->file_path ;}
        $paper->save();
         $activity = new ActivityLog();
         $activity->logSaver($user_id,'update','paper',$paper->id);
@@ -108,5 +110,38 @@ class PaperController extends Controller
             // $path =  $file->store('public/test') ;
             return response()->json(["path"=>$path]) ;
     }
+
+
+    
+
+
+    
+// get just contracts
+   public function getJustContracts()
+    {
+     $contracts  = array(); 
+     $update  = array(); 
+     $hosting  = array(); 
+     $maintenance  = array(); 
+        $papers = Paper::with('type')->get() ;
+        foreach($papers  as $t){
+            if(!($t->type == NULL)){
+                array_push($contracts,$t) ;
+            }
+        }
+        foreach($contracts as $tab){
+            if($tab->type['paper_type']  == "update"){
+                array_push($update,$tab) ;
+            }elseif($tab->type['paper_type'] == "hosting"){
+                array_push($hosting,$tab) ;
+            }elseif($tab->type['paper_type']=="maintenance"){
+                array_push($maintenance,$tab);
+            }
+        }
+      return response()->json(["contracts"=>$contracts,"hosting"=>$hosting,"update"=>$update,"maintenance"=>$maintenance]);
+    }
+    
+
+ 
 }
 

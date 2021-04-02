@@ -18,6 +18,13 @@ class Project extends Model
     }
     public function client()
     {
-        return $this->belongsTo(Client::class) ;
+        return $this->belongsTo(Client::class)->withTrashed() ;
     }
+
+
+
+
+    protected $casts = [
+        'start_date' => 'datetime',
+    ];
 }

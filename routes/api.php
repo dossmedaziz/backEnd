@@ -193,6 +193,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                              Route::get('/getSpaces','SpaceController@getSpaces');
 
 
+                            // get just contracts
 
 
 
@@ -201,4 +202,4 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     
 
-
+    Route::get('/getJustContracts','PaperController@getJustContracts'); 

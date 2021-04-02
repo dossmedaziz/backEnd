@@ -44,6 +44,12 @@ class SpaceSeeder extends Seeder
         Space::create([
             'space_name'=>'contract',
         ]);
+        Space::create([
+            'space_name'=>'profile',
+        ]);
+        Space::create([
+            'space_name'=>'addBill',
+        ]);
 
     }
 }

@@ -13,17 +13,13 @@ class PaperTypeController extends Controller
             // create new PaperType By admin
             public function create(Request $request)
             {
-                // $paperType=PaperType::create([
-                //     'paper_type'=> $request->input('paper_type'),
-                //     'email_id'=> $request->input('email_id'),
-
-                // ]);
-                $id = Auth::user()->id;
-
+                
+                $user_id = Auth::user()->id;
                 $papertype = new PaperType($request->all());
                 $papertype->save();
 
-
+                $activity = new ActivityLog();
+                $activity->logSaver($user_id,'create','paperType',$papertype->id);
                 return response()->json(['message'=>'created']) ;
             }
 
@@ -101,4 +97,10 @@ class PaperTypeController extends Controller
         $paperType = PaperType::where('id',$id)->with('paper')->get();
         return response($paperType);
     }
+
+
+
+
+
+
 }
