@@ -16,4 +16,10 @@ class PaperType extends Model
     {
         return $this->hasMany(Paper::class ,'paper_type');
     }
+
+
+    public function email()
+    {
+        return $this->belongsTo(MailContent::class) ;
+    }
 }

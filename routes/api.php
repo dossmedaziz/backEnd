@@ -194,12 +194,11 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
                             // get just contracts
+                        Route::get('/getJustContracts','PaperController@getJustContracts'); 
 
 
+                        // sending mail api
+                        Route::post('/sendMail','PaperController@sendMail'); 
+                            });
 
-
-    });
-
-    
-
-    Route::get('/getJustContracts','PaperController@getJustContracts'); 
+                            

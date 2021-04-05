@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\models\PaperType;
 use App\models\ActivityLog;
+use App\models\MailContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth ;
 
@@ -15,7 +16,11 @@ class PaperTypeController extends Controller
             {
                 
                 $user_id = Auth::user()->id;
-                $papertype = new PaperType($request->all());
+                $email = new MailContent($request->email) ;
+                $email->save();
+
+                $papertype = new PaperType($request->type);
+                $papertype->email_id = $email->id ;
                 $papertype->save();
 
                 $activity = new ActivityLog();
@@ -52,7 +57,7 @@ class PaperTypeController extends Controller
             //get all PaperType for admin
             public function getAllpaperTypes()
             {
-                $paperTypes = PaperType::all() ;
+                $paperTypes = PaperType::with('email')->get() ;
                 return $paperTypes ;
             }
 

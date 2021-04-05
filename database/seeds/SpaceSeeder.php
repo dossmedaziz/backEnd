@@ -51,5 +51,9 @@ class SpaceSeeder extends Seeder
             'space_name'=>'addBill',
         ]);
 
+        Space::create([
+            'space_name'=>'addPaperType',
+        ]);
+
     }
 }

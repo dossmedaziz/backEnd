@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Carbon\Carbon;
 
 use App\models\PaperType;
 use App\models\Paper;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PaperController extends Controller
 {
+
     // create new paper By admin
     public function create(Request $request)
 
@@ -21,6 +23,7 @@ class PaperController extends Controller
         $paper->paper_file = $request->file_path ; 
         $paper->start_date = $paper->start_date->addHour();
         $paper->end_date = $paper->end_date->addHour();
+        $paper->alert_date = $paper->end_date->subMonth();
         $paper->save();
 
         $activity = new ActivityLog();
@@ -123,7 +126,8 @@ class PaperController extends Controller
      $update  = array(); 
      $hosting  = array(); 
      $maintenance  = array(); 
-        $papers = Paper::with('type')->get() ;
+     $today = Carbon::today();
+    $papers = Paper::with('type','project.client')->where('alert_date','<=',$today)->get() ;
         foreach($papers  as $t){
             if(!($t->type == NULL)){
                 array_push($contracts,$t) ;
@@ -141,7 +145,22 @@ class PaperController extends Controller
       return response()->json(["contracts"=>$contracts,"hosting"=>$hosting,"update"=>$update,"maintenance"=>$maintenance]);
     }
     
+   
 
+
+  public function sendMail(Request $request)
+     {
+                $contracts  = $request->contracts ;
+              foreach ( $contracts as $cont)
+              {
+                  $id = $cont['id'] ;
+                  $contract = Paper::find($id);
+                  $contract->isReminded =  1;
+                  $contract->save();
+
+              }
+                return response()->json(["msg"=>"mail sent"]);
+     }
  
 }
 

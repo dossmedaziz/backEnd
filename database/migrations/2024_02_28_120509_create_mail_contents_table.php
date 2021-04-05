@@ -15,6 +15,8 @@ class CreateMailContentsTable extends Migration
     {
         Schema::create('mail_contents', function (Blueprint $table) {
             $table->id();
+            $table->string('subject');
+            $table->string('content');
             $table->timestamps();
         });
     }

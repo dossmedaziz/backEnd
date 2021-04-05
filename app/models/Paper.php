@@ -13,15 +13,7 @@ class Paper extends Model
 
 
 
-    public function paperType()
-    {
-        return $this->belongsTo(PaperType::class, 'paper_type');
-    }
-    public function project()
-    {
-        return $this->belongsTo(Project::class);
-
-    }
+  
 
 
     protected $casts = [
@@ -31,12 +23,24 @@ class Paper extends Model
     ];
 
 
+    public function paperType()
+    {
+        return $this->belongsTo(PaperType::class, 'paper_type');
+    }
+    
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
 
+    }
 
     public function type()
     {
         return $this->belongsTo(PaperType::class, 'paper_type')->where('is_renewing',1);
     }
+
+  
+
 
   
 }
