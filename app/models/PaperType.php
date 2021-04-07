@@ -3,9 +3,11 @@
 namespace App\models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PaperType extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
          'paper_type', 'email_id','is_renewing'
     ];

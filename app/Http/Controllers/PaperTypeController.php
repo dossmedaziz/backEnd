@@ -13,15 +13,19 @@ class PaperTypeController extends Controller
 
             // create new PaperType By admin
             public function create(Request $request)
-            {
-                
+            
+            {  
                 $user_id = Auth::user()->id;
-                $email = new MailContent($request->email) ;
-                $email->save();
-
                 $papertype = new PaperType($request->type);
-                $papertype->email_id = $email->id ;
+                if ($papertype['is_renewing'] ){
+                    $email = new MailContent($request->email) ;
+                    $email->save();
+                    $papertype->email_id = $email->id ;
+
+                }
                 $papertype->save();
+               
+
 
                 $activity = new ActivityLog();
                 $activity->logSaver($user_id,'create','paperType',$papertype->id);
@@ -32,23 +36,43 @@ class PaperTypeController extends Controller
 
 
             // update PaperType by user&admin
-            public function update(Request $request, $id)
+            public function update(Request $request)
             {
 
                 $user_id = Auth::user()->id;
 
-                $paperType = PaperType::find($id) ;
-                if(is_null($paperType))
-                {
-                    return response()->json(["message"=>"Not found"]);
-                }
-                $paperType->update($request->all());
-                $activity = ActivityLog::create([
-                    'user_id'=> $user_id,
-                    'action_id'=> 3,
-                    'space_id'=> 6,
-                    'service_id'=> $paperType->id
-                 ]);
+                $typeId = $request->newType['id'] ;
+                $paperType = PaperType::find($typeId) ;
+               if(($paperType->email_id) && ( $request->newType['is_renewing'])){
+                 // update existed mail
+                $email = MailContent::find($paperType->email_id) ;
+                $email->update($request->newEmail) ;
+                $email->save() ;
+                $paperType->update($request->newType);
+                $paperType->save();
+               }else if (!($paperType->email_id) && ( $request->newType['is_renewing']) ){
+                // create new mail
+                   $email = new MailContent($request->newEmail) ;
+                   $email->save() ;
+                   $paperType->update($request->newType);
+                   $paperType->email_id = $email->id  ;
+                   $paperType->save();
+
+
+               }else if(($paperType->email_id) && !( $request->newType['is_renewing'])){
+                $paperType->update($request->newType);
+                $paperType->save();
+               }else if (!($paperType->email_id) && !( $request->newType['is_renewing']))
+               {
+                $paperType->update($request->newType);
+                $paperType->save();
+               }
+
+
+
+                 $activity = new ActivityLog();
+                $activity->logSaver($user_id,'update','paperType',$paperType->id);
+                return response()->json(['message'=>'created']) ;
                 return response()->json('updated') ;
             }
 
@@ -75,24 +99,25 @@ class PaperTypeController extends Controller
 
 
             // delete PaperType by admin
-            public function delete($id)
+            public function delete(Request $request)
             {
 
                 $user_id = Auth::user()->id;
-
-                $paperType = PaperType::find($id) ;
-                if(is_null($paperType))
+                $table = $request->types;
+                foreach ($table as $t)
                 {
-                    return response()->json(["message"=>"Not found"]);
+                    $id= ($t['type_id']);
+                    $type = PaperType::find($id);
+                    $email_id =$type->email_id ;
+                    $type->delete();
+                    if($email_id != NULL){
+                    $email = MailContent::find($email_id);
+                    $email->delete() ;
+                    }
+
+                    $activity = new ActivityLog();
+                    $activity->logSaver($user_id,'delete','paperType',$type->id);
                 }
-                $paperType->delete() ;
-                $activity = ActivityLog::create([
-                    'user_id'=> $user_id,
-                    'action_id'=> 4,
-                    'space_id'=> 6,
-                    'service_id'=> $paperType->id
-                 ]);
-                //  PaperController::class->getProjectById()
                 return response()->json(['message'=>'Deleted']) ;
 
             }

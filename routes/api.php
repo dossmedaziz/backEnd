@@ -157,10 +157,10 @@ Route::group(['middleware' => 'auth:api'], function () {
 
                         // manage paper type
                             Route::post('/createType','PaperTypeController@create') ;
-                            Route::put('/updateType/{id}','PaperTypeController@update') ;
+                            Route::put('/updateType','PaperTypeController@update') ;
                             Route::get('/getPaperTypes','PaperTypeController@getAllpaperTypes') ;
                             Route::get('/getType/{id}','PaperTypeController@getpaperTypeById') ;
-                            Route::delete('/deleteType/{id}','PaperTypeController@delete') ;
+                            Route::post('/deleteType','PaperTypeController@delete') ;
                             Route::get('/getPapers','PaperController@getAllPapers') ;
                             Route::get('getPaperofTheType/{id}','PaperTypeController@getPaperofTheType');
 

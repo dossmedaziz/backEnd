@@ -25,7 +25,7 @@ class Paper extends Model
 
     public function paperType()
     {
-        return $this->belongsTo(PaperType::class, 'paper_type');
+        return $this->belongsTo(PaperType::class, 'paper_type')->withTrashed();
     }
     
     public function project()
@@ -36,7 +36,7 @@ class Paper extends Model
 
     public function type()
     {
-        return $this->belongsTo(PaperType::class, 'paper_type')->where('is_renewing',1);
+        return $this->belongsTo(PaperType::class, 'paper_type')->where('is_renewing',1)->withTrashed();
     }
 
   

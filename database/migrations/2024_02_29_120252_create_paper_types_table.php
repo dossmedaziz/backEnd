@@ -21,8 +21,9 @@ class CreatePaperTypesTable extends Migration
             $table->foreign('email_id')
                 ->references('id')
                 ->on('mail_contents')
-                ->onDelete('cascade');
+                ->onDelete('SET NULL');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
