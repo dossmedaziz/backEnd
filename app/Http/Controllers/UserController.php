@@ -6,6 +6,9 @@ use App\models\User;
 use App\models\Role;
 use App\models\Action;
 use App\models\Space;
+use App\models\Client;
+use App\models\Project;
+use App\models\Contact;
 use App\models\Privilege;
 use App\models\ActivityLog;
 use Illuminate\Http\Request;
@@ -165,4 +168,33 @@ class UserController extends Controller
                 return response()->json($privilege);
             }
 
+
+
+
+            public function search(Request $request)
+            {
+                    $searchKey = $request->searchKey ;
+                   
+                    $clients = Client::where('client_name','like',"%".$searchKey."%")->get();
+                    $projects = Project::where('project_name','like','%'.$searchKey.'%')->with('client')->get();
+                    $contacts = Contact::where('contact_name','like','%'.$searchKey.'%')->get();
+                    return response()->json(["clients"=>$clients,"projects"=>$projects,"contacts"=>$contacts]);
+            }
+
+
+
+        public function changePassword(Request $request)
+        {
+            $user_id =  Auth::user()->id;
+            $user = User::find($user_id) ; 
+            $user->update([
+                'password'=>Hash::make($request->password),
+            ]);
+            $user->firstLogin = 1 ;
+            $user->save();
+            $accessToken = Auth::user()->createToken('authToken')->accessToken ;
+            return response()->json(['user'=>Auth::user(), 'token' => $accessToken ,'msg'=>"updated"]) ;
+
+
+        }
  }
