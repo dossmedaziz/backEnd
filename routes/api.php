@@ -19,7 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
             //Bills Routes
-            Route::get('/getBill','BillController@getAllBills') ;
             Route::get('/getBill/{id}','BillController@getBillById') ;
 
             //Project Routes
@@ -47,7 +46,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
             Route::get('/getUsers/{id}','UserController@getUserById') ;
 
 
-            
+
             Route::post('/login','UserController@login') ;
 
 
@@ -81,8 +80,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
             //Company Routes
             Route::post('/createCompany','CompanyController@create') ;
-            Route::put('/updateCompany/{id}','CompanyController@update') ;
-            Route::get('/getCompanyInfo','CompanyController@getCompanyInfo') ;
+
 
 
 
@@ -128,15 +126,13 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::post('/deleteProject','ProjectController@delete') ;
                         Route::get('/getUserProjects/{id}','ProjectController@getUserProjects') ;
                         Route::get('/getProjects','ProjectController@getAllProjects') ;
-                        
-
-
                         Route::get('/paperProject/{id}', 'ProjectController@paperProject');
 
                         //Create  Bill By admin
                         Route::post('/createBill','BillController@create') ;
                         Route::put('/updateBill/{id}','BillController@update') ;
-                        Route::delete('/deleteBill/{id}','BillController@delete') ;
+                        Route::get('/getBill','BillController@getAllBills') ;
+                        Route::post('/deleteBill','BillController@delete') ;
 
 
                         //manage paper by admin
@@ -175,6 +171,9 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
 
+                            //Manage Company
+                            Route::get('/getCompanyInfo','CompanyController@getCompanyInfo') ;
+                            Route::put('/updateCompany/{id}','CompanyController@update') ;
 
                             // manage item
                             Route::post('/createItem','ItemController@create') ;
@@ -182,10 +181,10 @@ Route::group(['middleware' => 'auth:api'], function () {
                             Route::get('/getItems','ItemController@getAllpaperTypes') ;
                             Route::get('/getItems/{id}','ItemController@getpaperTypeById') ;
                             Route::delete('/deleteItem/{id}','ItemController@delete') ;
-                            
 
 
-                        //Manage actions 
+
+                        //Manage actions
                              Route::get('/getActions','ActionController@getActions');
 
 
@@ -194,11 +193,10 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
                             // get just contracts
-                        Route::get('/getJustContracts','PaperController@getJustContracts'); 
+                        Route::get('/getJustContracts','PaperController@getJustContracts');
 
 
                         // sending mail api
-                        Route::post('/sendMail','PaperController@sendMail'); 
+                        Route::post('/sendMail','PaperController@sendMail');
                             });
 
-                            

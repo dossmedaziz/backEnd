@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\models\Bill;
+use App\models\Item;
 use App\models\User;
 use App\models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth ;
+use App\models\ActivityLog;
 
 
 class BillController extends Controller
@@ -15,13 +17,21 @@ class BillController extends Controller
     // create new bill By admin
     public function create(Request $request)
     {
+        $bill = new Bill($request->bill);
+        $bill->billNum = $request->config['numBill'] ;
+        $bill->fiscal_timber = $request->config['tax'] ;
+        $bill->rate_tva = $request->config['tva'] ;
+        $bill->save();
+        $bill_id = $bill->id  ;
+        $items = $request->items  ;
+      foreach($items as $item)
+      {
+            $i = new Item($item);
+            $i->bill_id = $bill_id ;
+            $i->save();
+      }
 
-                    $bill = new Bill($request->all());
-                    $bill->save();
-                    
-                    return response()->json(['message'=>'created','bill'=>$bill]) ;
-
-
+         return response()->json(['message'=>'created']) ;
     }
 
     // update bill by user&admin
@@ -60,22 +70,26 @@ class BillController extends Controller
 
 
      // delete Bill by admin
-     public function delete($id)
-    {
-           $bill = Bill::find($id) ;
-         if(is_null($bill))
+
+     public function delete(Request $request)
+
+     {
+         $table = $request->bills_id;
+         foreach ($table as $t)
          {
-             return response()->json(["message"=>"Not found"]);
+             $id= ($t['bill_id']);
+             $bill = Bill::find($id);
+             $bill->delete();
+
          }
-         $bill->delete() ;
+
+
          return response()->json(['message'=>'Deleted']) ;
 
 
-    }
+     }
 
-
-
-// get items of the bills 
+// get items of the bills
     public function test1($id)
     {
         $bill = Bill::where('id',$id)->with('item')->get();

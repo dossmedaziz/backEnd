@@ -19,11 +19,12 @@ class CreateCompaniesTable extends Migration
             $table->string('local');
             $table->string('email')->unique();
             $table->string('logo');
+            $table->string('tva');
+            $table->string('tax');
             $table->string('domaine');
+            $table->string('bank');
             $table->string('mat_fiscal');
-            $table->string('bank_name');
             $table->integer('phone_number');
-            $table->integer('employee_number');
             $table->timestamps();
         });
     }

@@ -10,11 +10,11 @@ class ItemController extends Controller
       // create new item By admin
       public function create(Request $request)
       {
-          $item = new Item($request->all());
+          $item = new Item($request->item);
           $item->save();
-          return response()->json(['message'=>'created']) ;
-      }
 
+           return response()->json(['message'=>'created','item'=>$item]) ;
+      }
 
 
 

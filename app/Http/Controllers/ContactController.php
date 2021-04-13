@@ -28,7 +28,7 @@ class ContactController extends Controller
             // update Contact by user&admin
             public function update(Request $request)
             {
-                
+
                 $user_id = Auth::user()->id;
                 $newContact = $request->newContact;
                 $contact_id = $request->contact_id ;
@@ -73,14 +73,12 @@ class ContactController extends Controller
             public function delete(Request $request)
             {
 
-                $user_id =  Auth::user()->id;
-                $id = $request->contact_id;
-                $contact = Contact::find($id) ;
-                
-                $contact->delete() ;
+                $id = $request->bill_id;
+                $contact = Bill::find($id) ;
 
-                $activity = new ActivityLog();
-                $activity->logSaver($user_id,'delete','contact',$contact->id);
+                $bill->delete() ;
+
+
                 return response()->json(['message'=>'Deleted']) ;
 
             }

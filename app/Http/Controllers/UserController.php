@@ -29,8 +29,8 @@ class UserController extends Controller
                {
                     return response()->json(["message" => "Email already Used"],409) ;
                }
-               
-               
+
+
                     $password = "nachd-it";
                     $user=User::create([
                         'name'=> $userr['name'],
@@ -41,7 +41,7 @@ class UserController extends Controller
 
                     $user->save();
 
-                    
+
                     $activity = new ActivityLog();
                     $activity->logSaver($user_id,'create','user',$user->id);
                 return response()->json(['message'=>'created','user'=>$user]) ;
@@ -59,7 +59,7 @@ class UserController extends Controller
                 $user = User::find($id) ;
                 $userr = $request->user;
                 $email = $userr['email'];
-               
+
 
 
                 $isFound = User::where('email',$email)->where('id','<>',$id)->first();
@@ -67,12 +67,12 @@ class UserController extends Controller
                {
                     return response()->json(["message" => "Email already Used"],409) ;
                }
-               
+
 
                 $user->update([
                         'name'=> $userr['name'],
                         'email'=> $userr['email'],
-                        'role_id' => $userr['role_id'],
+                        'phone_number' => $userr['phone_number'],
                 ]);
                 $user->save() ;
 

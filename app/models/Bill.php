@@ -10,7 +10,7 @@ class Bill extends Model
     protected $fillable = [
         'total_ttc','ht_price', 'rate_tva', 'price_tva',
         'fiscal_timber','billNum','bill_file','DateFacturation',
-        'client_id'
+       'description' , 'client_id'
     ];
 
 

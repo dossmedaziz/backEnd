@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\models\Company;
 use Illuminate\Http\Request;
+use App\models\ActivityLog;
 
 class CompanyController extends Controller
 {
@@ -26,18 +27,22 @@ class CompanyController extends Controller
           {
             return response()->json(["message"=>"Not found"]);
            }
+           $company->update($request->company);
+           if($request->path){
+            $company->logo = $request->path ;
+             }
 
-           $company->update($request->all());
+            $company->save();
            return response()->json('updated') ;
           }
 
 
 
-        // get company info 
+        // get company info
         public function getCompanyInfo()
         {
             $company = Company::all() ;
-            return $company;
+            return response()->json($company);
         }
 }
 
