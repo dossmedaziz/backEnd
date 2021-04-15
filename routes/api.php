@@ -107,7 +107,6 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::get('/getUsers','UserController@getAllUsers') ;
                         Route::post('/deleteUser','UserController@delete') ;
                         Route::put('/updateUser/{id}','UserController@update') ;
-                        Route::put('/changePassword','UserController@changePassword') ;
 
 
 
@@ -150,9 +149,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
                         // Get all activity log by admin
-                            Route::get('/getActivities','ActivityLogController@activities');
-                            Route::get('/getActivities/{id}','ActivityLogController@userActivities');
-
+                            Route::get('/getAllactivities','ActivityLogController@getAllactivities');
+/////////////////
 
 
                         // manage paper type
@@ -202,8 +200,23 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::get('/getExpiredContracts','PaperController@getExpiredContracts'); 
 
                         // sending mail api
-                        Route::post('/sendMail','PaperController@sendMail'); 
+                        Route::post('/sendMail1','PaperController@sendMail'); 
 
                             });
-
+                            
                             Route::post('search','UserController@search');
+                            Route::post('sendMail','UserController@sendMail');
+                            Route::post('resetPassword','UserController@resetPassword');
+
+
+
+
+
+
+                               // change password at verification account
+                               Route::put('/changePassword','UserController@changePassword') ;
+
+
+                               
+                               // get activity log by user id 
+                            Route::get('/getUserActivities/{user_id}','ActivityLogController@getUserActivities');

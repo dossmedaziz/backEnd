@@ -9,13 +9,13 @@ class ActivityLogController extends Controller
 {
 
     //get all activities
-    public function activities(){
+    public function getAllactivities(){
         $activities = ActivityLog::all();
         return response($activities);
     }
         //get all activities
-        public function userActivities($user_id){
+        public function getUserActivities($user_id){
             $activities = ActivityLog::where('user_id',$user_id)->get();
-            return response($activities);
+            return $activities ;
         }
 }

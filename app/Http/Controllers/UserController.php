@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth ;
 use Illuminate\Support\Facades\Validator ;
+use Illuminate\Support\Facades\Crypt ;
+use Illuminate\Support\Facades\Mail;
 class UserController extends Controller
 {
     //
@@ -43,7 +45,16 @@ class UserController extends Controller
                     ]);
 
                     $user->save();
-
+                    // sending verification email
+                    
+                    $cryptedId = Crypt::encryptString($user->id) ;
+                    $to_name  = $user->name;
+                    $to_email = $user->email;
+                    $data = array('name'=> $user->name ,'link' => "http://localhost:4200/updatePassword/".$cryptedId);
+                    Mail::send('verificationEmail', $data, function($message) use ($to_name, $to_email) {
+                    $message->to($to_email, $to_name)->subject('Reset Password');
+                    $message->from('dossaziz18@gmail.com','Nachd-it');
+                    });
                     
                     $activity = new ActivityLog();
                     $activity->logSaver($user_id,'create','user',$user->id);
@@ -78,6 +89,7 @@ class UserController extends Controller
                         'role_id' => $userr['role_id'],
                 ]);
                 $user->save() ;
+
 
                 $activity = new ActivityLog();
                 $activity->logSaver($user_id,'update','user',$user->id);
@@ -146,27 +158,21 @@ class UserController extends Controller
                         }
 
                         $user = Auth::user();
+                        
                         $role_id = $user->role_id;
                         $privileges = Privilege::WHERE('role_id',$role_id)->with('space')->with('action')->get() ;
-
                         $accessToken = Auth::user()->createToken('authToken')->accessToken ;
+                        $isVerified = $user->verified ;
+                        if(!$isVerified)
+                        {
+                            return response(['message'=>'invalid login credentials'],403);
+
+                        }
                         return response()->json(['user'=>Auth::user(), 'token' => $accessToken ,'privileges'=>$privileges]) ;
 
             }
 
 
-
-
-            // sending privileges of user
-            public function test()
-            {
-                $user = Auth::user();
-                $role_id = $user->role_id;
-                $privilege = Privilege::WHERE('role_id',$role_id)->with('space')->with('action')->get() ;
-
-
-                return response()->json($privilege);
-            }
 
 
 
@@ -185,16 +191,56 @@ class UserController extends Controller
 
         public function changePassword(Request $request)
         {
-            $user_id =  Auth::user()->id;
+            
+            $token =  $request->token ; 
+            $user_id = Crypt::decryptString($token) ;
             $user = User::find($user_id) ; 
             $user->update([
                 'password'=>Hash::make($request->password),
             ]);
-            $user->firstLogin = 1 ;
+            
+            $user->save() ; 
+            $user->verified = 1  ;
             $user->save();
-            $accessToken = Auth::user()->createToken('authToken')->accessToken ;
-            return response()->json(['user'=>Auth::user(), 'token' => $accessToken ,'msg'=>"updated"]) ;
+            return response()->json(["msg"=>"updated"]) ;
 
 
+        }
+
+
+
+
+        public function sendMail(Request $request)
+        {
+
+            $email = $request->email ;
+            $user =  User::where('email',$email)->first() ; 
+            if(is_null($user)){
+                return  response()->json(["msg"=>"User not found"],403);
+            }
+            $cryptedId = Crypt::encryptString($user->id) ;
+          
+            $to_name  = $user->name;
+            $to_email = $user->email;
+            $data = array('name'=> $user->name ,'link' => "http://localhost:4200/resetPassword/".$cryptedId);
+            Mail::send('emails', $data, function($message) use ($to_name, $to_email) {
+            $message->to($to_email, $to_name)->subject('Reset Password');
+            $message->from('dossaziz18@gmail.com','Nachd-it');
+            });
+            return response()->json(["msg"=>"Mail sent"]);
+        }
+
+        public function resetPassword(Request $request)
+        {
+        $token  = $request->token ;
+         
+        $user_id = Crypt::decryptString($token) ;
+        
+        $user = User::find($user_id) ;
+        $user->update([
+             "password"  => Hash::make($request->newPassword),
+             ]);
+        $user->save();
+        return response()->json(["msg"=>"password changed"]);
         }
  }

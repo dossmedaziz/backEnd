@@ -54,6 +54,8 @@ class SpaceSeeder extends Seeder
         Space::create([
             'space_name'=>'addPaperType',
         ]);
-
+        Space::create([
+            'space_name'=>'activityLog',
+        ]);
     }
 }
