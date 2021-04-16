@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
                 ->on('roles') 
                 ->onDelete('SET NULL');
             $table->boolean('verified')->default(false);
+            $table->text('token')->nullable();
             $table->timestamps();
         });
     }

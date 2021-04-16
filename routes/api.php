@@ -150,7 +150,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
                         // Get all activity log by admin
                             Route::get('/getAllactivities','ActivityLogController@getAllactivities');
-/////////////////
+                            Route::get('/getUserActivities/{user_id}','ActivityLogController@getUserActivities');
+
 
 
                         // manage paper type
@@ -215,8 +216,9 @@ Route::group(['middleware' => 'auth:api'], function () {
 
                                // change password at verification account
                                Route::put('/changePassword','UserController@changePassword') ;
+                               Route::post('/checkToken','UserController@checkToken') ;
+
+
 
 
                                
-                               // get activity log by user id 
-                            Route::get('/getUserActivities/{user_id}','ActivityLogController@getUserActivities');

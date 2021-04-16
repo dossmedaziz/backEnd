@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Carbon\Carbon;
 
 use App\models\User;
 use App\models\Role;
@@ -218,11 +219,17 @@ class UserController extends Controller
             if(is_null($user)){
                 return  response()->json(["msg"=>"User not found"],403);
             }
-            $cryptedId = Crypt::encryptString($user->id) ;
-          
+            
+            $today = Carbon::today();
+            $token = array("date"=>$today, "user_id"=>$user->id , "isUsed"=> 0);
+            $cryptedToken = Crypt::encryptString(json_encode($token)) ;
+            $user->update([
+                'token' => $cryptedToken
+            ]) ;
+            $user->save() ;
             $to_name  = $user->name;
             $to_email = $user->email;
-            $data = array('name'=> $user->name ,'link' => "http://localhost:4200/resetPassword/".$cryptedId);
+            $data = array('name'=> $user->name ,'link' => "http://localhost:4200/resetPassword/".$cryptedToken);
             Mail::send('emails', $data, function($message) use ($to_name, $to_email) {
             $message->to($to_email, $to_name)->subject('Reset Password');
             $message->from('dossaziz18@gmail.com','Nachd-it');
@@ -230,17 +237,58 @@ class UserController extends Controller
             return response()->json(["msg"=>"Mail sent"]);
         }
 
+
+
         public function resetPassword(Request $request)
         {
+            
         $token  = $request->token ;
-         
-        $user_id = Crypt::decryptString($token) ;
+        $decryptedToken = Crypt::decryptString($token) ;
+        $jsonToken =  json_decode($decryptedToken, true) ; 
+        $user_id = $jsonToken['user_id'] ; 
+        $jsonToken['isUsed'] = 1 ;
+        $cryptedToken = Crypt::encryptString(json_encode($jsonToken)) ;
+
         
         $user = User::find($user_id) ;
         $user->update([
              "password"  => Hash::make($request->newPassword),
+             "token" => $cryptedToken,
              ]);
         $user->save();
         return response()->json(["msg"=>"password changed"]);
         }
+
+
+      
+
+
+        public function checkToken(Request $request)
+        {
+            $token =  $request->token;
+            $decryptedToken =  Crypt::decryptString($token) ; 
+            $decryptedToken =  json_decode($decryptedToken, true) ; 
+            $isUsed = $decryptedToken['isUsed'] ; 
+            $tokenDate = $decryptedToken['date'] ; 
+
+            $user = User::find($decryptedToken['user_id']) ;
+            $userToken = $user->token ;
+            $userToken =  Crypt::decryptString($userToken) ; 
+            $userToken =  json_decode($userToken, true) ; 
+            // return response()->json(["token"=> $decryptedToken , "userToken"=>$userToken]);
+            if(!($decryptedToken == $userToken))
+            {
+                return response()->json(["isChecked"=> 1]);
+            }else{
+                return response()->json(["isChecked"=> 0]);
+
+
+
+            }
+
+
+        }
+
+
+    
  }
