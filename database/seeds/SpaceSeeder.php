@@ -40,10 +40,7 @@ class SpaceSeeder extends Seeder
         ]);
         Space::create([
             'space_name'=>'contact',
-        ]);
-        Space::create([
-            'space_name'=>'contract',
-        ]);
+        ]); 
         Space::create([
             'space_name'=>'profile',
         ]);
@@ -54,6 +51,8 @@ class SpaceSeeder extends Seeder
         Space::create([
             'space_name'=>'addPaperType',
         ]);
-
+        Space::create([
+            'space_name'=>'activityLog',
+        ]);
     }
 }

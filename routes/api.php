@@ -104,9 +104,12 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::get('/getUsers','UserController@getAllUsers') ;
                         Route::post('/deleteUser','UserController@delete') ;
                         Route::put('/updateUser/{id}','UserController@update') ;
+<<<<<<< HEAD
                         Route::put('/changePassword','UserController@changePassword') ;
                         Route::post('updatePassword','UserController@updatePassword');
                         Route::get('/getUsers/{id}','UserController@getUserById') ;
+=======
+>>>>>>> 0c723e4c132b898e85f774363dc7292a1059c63c
 
 
 
@@ -151,8 +154,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
                         // Get all activity log by admin
-                            Route::get('/getActivities','ActivityLogController@activities');
-                            Route::get('/getActivities/{id}','ActivityLogController@userActivities');
+                            Route::get('/getAllactivities','ActivityLogController@getAllactivities');
+                            Route::get('/getUserActivities/{user_id}','ActivityLogController@getUserActivities');
 
 
 
@@ -206,10 +209,37 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::get('/getExpiredContracts','PaperController@getExpiredContracts');
 
                         // sending mail api
+<<<<<<< HEAD
 
 
                         Route::post('/sendMail','PaperController@sendMail');
+=======
+                        Route::post('/sendMail1','PaperController@sendMail'); 
+>>>>>>> 0c723e4c132b898e85f774363dc7292a1059c63c
 
                             });
-
+                            
                             Route::post('search','UserController@search');
+                            Route::post('sendMail','UserController@sendMail');
+                            Route::post('resetPassword','UserController@resetPassword');
+
+
+
+
+
+
+                               // change password at verification account
+                               Route::put('/changePassword','UserController@changePassword') ;
+                               Route::post('/checkToken','UserController@checkToken') ;
+
+
+                               Route::get('/test','PaperController@test') ;
+
+
+
+
+<<<<<<< HEAD
+                            Route::post('search','UserController@search');
+=======
+                               
+>>>>>>> 0c723e4c132b898e85f774363dc7292a1059c63c

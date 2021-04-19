@@ -28,8 +28,19 @@ class ActivityLog extends Model
             'action_id'=> $action_id,
             'space_id'=> $space_id,
             'service_id'=>  $serv_id
-         ]);
+         ]);}
 
-
+         
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function space()
+    {
+        return $this->belongsTo(Space::class);
+    }
+    public function action()
+    {
+        return $this->belongsTo(Action::class);
     }
 }

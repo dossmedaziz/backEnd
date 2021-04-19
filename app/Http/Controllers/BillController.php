@@ -103,6 +103,7 @@ class BillController extends Controller
     }
 
 
+<<<<<<< HEAD
     public function selectedYear($selectedYear)
     {
         $bills = Bill::all();
@@ -117,4 +118,9 @@ class BillController extends Controller
       }
 return $selectedBills;
     }
+=======
+
+
+
+>>>>>>> 0c723e4c132b898e85f774363dc7292a1059c63c
 }
