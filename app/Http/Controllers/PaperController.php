@@ -9,6 +9,7 @@ use App\models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth ;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 
 class PaperController extends Controller
 {
@@ -131,7 +132,7 @@ class PaperController extends Controller
         $query->
 
     } */
-    $papers = Paper::with('type')->with('project.client')->where('alert_date','<=',$today)->get() ;
+    $papers = Paper::with('type.email')->with('project.client')->where('alert_date','<=',$today)->get() ;
     
         foreach($papers  as $t){
             if(!($t->type == NULL)){
@@ -159,6 +160,18 @@ class PaperController extends Controller
                 $contracts  = $request->contracts ;
               foreach ( $contracts as $cont)
               {
+                  
+                $to_name  = $cont['project']['client']['client_name'];
+                $to_email = $cont['project']['client']['email'];
+                $subject = $cont['type']['email']['subject'];
+
+                $emailBody = $cont['type']['email']['content'] ;
+                $emailBody = str_replace("{client_name}",$cont['project']['client']['client_name'],$emailBody) ;
+                $data = array('name'=> $cont['project']['client']['client_name'] ,'body' =>$emailBody );
+                Mail::send('alertEmail', $data, function($message) use ($to_name, $to_email,$subject) {
+                $message->to($to_email, $to_name)->subject($subject);
+                $message->from('dossaziz18@gmail.com','Nachd-it');
+                });
                   $id = $cont['id'] ;
                   $contract = Paper::find($id);
                   $contract->isReminded =  1;
@@ -197,6 +210,14 @@ class PaperController extends Controller
             }
         }
          return $contracts ;
+     }
+
+
+     public function test()
+     {  
+         $papers = Paper::with('type.email')->get();
+         return $papers ; 
+
      }
 }
 

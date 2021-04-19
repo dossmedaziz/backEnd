@@ -219,6 +219,9 @@ Route::group(['middleware' => 'auth:api'], function () {
                                Route::post('/checkToken','UserController@checkToken') ;
 
 
+                               Route::get('/test','PaperController@test') ;
+
+
 
 
                                

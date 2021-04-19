@@ -53,7 +53,7 @@ class UserController extends Controller
                     $to_email = $user->email;
                     $data = array('name'=> $user->name ,'link' => "http://localhost:4200/updatePassword/".$cryptedId);
                     Mail::send('verificationEmail', $data, function($message) use ($to_name, $to_email) {
-                    $message->to($to_email, $to_name)->subject('Reset Password');
+                    $message->to($to_email, $to_name)->subject('Verification');
                     $message->from('dossaziz18@gmail.com','Nachd-it');
                     });
                     
