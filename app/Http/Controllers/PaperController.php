@@ -45,7 +45,7 @@ class PaperController extends Controller
         $paper->update($request->newPaper);
         if($request->file_path){ 
         $paper->paper_file = $request->file_path ;}
-       $paper->save();
+        $paper->save();
         $activity = new ActivityLog();
         $activity->logSaver($user_id,'update','paper',$paper->id);
         return response()->json('updated') ;
@@ -110,7 +110,6 @@ class PaperController extends Controller
             $file_path ='files/images' ;
             $file->move($file_path,$file_name);
             $path = $file_path.'/'.$file_name;
-            // $path =  $file->store('public/test') ;
             return response()->json(["path"=>$path]) ;
     }
 
@@ -127,7 +126,13 @@ class PaperController extends Controller
      $hosting  = array(); 
      $maintenance  = array(); 
      $today = Carbon::today();
-    $papers = Paper::with('type','project.client')->where('alert_date','<=',$today)->get() ;
+     /*  , function($query){
+
+        $query->
+
+    } */
+    $papers = Paper::with('type')->with('project.client')->where('alert_date','<=',$today)->get() ;
+    
         foreach($papers  as $t){
             if(!($t->type == NULL)){
                 array_push($contracts,$t) ;
@@ -142,6 +147,7 @@ class PaperController extends Controller
                 array_push($maintenance,$tab);
             }
         }
+     
       return response()->json(["contracts"=>$contracts,"hosting"=>$hosting,"update"=>$update,"maintenance"=>$maintenance]);
     }
     
@@ -161,6 +167,36 @@ class PaperController extends Controller
               }
                 return response()->json(["msg"=>"mail sent"]);
      }
+
+
+
+
+     public function changeStatus(Request $request){
+         $papers =$request->papers ;
+         $status_id = $request->status_id ;
+         foreach( $papers as $paper)
+         {
+             $p = Paper::find($paper['id']);
+             $p->status = $status_id ;
+             $p->save() ;
+         }
+
+         return response()->json(["msg"=>" status updated"]);
+     }
  
+
+
+     public function getExpiredContracts()
+     {
+         $contracts  = array(); 
+         $today = Carbon::today();
+         $papers = Paper::with('type')->where('end_date','<=',$today)->get();
+         foreach($papers  as $t){
+            if(!($t->type == NULL)){
+                array_push($contracts,$t) ;
+            }
+        }
+         return $contracts ;
+     }
 }
 

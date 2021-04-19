@@ -20,7 +20,7 @@ class CreateBillsTable extends Migration
             $table->integer('rate_tva');
             $table->integer('price_tva');
             $table->integer('fiscal_timber');
-            $table->integer('billNum');
+            $table->string('billNum');
             $table->string('description')->nullable();
             $table->string('bill_file')->nullable();
             $table->timestamp('DateFacturation');

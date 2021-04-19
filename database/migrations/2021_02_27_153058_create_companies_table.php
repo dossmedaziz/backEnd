@@ -22,6 +22,7 @@ class CreateCompaniesTable extends Migration
             $table->string('tva');
             $table->string('tax');
             $table->string('domaine');
+            $table->string('sendTo')->nullable();
             $table->string('bank');
             $table->string('mat_fiscal');
             $table->integer('phone_number');

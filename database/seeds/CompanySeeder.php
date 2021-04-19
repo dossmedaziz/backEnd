@@ -17,7 +17,7 @@ class CompanySeeder extends Seeder
                  'name'=>'Nachd-IT',
                  'local'=>'espace incubateur ISSAT Sousse, Rue Ibn Kholdoun, cité Tafféla, sousse 4003',
                  'email'=>'contact@nachd-it.com',
-                 'logo'=>'public/1558441533949.png',
+                 'logo'=>'public/files/1618255739.png',
                  'domaine' => 'conception et réalisation des application web, mobile et desktop et services informatique',
                  'bank' => 'Tijari Bank 04500043005296886489',
                  'mat_fiscal' => '1530684/Y/A/M/00',

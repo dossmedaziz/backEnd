@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth ;
 use App\models\ActivityLog;
+use Carbon\Carbon;
 
 
 class BillController extends Controller
@@ -18,12 +19,13 @@ class BillController extends Controller
     public function create(Request $request)
     {
         $bill = new Bill($request->bill);
-        $bill->billNum = $request->config['numBill'] ;
+        $bill->billNum = $request->config['billNum'] ;
+        $bill->client_id = $request->config['clientId'] ;
         $bill->fiscal_timber = $request->config['tax'] ;
         $bill->rate_tva = $request->config['tva'] ;
         $bill->save();
         $bill_id = $bill->id  ;
-        $items = $request->items  ;
+        $items = $request->items;
       foreach($items as $item)
       {
             $i = new Item($item);
@@ -31,6 +33,7 @@ class BillController extends Controller
             $i->save();
       }
 
+      return $bill ;
          return response()->json(['message'=>'created']) ;
     }
 
@@ -52,7 +55,7 @@ class BillController extends Controller
      //get all bills for admin
      public function getAllBills()
      {
-         $bills = Bill::all() ;
+         $bills = Bill::with('client')->get() ;
          return $bills ;
      }
 
@@ -99,4 +102,19 @@ class BillController extends Controller
 
     }
 
+
+    public function selectedYear($selectedYear)
+    {
+        $bills = Bill::all();
+        $selectedBills = array();
+        foreach($bills as $bill) {
+            $date = $bill->DateFacturation ;
+            $myDate =Carbon::createFromFormat('Y-m-d H:i:s', $date)->year;
+          if($selectedYear == $myDate)
+        {
+          array_push( $selectedBills,$bill);
+        }
+      }
+return $selectedBills;
+    }
 }

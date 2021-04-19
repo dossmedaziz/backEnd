@@ -6,6 +6,9 @@ use App\models\User;
 use App\models\Role;
 use App\models\Action;
 use App\models\Space;
+use App\models\Client;
+use App\models\Project;
+use App\models\Contact;
 use App\models\Privilege;
 use App\models\ActivityLog;
 use Illuminate\Http\Request;
@@ -62,6 +65,7 @@ class UserController extends Controller
 
 
 
+
                 $isFound = User::where('email',$email)->where('id','<>',$id)->first();
                if($isFound)
                {
@@ -69,10 +73,12 @@ class UserController extends Controller
                }
 
 
+
                 $user->update([
                         'name'=> $userr['name'],
                         'email'=> $userr['email'],
                         'phone_number' => $userr['phone_number'],
+
                 ]);
                 $user->save() ;
 
@@ -165,4 +171,56 @@ class UserController extends Controller
                 return response()->json($privilege);
             }
 
+
+
+
+            public function search(Request $request)
+            {
+                    $searchKey = $request->searchKey ;
+
+                    $clients = Client::where('client_name','like',"%".$searchKey."%")->get();
+                    $projects = Project::where('project_name','like','%'.$searchKey.'%')->with('client')->get();
+                    $contacts = Contact::where('contact_name','like','%'.$searchKey.'%')->get();
+                    return response()->json(["clients"=>$clients,"projects"=>$projects,"contacts"=>$contacts]);
+            }
+
+
+
+        public function changePassword(Request $request)
+        {
+            $user_id =  Auth::user()->id;
+            $user = User::find($user_id) ;
+            $user->update([
+                'password'=>Hash::make($request->password),
+            ]);
+            $user->firstLogin = 1 ;
+            $user->save();
+            $accessToken = Auth::user()->createToken('authToken')->accessToken ;
+            return response()->json(['user'=>Auth::user(), 'token' => $accessToken ,'msg'=>"updated"]) ;
+
+
+        }
+
+
+
+        public function updatePassword(Request $request)
+
+    {
+        $user_id =  Auth::user()->id;
+        $user =  User::find($user_id)->first();
+        $password = $user->password ;
+        $currentPassword =  $request->currentPassword ;
+        $isEqual =  Hash::check($currentPassword, $password) ;
+        if($isEqual)
+
+         {
+           $user->password = Hash::make($request->newPassword) ;
+           $user->save();
+           return response()->json(["msg"=>"password updated","status"=>"1"]);
+         }else {
+            return response()->json(["msg"=>"Wrong Password","status"=>"0"]);
+
+         }
+
+    }
  }

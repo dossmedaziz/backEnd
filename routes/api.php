@@ -43,7 +43,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
             // User Routes
-            Route::get('/getUsers/{id}','UserController@getUserById') ;
 
 
 
@@ -61,7 +60,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
             //Role Routes
-            Route::get('/getRoles','RoleController@getAllRoles') ;
             Route::get('/getRoles/{id}','RoleController@getRoleById') ;
 
 
@@ -98,6 +96,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::put('/updateRole/{id}','RoleController@update') ;
                         Route::post('/deleteRole','RoleController@delete') ;
                         Route::get('/getRoleprivileges/{id}','RoleController@getRoleprivileges') ;
+                        Route::get('/getRoles','RoleController@getAllRoles') ;
 
 
                         // Manage user by admin
@@ -105,8 +104,10 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::get('/getUsers','UserController@getAllUsers') ;
                         Route::post('/deleteUser','UserController@delete') ;
                         Route::put('/updateUser/{id}','UserController@update') ;
+                        Route::put('/changePassword','UserController@changePassword') ;
+                        Route::post('updatePassword','UserController@updatePassword');
+                        Route::get('/getUsers/{id}','UserController@getUserById') ;
 
-                        //    Route::get('/test','UserController@test');
 
 
                         // Manage Client by admin
@@ -126,6 +127,10 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::post('/deleteProject','ProjectController@delete') ;
                         Route::get('/getUserProjects/{id}','ProjectController@getUserProjects') ;
                         Route::get('/getProjects','ProjectController@getAllProjects') ;
+                        Route::get('getProjectsWithinfo','ProjectController@getProjectsWithinfo');
+
+
+
                         Route::get('/paperProject/{id}', 'ProjectController@paperProject');
 
                         //Create  Bill By admin
@@ -133,6 +138,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::put('/updateBill/{id}','BillController@update') ;
                         Route::get('/getBill','BillController@getAllBills') ;
                         Route::post('/deleteBill','BillController@delete') ;
+                        Route::get('selectedYear/{selectedYear}','BillController@selectedYear') ;
 
 
                         //manage paper by admin
@@ -142,7 +148,6 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::get('getTypeofThePaper/{id}','PaperController@getTypeofThePaper');
                         Route::post('uploadFile','PaperController@uploadFile');
 
-                        Route::get('getProjectsWithinfo','ProjectController@getProjectsWithinfo');
 
 
                         // Get all activity log by admin
@@ -158,6 +163,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                             Route::get('/getType/{id}','PaperTypeController@getpaperTypeById') ;
                             Route::post('/deleteType','PaperTypeController@delete') ;
                             Route::get('/getPapers','PaperController@getAllPapers') ;
+                            Route::post('changeStatus','PaperController@changeStatus');
                             Route::get('getPaperofTheType/{id}','PaperTypeController@getPaperofTheType');
 
 
@@ -196,7 +202,14 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::get('/getJustContracts','PaperController@getJustContracts');
 
 
+                        // get expired contracts
+                        Route::get('/getExpiredContracts','PaperController@getExpiredContracts');
+
                         // sending mail api
+
+
                         Route::post('/sendMail','PaperController@sendMail');
+
                             });
 
+                            Route::post('search','UserController@search');
