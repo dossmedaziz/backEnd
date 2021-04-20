@@ -103,24 +103,7 @@ class BillController extends Controller
     }
 
 
-<<<<<<< HEAD
-    public function selectedYear($selectedYear)
-    {
-        $bills = Bill::all();
-        $selectedBills = array();
-        foreach($bills as $bill) {
-            $date = $bill->DateFacturation ;
-            $myDate =Carbon::createFromFormat('Y-m-d H:i:s', $date)->year;
-          if($selectedYear == $myDate)
-        {
-          array_push( $selectedBills,$bill);
-        }
-      }
-return $selectedBills;
-    }
-=======
 
 
 
->>>>>>> 0c723e4c132b898e85f774363dc7292a1059c63c
 }

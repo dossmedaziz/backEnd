@@ -20,11 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('description')->nullable();
             $table->string('phone_number')->nullable();
-<<<<<<< HEAD
             $table->string('photo')->nullable();
             $table->boolean('firstLogin')->default(false)->nullable();
-=======
->>>>>>> 0c723e4c132b898e85f774363dc7292a1059c63c
             $table->unsignedBigInteger('role_id')->nullable();
             $table->foreign('role_id')
                 ->references('id')

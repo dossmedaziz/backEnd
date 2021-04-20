@@ -46,12 +46,10 @@ class UserController extends Controller
                     ]);
 
                     $user->save();
-<<<<<<< HEAD
 
 
-=======
                     // sending verification email
-                    
+
                     $cryptedId = Crypt::encryptString($user->id) ;
                     $to_name  = $user->name;
                     $to_email = $user->email;
@@ -60,8 +58,7 @@ class UserController extends Controller
                     $message->to($to_email, $to_name)->subject('Verification');
                     $message->from('dossaziz18@gmail.com','Nachd-it');
                     });
-                    
->>>>>>> 0c723e4c132b898e85f774363dc7292a1059c63c
+
                     $activity = new ActivityLog();
                     $activity->logSaver($user_id,'create','user',$user->id);
                 return response()->json(['message'=>'created','user'=>$user]) ;
@@ -167,7 +164,7 @@ class UserController extends Controller
                         }
 
                         $user = Auth::user();
-                        
+
                         $role_id = $user->role_id;
                         $privileges = Privilege::WHERE('role_id',$role_id)->with('space')->with('action')->get() ;
                         $accessToken = Auth::user()->createToken('authToken')->accessToken ;
@@ -200,20 +197,15 @@ class UserController extends Controller
 
         public function changePassword(Request $request)
         {
-<<<<<<< HEAD
-            $user_id =  Auth::user()->id;
-            $user = User::find($user_id) ;
-=======
-            
-            $token =  $request->token ; 
+
+            $token =  $request->token ;
             $user_id = Crypt::decryptString($token) ;
-            $user = User::find($user_id) ; 
->>>>>>> 0c723e4c132b898e85f774363dc7292a1059c63c
+            $user = User::find($user_id) ;
             $user->update([
                 'password'=>Hash::make($request->password),
             ]);
-            
-            $user->save() ; 
+
+            $user->save() ;
             $user->verified = 1  ;
             $user->save();
             return response()->json(["msg"=>"updated"]) ;
@@ -223,38 +215,16 @@ class UserController extends Controller
 
 
 
-<<<<<<< HEAD
-        public function updatePassword(Request $request)
-
-    {
-        $user_id =  Auth::user()->id;
-        $user =  User::find($user_id)->first();
-        $password = $user->password ;
-        $currentPassword =  $request->currentPassword ;
-        $isEqual =  Hash::check($currentPassword, $password) ;
-        if($isEqual)
-
-         {
-           $user->password = Hash::make($request->newPassword) ;
-           $user->save();
-           return response()->json(["msg"=>"password updated","status"=>"1"]);
-         }else {
-            return response()->json(["msg"=>"Wrong Password","status"=>"0"]);
-
-         }
-
-    }
-=======
 
         public function sendMail(Request $request)
         {
 
             $email = $request->email ;
-            $user =  User::where('email',$email)->first() ; 
+            $user =  User::where('email',$email)->first() ;
             if(is_null($user)){
                 return  response()->json(["msg"=>"User not found"],403);
             }
-            
+
             $today = Carbon::today();
             $token = array("date"=>$today, "user_id"=>$user->id , "isUsed"=> 0);
             $cryptedToken = Crypt::encryptString(json_encode($token)) ;
@@ -276,15 +246,15 @@ class UserController extends Controller
 
         public function resetPassword(Request $request)
         {
-            
+
         $token  = $request->token ;
         $decryptedToken = Crypt::decryptString($token) ;
-        $jsonToken =  json_decode($decryptedToken, true) ; 
-        $user_id = $jsonToken['user_id'] ; 
+        $jsonToken =  json_decode($decryptedToken, true) ;
+        $user_id = $jsonToken['user_id'] ;
         $jsonToken['isUsed'] = 1 ;
         $cryptedToken = Crypt::encryptString(json_encode($jsonToken)) ;
 
-        
+
         $user = User::find($user_id) ;
         $user->update([
              "password"  => Hash::make($request->newPassword),
@@ -295,21 +265,21 @@ class UserController extends Controller
         }
 
 
-      
+
 
 
         public function checkToken(Request $request)
         {
             $token =  $request->token;
-            $decryptedToken =  Crypt::decryptString($token) ; 
-            $decryptedToken =  json_decode($decryptedToken, true) ; 
-            $isUsed = $decryptedToken['isUsed'] ; 
-            $tokenDate = $decryptedToken['date'] ; 
+            $decryptedToken =  Crypt::decryptString($token) ;
+            $decryptedToken =  json_decode($decryptedToken, true) ;
+            $isUsed = $decryptedToken['isUsed'] ;
+            $tokenDate = $decryptedToken['date'] ;
 
             $user = User::find($decryptedToken['user_id']) ;
             $userToken = $user->token ;
-            $userToken =  Crypt::decryptString($userToken) ; 
-            $userToken =  json_decode($userToken, true) ; 
+            $userToken =  Crypt::decryptString($userToken) ;
+            $userToken =  json_decode($userToken, true) ;
             // return response()->json(["token"=> $decryptedToken , "userToken"=>$userToken]);
             if(!($decryptedToken == $userToken))
             {
@@ -325,6 +295,5 @@ class UserController extends Controller
         }
 
 
-    
->>>>>>> 0c723e4c132b898e85f774363dc7292a1059c63c
+
  }
