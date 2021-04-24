@@ -213,11 +213,6 @@ class PaperController extends Controller
      }
 
 
-     public function test()
-     {  
-         $papers = Paper::with('type.email')->get();
-         return $papers ; 
-
-     }
+ 
 }
 

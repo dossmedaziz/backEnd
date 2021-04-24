@@ -42,7 +42,7 @@ class SpaceSeeder extends Seeder
             'space_name'=>'contact',
         ]); 
         Space::create([
-            'space_name'=>'profile',
+            'space_name'=>'company',
         ]);
         Space::create([
             'space_name'=>'addBill',

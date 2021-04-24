@@ -103,8 +103,8 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::post('/createUser','UserController@create') ;
                         Route::get('/getUsers','UserController@getAllUsers') ;
                         Route::post('/deleteUser','UserController@delete') ;
-                        Route::put('/updateUser/{id}','UserController@update') ;
-
+                        Route::put('/updateUser','UserController@update') ;
+                        Route::post('updatePassword','UserController@updatePassword');
 
 
                         // Manage Client by admin
@@ -133,7 +133,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                         //Create  Bill By admin
                         Route::post('/createBill','BillController@create') ;
                         Route::put('/updateBill/{id}','BillController@update') ;
-                        Route::get('/getBill','BillController@getAllBills') ;
+                        Route::get('/getBill','BillController@getAllBills') ;       
                         Route::post('/deleteBill','BillController@delete') ;
                         Route::get('selectedYear/{selectedYear}','BillController@selectedYear') ;
                         Route::get('/getBill/{id}','BillController@getBillById') ;
@@ -230,7 +230,6 @@ Route::group(['middleware' => 'auth:api'], function () {
                                Route::post('/checkToken','UserController@checkToken') ;
 
 
-                               Route::get('/test','PaperController@test') ;
 
 
 

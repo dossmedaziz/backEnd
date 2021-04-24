@@ -14,7 +14,9 @@ class Bill extends Model
     ];
 
 
-
+    protected $casts = [
+        'DateFacturation' => 'datetime',
+    ];
     public function item()
     {
         return $this->hasMany(Item::class);

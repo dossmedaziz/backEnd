@@ -70,18 +70,19 @@ class UserController extends Controller
 
 
             // update user by user&admin
-            public function update(Request $request,$id)
+            public function update(Request $request)
             {
+
                 $user_id = Auth::user()->id;
-                $user = User::find($id) ;
+                $user = User::find($user_id) ;
                 $userr = $request->user;
                 $email = $userr['email'];
 
 
+                // && ($email!= $user->email) 
 
-
-                $isFound = User::where('email',$email)->where('id','<>',$id)->first();
-               if($isFound)
+                $isFound = User::where('email',$email)->where('id','<>',$user_id)->first();
+               if($isFound )
                {
                     return response()->json(["message" => "Email already Used"],409) ;
                }
@@ -92,6 +93,7 @@ class UserController extends Controller
                         'name'=> $userr['name'],
                         'email'=> $userr['email'],
                         'phone_number' => $userr['phone_number'],
+                        'photo' => $request->path ? $request->path : $user->photo ,
 
                 ]);
                 $user->save() ;
@@ -296,4 +298,26 @@ class UserController extends Controller
 
 
 
- }
+
+        public function updatePassword(Request $request)
+
+        {
+            $user_id =  Auth::user()->id;
+            $user =  User::find($user_id);
+            $password = $user->password ;
+            $currentPassword =  $request->currentPassword ;
+            $isEqual =  Hash::check($currentPassword, $password) ;
+            if($isEqual)
+    
+             {
+               $user->password = Hash::make($request->newPassword) ;
+               $user->save();
+               return response()->json(["msg"=>"password updated","status"=>"1"]);
+             }else {
+                return response()->json(["msg"=>"Wrong Password","status"=>"0"]);
+    
+             }
+    
+        }
+     }
+

@@ -40,9 +40,22 @@ class BillController extends Controller
     // update bill by user&admin
     public function update(Request $request, $id)
     {
-        //update bill and save it
+         $newBill = $request->bill ;
+         $items = $request->itsmes ;
+         $config = $request->config ;
         $bill = Bill::find($id) ;
-        $bill->update($request->bill);
+        $bill->update([
+            "total_ttc" => $bill['total_ttc'] ,
+            "ht_price" => $bill['ht_price'],
+            "rate_tva" => $config['tva'],
+            "price_tva" => $bill['price_tva'],
+            "fiscal_timber" => $config['tax'],
+            "billNum" => $config['billNum'],
+            "DateFacturation" => $config['dateFacturation'],
+            "description" => $bill['description'],
+            "client_id" => $config['clientId'],
+            "inWord" => $bill['inWord']
+        ]);
         $bill->save();
 
         //delete old items
@@ -68,8 +81,8 @@ class BillController extends Controller
      //get all bills for admin
      public function getAllBills()
      {
+         
          $bills = Bill::with('client')->get() ;
-
          return response()->json(["bills"=> $bills ]);
      }
 
