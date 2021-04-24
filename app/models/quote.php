@@ -4,12 +4,12 @@ namespace App\models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Bill extends Model
+class quote extends Model
 {
     protected $table = 'bills';
     protected $fillable = [
         'total_ttc','ht_price', 'rate_tva', 'price_tva',
-        'fiscal_timber','billNum','bill_file','DateFacturation',
+        'fiscal_timber','QuoteNum','DateFacturation',
        'description' , 'client_id', 'inWord'
     ];
 

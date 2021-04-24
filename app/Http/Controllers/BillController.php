@@ -40,23 +40,37 @@ class BillController extends Controller
     // update bill by user&admin
     public function update(Request $request, $id)
     {
-
+        //update bill and save it
         $bill = Bill::find($id) ;
-        if(is_null($bill))
+        $bill->update($request->bill);
+        $bill->save();
+
+        //delete old items
+        $bill_id = $bill->id;
+        $items =  Item::where('bill_id',$bill_id)->get();
+        foreach($items as $item)
         {
-            return response()->json(["message"=>"Not found"]);
+              $bill_id = $bill->id;
+              $items = Item::where('bill_id',$bill_id)->delete();
         }
-        $bill->update($request->all());
-        return response()->json('updated') ;
 
-
+        //save new item
+        $items = $request->items;
+        foreach($items as $item)
+        {
+              $i = new Item($item);
+              $i->bill_id = $bill_id ;
+              $i->save();
+        }
+        return response()->json(['message'=>'updated']) ;
     }
 
      //get all bills for admin
      public function getAllBills()
      {
          $bills = Bill::with('client')->get() ;
-         return $bills ;
+
+         return response()->json(["bills"=> $bills ]);
      }
 
 
@@ -64,16 +78,12 @@ class BillController extends Controller
      public function getBillById($id)
         {
             $bill = Bill::find($id);
-            if(is_null($bill))
-            {
-                return response()->json(["message"=>"Not found"]);
-            }
-            return $bill ;
+            $items= Item::where('bill_id',$id)->get();
+            return response()->json(["bill"=> $bill, "items"=>$items]);
         }
 
 
      // delete Bill by admin
-
      public function delete(Request $request)
 
      {
@@ -83,27 +93,31 @@ class BillController extends Controller
              $id= ($t['bill_id']);
              $bill = Bill::find($id);
              $bill->delete();
-
          }
-
-
          return response()->json(['message'=>'Deleted']) ;
-
-
      }
 
-// get items of the bills
+    // get items of the bills
     public function test1($id)
     {
         $bill = Bill::where('id',$id)->with('item')->get();
-
-
         return response($bill);
 
     }
 
-
-
-
+    //Calculate bills number
+    public function calcNumBills(Request $request){
+        $bills = Bill::all() ;
+        $thisYearBill = array();
+        $year = $request->year;
+        foreach ($bills as $bill) {
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $bill->DateFacturation);
+        $billYear = $date->format('Y');
+        if ($billYear == $year) {
+            array_push($thisYearBill,$bill);
+        }
+        }
+        return response()->json(["numBill"=>count($thisYearBill)]);
+    }
 
 }

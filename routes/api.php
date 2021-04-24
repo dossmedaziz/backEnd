@@ -19,7 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
             //Bills Routes
-            Route::get('/getBill/{id}','BillController@getBillById') ;
 
             //Project Routes
             Route::get('/getProject/{id}','ProjectController@getprojectById') ;
@@ -47,6 +46,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
             Route::post('/login','UserController@login') ;
+            Route::get('/getUsers/{id}','UserController@getUserById') ;
 
 
 
@@ -136,7 +136,16 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::get('/getBill','BillController@getAllBills') ;
                         Route::post('/deleteBill','BillController@delete') ;
                         Route::get('selectedYear/{selectedYear}','BillController@selectedYear') ;
+                        Route::get('/getBill/{id}','BillController@getBillById') ;
+                        Route::post('calcNumBills','BillController@calcNumBills');
 
+                          //Create  Quote By admin
+                          Route::post('/createQuote','QuoteController@create') ;
+                          Route::put('/updateQuote/{id}','QuoteController@update') ;
+                          Route::get('/getQuote','QuoteController@getAllQuote') ;
+                          Route::post('/deleteQuote','QuoteController@delete') ;
+                          Route::get('/getQuote/{id}','QuoteController@getQuoteById') ;
+                          Route::post('calcNumQuote','QuoteController@calcNumQuote');
 
                         //manage paper by admin
                         Route::post('/createPaper','PaperController@create') ;
@@ -222,7 +231,6 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
                                Route::get('/test','PaperController@test') ;
-
 
 
 
