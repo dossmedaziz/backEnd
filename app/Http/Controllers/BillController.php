@@ -120,17 +120,8 @@ class BillController extends Controller
 
     //Calculate bills number
     public function calcNumBills(Request $request){
-        $bills = Bill::all() ;
-        $thisYearBill = array();
-        $year = $request->year;
-        foreach ($bills as $bill) {
-        $date = Carbon::createFromFormat('Y-m-d H:i:s', $bill->DateFacturation);
-        $billYear = $date->format('Y');
-        if ($billYear == $year) {
-            array_push($thisYearBill,$bill);
-        }
-        }
-        return response()->json(["numBill"=>count($thisYearBill)]);
+        $bills = Bill::whereYear('DateFacturation',$request->year)->get() ; 
+        return response()->json(["numBill"=>count($bills)]);
     }
 
 }

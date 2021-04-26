@@ -17,7 +17,7 @@ class ContactController extends Controller
                 $contact->client_id = $request->client_id;
                 $contact->save();
                 $activity = new ActivityLog();
-                $activity->logSaver($user_id,'create','contact',$contact->id);
+                $activity->logSaver($user_id,'create','client',$contact->client_id);
                 return response()->json(['message'=>'created']) ;
 
             }
@@ -42,7 +42,7 @@ class ContactController extends Controller
             ]);
                 $contact->save();
                 $activity = new ActivityLog();
-                $activity->logSaver($user_id,'update','contact',$contact->id);
+                $activity->logSaver($user_id,'update','client',$contact->client_id);
 
                 return response()->json('updated');
             }
@@ -73,12 +73,15 @@ class ContactController extends Controller
             public function delete(Request $request)
             {
 
-                $id = $request->bill_id;
-                $contact = Bill::find($id) ;
+             
+                $user_id =  Auth::user()->id;
+                $id = $request->contact_id;
+                $contact = Contact::find($id) ;
+                
+                $contact->delete() ;
 
-                $bill->delete() ;
-
-
+                $activity = new ActivityLog();
+                $activity->logSaver($user_id,'delete','client',$contact->client_id);
                 return response()->json(['message'=>'Deleted']) ;
 
             }

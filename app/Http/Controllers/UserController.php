@@ -69,7 +69,7 @@ class UserController extends Controller
 
 
 
-            // update user by user&admin
+            // update user by user
             public function update(Request $request)
             {
 
@@ -104,7 +104,15 @@ class UserController extends Controller
                 return response()->json('updated') ;
             }
 
-
+                            // update user by admin
+                public function updateUserByAdmin(Request $request)
+                {
+                    $user_id = $request->user_id ;
+                    $user = User::find($user_id) ;
+                    $user->update($request->newUser) ;
+                    $user->save();
+                    return response()->json(["msg"=>"updated!"]); 
+                }
 
             //get all users for admin
             public function getAllUsers()
@@ -165,8 +173,8 @@ class UserController extends Controller
                             return response(['message'=>'invalid login credentials'],403);
                         }
 
-                        $user = Auth::user();
-
+                        $user_id = Auth::user()->id;
+                        $user =  User::where('id',$user_id)->with('role')->first() ; 
                         $role_id = $user->role_id;
                         $privileges = Privilege::WHERE('role_id',$role_id)->with('space')->with('action')->get() ;
                         $accessToken = Auth::user()->createToken('authToken')->accessToken ;
@@ -176,7 +184,7 @@ class UserController extends Controller
                             return response(['message'=>'invalid login credentials'],403);
 
                         }
-                        return response()->json(['user'=>Auth::user(), 'token' => $accessToken ,'privileges'=>$privileges]) ;
+                        return response()->json(['user'=>$user, 'token' => $accessToken ,'privileges'=>$privileges]) ;
 
             }
 
@@ -319,5 +327,9 @@ class UserController extends Controller
              }
     
         }
+
+
+
+   
      }
 

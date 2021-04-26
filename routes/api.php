@@ -99,13 +99,13 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::get('/getRoles','RoleController@getAllRoles') ;
 
 
-                        // Manage user by admin
+                        // Manage user
                         Route::post('/createUser','UserController@create') ;
                         Route::get('/getUsers','UserController@getAllUsers') ;
                         Route::post('/deleteUser','UserController@delete') ;
                         Route::put('/updateUser','UserController@update') ;
                         Route::post('updatePassword','UserController@updatePassword');
-
+                        Route::put('updateUserByAdmin','UserController@updateUserByAdmin') ;
 
                         // Manage Client by admin
                         Route::post('/createClient','ClientController@create') ;

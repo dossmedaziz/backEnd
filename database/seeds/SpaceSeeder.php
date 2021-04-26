@@ -12,7 +12,7 @@ class SpaceSeeder extends Seeder
     public function run()
     {
         Space::create([
-                'space_name'=>'client',
+            'space_name'=>'client',
         ]
         );
         Space::create([
@@ -20,15 +20,11 @@ class SpaceSeeder extends Seeder
         ]
         );
         Space::create([
-                'space_name'=>'user',
+            'space_name'=>'user',
         ]
         );
         Space::create([
             'space_name'=>'paper',
-        ]
-        );
-        Space::create([
-            'space_name'=>'bills',
         ]
         );
         Space::create([
@@ -39,20 +35,7 @@ class SpaceSeeder extends Seeder
             'space_name'=>'role',
         ]);
         Space::create([
-            'space_name'=>'contact',
-        ]); 
-        Space::create([
-            'space_name'=>'company',
-        ]);
-        Space::create([
-            'space_name'=>'addBill',
-        ]);
-
-        Space::create([
-            'space_name'=>'addPaperType',
-        ]);
-        Space::create([
-            'space_name'=>'activityLog',
+            'space_name'=>'bill',
         ]);
     }
 }
