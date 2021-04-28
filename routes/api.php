@@ -139,13 +139,14 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::get('/getBill/{id}','BillController@getBillById') ;
                         Route::post('calcNumBills','BillController@calcNumBills');
 
-                          //Create  Quote By admin
-                          Route::post('/createQuote','QuoteController@create') ;
-                          Route::put('/updateQuote/{id}','QuoteController@update') ;
-                          Route::get('/getQuote','QuoteController@getAllQuote') ;
-                          Route::post('/deleteQuote','QuoteController@delete') ;
-                          Route::get('/getQuote/{id}','QuoteController@getQuoteById') ;
-                          Route::post('calcNumQuote','QuoteController@calcNumQuote');
+                         
+                         //Create  Quote By admin
+                         Route::post('/createQuote','QuoteController@create') ;
+                         Route::put('/updateQuote/{id}','QuoteController@update') ;
+                         Route::get('/getQuote','QuoteController@getAllQuotes') ;
+                         Route::post('/deleteQuote','QuoteController@delete') ;
+                         Route::get('/getQuote/{id}','QuoteController@getQuoteById') ;
+                         Route::post('calcNumQuote','QuoteController@calcNumQuotes');
 
                         //manage paper by admin
                         Route::post('/createPaper','PaperController@create') ;

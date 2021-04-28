@@ -160,7 +160,6 @@ class PaperController extends Controller
                 $contracts  = $request->contracts ;
               foreach ( $contracts as $cont)
               {
-                  
                 $to_name  = $cont['project']['client']['client_name'];
                 $to_email = $cont['project']['client']['email'];
                 $subject = $cont['type']['email']['subject'];
