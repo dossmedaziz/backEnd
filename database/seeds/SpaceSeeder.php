@@ -37,5 +37,8 @@ class SpaceSeeder extends Seeder
         Space::create([
             'space_name'=>'bill',
         ]);
+        Space::create([
+            'space_name'=>'quote',
+        ]);
     }
 }

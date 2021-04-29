@@ -66,16 +66,17 @@ class ClientController extends Controller
           {
               $id= ($t['client_id']);
               $client = Client::find($id);
-              $projects = Project::Where('client_id',$id)->first();
+            //   $projects = Project::Where('client_id',$id)->first();
+            $client->delete() ;
 
 
-              if(is_null($projects))
-              {
-                 $client->forceDelete();
-              }else{
-                $client->delete() ;
+            //   if(is_null($projects))
+            //   {
+            //      $client->forceDelete();
+            //   }else{
+            //     $client->delete() ;
 
-              }
+            //   }
 
               $activity = new ActivityLog();
               $activity->logSaver($user_id,'delete','client',$client->id);
@@ -113,11 +114,7 @@ class ClientController extends Controller
    // get client by id
     public function getClientById($id)
     {
-        $client = Client::find($id);
-        if(is_null($client))
-        {
-            return response()->json(["message"=>"Not found"]);
-        }
+        $client = Client::where('id',$id)->withTrashed()->first();
         return $client ;
     }
 
