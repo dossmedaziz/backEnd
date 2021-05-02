@@ -23,11 +23,8 @@ class CompanyController extends Controller
     public function update(Request $request,$id)
     {
           $company = Company::find($id);
-          if(is_null($company))
-          {
-            return response()->json(["message"=>"Not found"]);
-           }
            $company->update($request->company);
+           $company->sendTo = $request->emails ;
            if($request->path){
             $company->logo = $request->path ;
              }

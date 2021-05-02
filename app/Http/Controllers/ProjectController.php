@@ -113,7 +113,7 @@ class ProjectController extends Controller
             //get project with client
             public function getProjectsWithinfo()
             {
-                $projects = Project::with('client','paper')->get();
+                $projects = Project::with('client','paper.paperType')->get();
                 return $projects;
             }
 }
