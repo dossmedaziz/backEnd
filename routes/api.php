@@ -98,7 +98,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::get('/getRoleprivileges/{id}','RoleController@getRoleprivileges') ;
                         Route::get('/getRoles','RoleController@getAllRoles') ;
 
-
+                        
                         // Manage user
                         Route::post('/createUser','UserController@create') ;
                         Route::get('/getUsers','UserController@getAllUsers') ;
@@ -106,6 +106,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::put('/updateUser','UserController@update') ;
                         Route::post('updatePassword','UserController@updatePassword');
                         Route::put('updateUserByAdmin','UserController@updateUserByAdmin') ;
+                        Route::get('getConnectedUser','UserController@getConnectedUser') ;
 
                         // Manage Client by admin
                         Route::post('/createClient','ClientController@create') ;
@@ -138,6 +139,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::get('selectedYear/{selectedYear}','BillController@selectedYear') ;
                         Route::get('/getBill/{id}','BillController@getBillById') ;
                         Route::post('calcNumBills','BillController@calcNumBills');
+                        Route::get('getLastBill','BillController@getLastBill');
 
                          
                          //Create  Quote By admin
@@ -229,7 +231,6 @@ Route::group(['middleware' => 'auth:api'], function () {
                                // change password at verification account
                                Route::put('/changePassword','UserController@changePassword') ;
                                Route::post('/checkToken','UserController@checkToken') ;
-
 
 
 

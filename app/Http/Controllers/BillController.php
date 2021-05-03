@@ -124,4 +124,16 @@ class BillController extends Controller
         return response()->json(["numBill"=>count($bills)]);
     }
 
+
+
+
+
+
+
+
+    public function getLastBill()
+    {
+        $bill = Bill::latest()->first();
+        return $bill ;
+    }
 }

@@ -329,7 +329,11 @@ class UserController extends Controller
         }
 
 
-
+        public function getConnectedUser()
+        {
+            $user = Auth::user() ;
+            return $user ;
+        } 
    
      }
 

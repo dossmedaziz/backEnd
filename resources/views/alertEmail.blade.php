@@ -1,2 +1,4 @@
 Hi <strong>{{ $name }}</strong>
-{{ $body }}
+
+
+{!! $body !!}
