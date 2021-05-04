@@ -22,8 +22,6 @@ class PaperController extends Controller
         $user_id = Auth::user()->id;
         $paper = new Paper($request->paper);
         $paper->paper_file = $request->file_path ; 
-        $paper->start_date = $paper->start_date->addHour();
-        $paper->end_date = $paper->end_date->addHour();
         $paper->alert_date = $paper->end_date->subMonth();
         $paper->save();
 

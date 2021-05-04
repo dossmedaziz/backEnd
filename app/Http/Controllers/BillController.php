@@ -134,6 +134,41 @@ class BillController extends Controller
     public function getLastBill()
     {
         $bill = Bill::latest()->first();
-        return $bill ;
+        if($bill){
+
+            return $bill ;
+        }else {
+            return 0 ;
+        }
     }
+
+
+
+  public function getDateLimits(Request $request)
+  {
+      $bills = Bill::all() ;
+      $ids = array() ;
+      foreach($bills as $bill)
+      {
+          array_push($ids ,$bill['id']) ;
+      }
+      $key = array_search($request->id, $ids); 
+    
+    if($key == 0){
+        $key ++ ; 
+     $bill = Bill::find($ids[$key]);
+     return response()->json(["bill"=>$bill,"limit"=>0]);
+
+   } else if($key == count($ids)-1){
+      $key -- ;
+      $bill = Bill::find($ids[$key]);
+      return response()->json(["bill"=>$bill,"limit"=>1]);
+
+    }else{
+     $prev_Bill = Bill::find($ids[$key - 1]) ;
+     $next_bill = Bill::find($ids[$key + 1]); 
+     return response()->json(["prev_bill"=>$prev_Bill,"next_bill"=>$next_bill,'limit'=>2]);
+    }
+
+  }
 }

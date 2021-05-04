@@ -140,6 +140,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::get('/getBill/{id}','BillController@getBillById') ;
                         Route::post('calcNumBills','BillController@calcNumBills');
                         Route::get('getLastBill','BillController@getLastBill');
+                        Route::post('getDateLimits','BillController@getDateLimits');
 
                          
                          //Create  Quote By admin
