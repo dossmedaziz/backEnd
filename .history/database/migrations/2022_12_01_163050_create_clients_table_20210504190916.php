@@ -21,7 +21,7 @@ class CreateClientsTable extends Migration
             $table->string('address');
             $table->string('matFisc');
             $table->string('fax')->nullable();
-            $table->string('other')->nullable();
+            
             $table->string('phone')->nullable();
             $table->softDeletes();
             $table->timestamps();

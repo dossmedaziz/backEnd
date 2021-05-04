@@ -137,28 +137,28 @@ class QuoteController extends Controller
 
   public function getDateLimits(Request $request)
   {
-      $quotes = Quote::all() ;
+      $bills = Bill::all() ;
       $ids = array() ;
-      foreach($quotes as $quote)
+      foreach($bills as $bill)
       {
-          array_push($ids ,$quote['id']) ;
+          array_push($ids ,$bill['id']) ;
       }
       $key = array_search($request->id, $ids); 
     
     if($key == 0){
         $key ++ ; 
-     $quote = Quote::find($ids[$key]);
-     return response()->json(["quote"=>$quote,"limit"=>0]);
+     $bill = Bill::find($ids[$key]);
+     return response()->json(["bill"=>$bill,"limit"=>0]);
 
    } else if($key == count($ids)-1){
       $key -- ;
-      $quote = Quote::find($ids[$key]);
-      return response()->json(["quote"=>$quote,"limit"=>1]);
+      $bill = Bill::find($ids[$key]);
+      return response()->json(["bill"=>$bill,"limit"=>1]);
 
     }else{
-     $prev_quote = Quote::find($ids[$key - 1]) ;
-     $next_quote = Quote::find($ids[$key + 1]); 
-     return response()->json(["prev_quote"=>$prev_quote,"next_quote"=>$next_quote,'limit'=>2]);
+     $prev_Bill = Bill::find($ids[$key - 1]) ;
+     $next_bill = Bill::find($ids[$key + 1]); 
+     return response()->json(["prev_bill"=>$prev_Bill,"next_bill"=>$next_bill,'limit'=>2]);
     }
 
   }

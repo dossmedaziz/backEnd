@@ -158,7 +158,7 @@ class QuoteController extends Controller
     }else{
      $prev_quote = Quote::find($ids[$key - 1]) ;
      $next_quote = Quote::find($ids[$key + 1]); 
-     return response()->json(["prev_quote"=>$prev_quote,"next_quote"=>$next_quote,'limit'=>2]);
+     return response()->json(["prev_bill"=>$prev_Bill,"next_bill"=>$next_bill,'limit'=>2]);
     }
 
   }

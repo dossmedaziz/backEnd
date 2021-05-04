@@ -149,7 +149,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                          Route::post('/deleteQuote','QuoteController@delete') ;
                          Route::get('/getQuote/{id}','QuoteController@getQuoteById') ;
                          Route::post('calcNumQuote','QuoteController@calcNumQuotes');
-                         Route::get('getLastquote','QuoteController@getLastquote');
+                         Route::get('getLastBill','QuoteController@getLastBill');
                          Route::post('getDateLimits','QuoteController@getDateLimits');
 
                         //manage paper by admin

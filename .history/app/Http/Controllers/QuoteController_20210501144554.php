@@ -121,45 +121,4 @@ class QuoteController extends Controller
         }
         return response()->json(["numquote"=>count($thisYearquote)]);
     }
-
-    public function getLastquote()
-    {
-        $quote = Quote::latest()->first();
-        if($quote){
-
-            return $quote ;
-        }else {
-            return 0 ;
-        }
-    }
-
-
-
-  public function getDateLimits(Request $request)
-  {
-      $quotes = Quote::all() ;
-      $ids = array() ;
-      foreach($quotes as $quote)
-      {
-          array_push($ids ,$quote['id']) ;
-      }
-      $key = array_search($request->id, $ids); 
-    
-    if($key == 0){
-        $key ++ ; 
-     $quote = Quote::find($ids[$key]);
-     return response()->json(["quote"=>$quote,"limit"=>0]);
-
-   } else if($key == count($ids)-1){
-      $key -- ;
-      $quote = Quote::find($ids[$key]);
-      return response()->json(["quote"=>$quote,"limit"=>1]);
-
-    }else{
-     $prev_quote = Quote::find($ids[$key - 1]) ;
-     $next_quote = Quote::find($ids[$key + 1]); 
-     return response()->json(["prev_quote"=>$prev_quote,"next_quote"=>$next_quote,'limit'=>2]);
-    }
-
-  }
 }

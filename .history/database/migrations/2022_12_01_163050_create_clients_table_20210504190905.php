@@ -22,6 +22,7 @@ class CreateClientsTable extends Migration
             $table->string('matFisc');
             $table->string('fax')->nullable();
             $table->string('other')->nullable();
+            $table->string('other')->nullable();
             $table->string('phone')->nullable();
             $table->softDeletes();
             $table->timestamps();
@@ -37,6 +38,6 @@ class CreateClientsTable extends Migration
     {
         Schema::dropIfExists('clients');
 
-        
+
     }
 }

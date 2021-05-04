@@ -147,18 +147,18 @@ class QuoteController extends Controller
     
     if($key == 0){
         $key ++ ; 
-     $quote = Quote::find($ids[$key]);
+     $quote = quote::find($ids[$key]);
      return response()->json(["quote"=>$quote,"limit"=>0]);
 
    } else if($key == count($ids)-1){
       $key -- ;
-      $quote = Quote::find($ids[$key]);
+      $quote = quote::find($ids[$key]);
       return response()->json(["quote"=>$quote,"limit"=>1]);
 
     }else{
-     $prev_quote = Quote::find($ids[$key - 1]) ;
-     $next_quote = Quote::find($ids[$key + 1]); 
-     return response()->json(["prev_quote"=>$prev_quote,"next_quote"=>$next_quote,'limit'=>2]);
+     $prev_quote = quote::find($ids[$key - 1]) ;
+     $next_quote = quote::find($ids[$key + 1]); 
+     return response()->json(["prev_bill"=>$prev_Bill,"next_bill"=>$next_bill,'limit'=>2]);
     }
 
   }
