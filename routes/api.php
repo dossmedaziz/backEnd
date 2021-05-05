@@ -20,7 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
             //Project Routes
-            Route::get('/getProject/{id}','ProjectController@getprojectById') ;
 
             //Paper Routes
             Route::get('/getPaper/{id}','PaperController@getPaperById') ;
@@ -125,6 +124,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::get('/getUserProjects/{id}','ProjectController@getUserProjects') ;
                         Route::get('/getProjects','ProjectController@getAllProjects') ;
                         Route::get('getProjectsWithinfo','ProjectController@getProjectsWithinfo');
+                        Route::get('/getProject/{id}','ProjectController@getprojectById') ;
 
 
 
@@ -218,6 +218,14 @@ Route::group(['middleware' => 'auth:api'], function () {
 
                         // sending mail api
                         Route::post('/sendMail1','PaperController@sendMail');
+
+
+
+
+
+                        //tasks manage
+                        
+                        Route::get('getTaskByproject/{id}','TaskController@getTaskByproject');
 
                             });
 

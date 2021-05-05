@@ -72,10 +72,6 @@ class ProjectController extends Controller
             public function getProjectById($id)
             {
                 $project = Project::find($id);
-                if(is_null($project))
-                {
-                    return response()->json(["message"=>"Not found"]);
-                }
                 return $project ;
             }
 
