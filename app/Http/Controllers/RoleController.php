@@ -36,7 +36,7 @@ class RoleController extends Controller
                 }
                 
                 $activity = new ActivityLog();
-                $activity->logSaver($id,'create','role',$role->id);
+                $activity->logSaver($id,'create','role',$role->id,"");
 
          return response()->json(['message'=>'created','role'=>$role]) ;
 
@@ -84,7 +84,7 @@ class RoleController extends Controller
     
                     
                     $activity = new ActivityLog();
-                    $activity->logSaver($user_id,'update','role',$role->id);
+                    $activity->logSaver($user_id,'update','role',$role->id,"");
                     return response()->json('updated') ;
 
        }
@@ -131,7 +131,7 @@ class RoleController extends Controller
             $role = Role::find($id);
             $role->delete();
             $activity = new ActivityLog();
-            $activity->logSaver($user_id,'delete','role',$role->id);
+            $activity->logSaver($user_id,'delete','role',$role->id,$role->role_name);
         }
      
             return response()->json('was deleted');

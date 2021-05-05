@@ -18,6 +18,7 @@ class BillController extends Controller
     // create new bill By admin
     public function create(Request $request)
     {
+        $user_id = Auth::user()->id ; 
         $bill = new Bill($request->bill);
         $bill->billNum = $request->config['billNum'] ;
         $bill->client_id = $request->config['clientId'] ;
@@ -31,15 +32,19 @@ class BillController extends Controller
             $i = new Item($item);
             $i->bill_id = $bill_id ;
             $i->save();
+           
       }
 
-      return $bill ;
+      $activity = new ActivityLog();
+      $activity->logSaver($user_id,'create','bill',$bill->id,"");
          return response()->json(['message'=>'created']) ;
     }
 
     // update bill by user&admin
     public function update(Request $request, $id)
     {
+        
+        $user_id = Auth::user()->id ; 
          $newBill = $request->bill ;
          $items = $request->itsmes ;
          $config = $request->config ;
@@ -58,6 +63,7 @@ class BillController extends Controller
         ]);
         $bill->save();
 
+
         //delete old items
         $bill_id = $bill->id;
         $items =  Item::where('bill_id',$bill_id)->get();
@@ -75,6 +81,8 @@ class BillController extends Controller
               $i->bill_id = $bill_id ;
               $i->save();
         }
+            $activity = new ActivityLog();
+            $activity->logSaver($user_id,'update','bill',$bill->id,"");
         return response()->json(['message'=>'updated']) ;
     }
 
@@ -170,5 +178,16 @@ class BillController extends Controller
      return response()->json(["prev_bill"=>$prev_Bill,"next_bill"=>$next_bill,'limit'=>2]);
     }
 
+  }
+
+
+
+  public function changeStatus(Request $request)
+  {
+      $bill_id = $request->bill_id ;
+      $bill = Bill::find($bill_id);
+      $bill->status = $request->newStatus ;
+      $bill->save();
+      return response()->json(['msg'=>'updated']);
   }
 }

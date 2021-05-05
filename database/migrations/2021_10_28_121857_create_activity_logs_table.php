@@ -31,10 +31,11 @@ class CreateActivityLogsTable extends Migration
                     ->references('id')
                     ->on('spaces')
                     ->onDelete('SET NULL');
+            $table->string('service_deleted')->nullable();        
             $table->timestamps();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *

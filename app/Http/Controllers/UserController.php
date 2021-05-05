@@ -79,7 +79,6 @@ class UserController extends Controller
                 $email = $userr['email'];
 
 
-                // && ($email!= $user->email) 
 
                 $isFound = User::where('email',$email)->where('id','<>',$user_id)->first();
                if($isFound )

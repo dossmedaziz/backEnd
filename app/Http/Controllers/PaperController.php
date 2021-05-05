@@ -26,7 +26,7 @@ class PaperController extends Controller
         $paper->save();
 
         $activity = new ActivityLog();
-        $activity->logSaver($user_id,'create','paper',$paper->id);
+        $activity->logSaver($user_id,'create','paper',$paper->id,"");
         return response()->json(['message'=>'created']) ;
     }
 
@@ -46,7 +46,7 @@ class PaperController extends Controller
         $paper->paper_file = $request->file_path ;}
         $paper->save();
         $activity = new ActivityLog();
-        $activity->logSaver($user_id,'update','paper',$paper->id);
+        $activity->logSaver($user_id,'update','paper',$paper->id,"");
         return response()->json('updated') ;
     }
 
@@ -88,7 +88,7 @@ class PaperController extends Controller
         
 
             $activity = new ActivityLog();
-            $activity->logSaver($user_id,'delete','paper',$paper->id);
+            $activity->logSaver($user_id,'delete','paper',$paper->id,$paper->paper_name);
 
     }
     return response()->json(['message'=>'Deleted']) ;
@@ -152,7 +152,6 @@ class PaperController extends Controller
     
    
 
-
   public function sendMail(Request $request)
      {
                 $contracts  = $request->contracts ;
@@ -163,7 +162,10 @@ class PaperController extends Controller
                 $subject = $cont['type']['email']['subject'];
 
                 $emailBody = $cont['type']['email']['content'] ;
-                $emailBody = str_replace("{client_name}",$cont['project']['client']['client_name'],$emailBody) ;
+                $emailBody = str_replace("/client_name",$cont['project']['client']['client_name'],$emailBody) ;
+                $emailBody = str_replace("/type_name",$cont['type']['paper_type'],$emailBody) ;
+                $emailBody = str_replace("/start_date",date('Y-m-d',strtotime($cont['start_date'])),$emailBody) ;
+                $emailBody = str_replace("/end_date", date('Y-m-d' ,strtotime($cont['end_date'])),$emailBody) ;
                 $data = array('name'=> $cont['project']['client']['client_name'] ,'body' =>$emailBody );
                 Mail::send('alertEmail', $data, function($message) use ($to_name, $to_email,$subject) {
                 $message->to($to_email, $to_name)->subject($subject);

@@ -18,6 +18,8 @@ class QuoteController extends Controller
      // create new Quote By admin
      public function create(Request $request)
      {
+         
+         $user_id = Auth::user()->id ;
          $quote = new Quote($request->quote);
          $quote->quoteNum = $request->config['quoteNum'] ;
          $quote->client_id = $request->config['clientId'] ;
@@ -33,13 +35,16 @@ class QuoteController extends Controller
              $i->save();
        }
 
-       return $quote ;
+       $activity = new ActivityLog();
+       $activity->logSaver($user_id,'create','quote',$quote->id,"");
           return response()->json(['message'=>'created']) ;
      }
 
      // update quote by user&admin
     public function update(Request $request, $id)
     {
+
+        $user_id = Auth::user()->id ;
          $newQuote = $request->quote ;
          $items = $request->itsmes ;
          $config = $request->config ;
@@ -57,6 +62,7 @@ class QuoteController extends Controller
             "inWord" => $quote['inWord']
         ]);
         $quote->save();
+     
 
         //delete old items
         $quote_id = $quote->id;
@@ -75,6 +81,8 @@ class QuoteController extends Controller
               $i->quote_id = $quote_id ;
               $i->save();
         }
+        $activity = new ActivityLog();
+        $activity->logSaver($user_id,'update','quote',$quote->id,"");
         return response()->json(['message'=>'updated']) ;
     }
 

@@ -140,7 +140,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::post('calcNumBills','BillController@calcNumBills');
                         Route::get('getLastBill','BillController@getLastBill');
                         Route::post('getDateLimits','BillController@getDateLimits');
-
+                        Route::post('BillStatusUpdate','BillController@changeStatus') ;
                          
                          //Create  Quote By admin
                          Route::post('/createQuote','QuoteController@create') ;
@@ -233,7 +233,6 @@ Route::group(['middleware' => 'auth:api'], function () {
                                // change password at verification account
                                Route::put('/changePassword','UserController@changePassword') ;
                                Route::post('/checkToken','UserController@checkToken') ;
-
 
 
 

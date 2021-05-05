@@ -28,7 +28,7 @@ class PaperTypeController extends Controller
 
 
                 $activity = new ActivityLog();
-                $activity->logSaver($user_id,'create','paperType',$papertype->id);
+                $activity->logSaver($user_id,'create','paperType',$papertype->id,"");
                 return response()->json(['message'=>'created']) ;
             }
 
@@ -71,8 +71,7 @@ class PaperTypeController extends Controller
 
 
                  $activity = new ActivityLog();
-                $activity->logSaver($user_id,'update','paperType',$paperType->id);
-                return response()->json(['message'=>'created']) ;
+                $activity->logSaver($user_id,'update','paperType',$paperType->id,"");
                 return response()->json('updated') ;
             }
 
@@ -116,7 +115,7 @@ class PaperTypeController extends Controller
                     }
 
                     $activity = new ActivityLog();
-                    $activity->logSaver($user_id,'delete','paperType',$type->id);
+                    $activity->logSaver($user_id,'delete','paperType',$type->id,$type->paper_type);
                 }
                 return response()->json(['message'=>'Deleted']) ;
 

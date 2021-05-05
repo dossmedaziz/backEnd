@@ -30,7 +30,9 @@ class CreateBillsTable extends Migration
                 ->references('id')
                 ->on('clients')
                 ->onDelete('SET NULL');
+            $table->integer('status')->nullable()->default(false);
             $table->timestamps();
+                
         });
     }
 
