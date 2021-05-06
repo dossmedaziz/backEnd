@@ -60,8 +60,8 @@ class UserController extends Controller
                     });
 
                     $activity = new ActivityLog();
-                    $activity->logSaver($user_id,'create','user',$user->id);
-                return response()->json(['message'=>'created','user'=>$user]) ;
+                    $activity->logSaver($user_id,'create','user',$user->id,"");
+                    return response()->json(['message'=>'created','user'=>$user]) ;
 
 
             }

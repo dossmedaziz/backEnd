@@ -17,7 +17,7 @@ class ContactController extends Controller
                 $contact->client_id = $request->client_id;
                 $contact->save();
                 $activity = new ActivityLog();
-                $activity->logSaver($user_id,'create','client',$contact->client_id);
+                $activity->logSaver($user_id,'create','client',$contact->client_id,"");
                 return response()->json(['message'=>'created']) ;
 
             }
@@ -42,7 +42,7 @@ class ContactController extends Controller
             ]);
                 $contact->save();
                 $activity = new ActivityLog();
-                $activity->logSaver($user_id,'update','client',$contact->client_id);
+                $activity->logSaver($user_id,'update','client',$contact->client_id,"");
 
                 return response()->json('updated');
             }
@@ -81,7 +81,7 @@ class ContactController extends Controller
                 $contact->delete() ;
 
                 $activity = new ActivityLog();
-                $activity->logSaver($user_id,'delete','client',$contact->client_id);
+                $activity->logSaver($user_id,'delete','client',$contact->client_id,"");
                 return response()->json(['message'=>'Deleted']) ;
 
             }

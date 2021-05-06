@@ -9,7 +9,7 @@ class Task extends Model
     protected $table ="tasks" ;
     protected $fillable =  [
         "task_name","progress","duration","predecessor","start_date",
-        "end_date","subtask_id","project_id"
+        "end_date","parent_id","project_id"
     ] ;
     
     

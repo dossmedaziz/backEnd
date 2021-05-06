@@ -226,6 +226,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                         //tasks manage
                         
                         Route::get('getTaskByproject/{id}','TaskController@getTaskByproject');
+                        Route::post('addTask','TaskController@addTask') ; 
 
                             });
 
