@@ -58,9 +58,6 @@ class UserController extends Controller
                     $message->to($to_email, $to_name)->subject('Verification');
                     $message->from('dossaziz18@gmail.com','Nachd-it');
                     });
-
-                    $activity = new ActivityLog();
-                    $activity->logSaver($user_id,'create','user',$user->id,"");
                     return response()->json(['message'=>'created','user'=>$user]) ;
 
 
@@ -77,20 +74,27 @@ class UserController extends Controller
                 $user = User::find($user_id) ;
                 $userr = $request->user;
                 $email = $userr['email'];
+                $emailChanged = false ; 
 
 
+                if (($userr['email'] != $user->email))
+                    {
+                        $isFound = User::where('email',$email)->where('id','<>',$user_id)->first();
+                        if($isFound )
+                        {
+                          return response()->json(["message" => "Email already Used"],409) ;
+                        }
+                      $emailChanged = $this->verifMail($user->email,$userr['email'],$user->user_name,$user_id) ; 
+                     
+                    }
 
-                $isFound = User::where('email',$email)->where('id','<>',$user_id)->first();
-               if($isFound )
-               {
-                    return response()->json(["message" => "Email already Used"],409) ;
-               }
+
+            
 
 
 
                 $user->update([
                         'name'=> $userr['name'],
-                        'email'=> $userr['email'],
                         'phone_number' => $userr['phone_number'],
                         'photo' => $request->path ? $request->path : $user->photo ,
 
@@ -99,8 +103,8 @@ class UserController extends Controller
 
 
                 $activity = new ActivityLog();
-                $activity->logSaver($user_id,'update','user',$user->id);
-                return response()->json('updated') ;
+                $activity->logSaver($user_id,'update','user',$user->id,"");
+                return response()->json(["emailChanged"=>$emailChanged]) ;
             }
 
                             // update user by admin
@@ -108,6 +112,22 @@ class UserController extends Controller
                 {
                     $user_id = $request->user_id ;
                     $user = User::find($user_id) ;
+                   $newEmail  = $request->newUser['email'] ; 
+                   if($newEmail != $user->email)
+                    {
+                        $isFound = User::where('email',$newEmail)->where('id','<>',$user_id)->first() ; 
+                        if($isFound)
+                        {
+                          return response()->json(["message" => "Email already Used"],409) ;
+                        }
+                       $var =   $this->verifMail($newEmail,$newEmail,$user->name,$user_id)  ; 
+
+                    }
+                 
+             
+                //    {
+                //        // seding main verif 
+                //    }
                     $user->update($request->newUser) ;
                     $user->save();
                     return response()->json(["msg"=>"updated!"]); 
@@ -117,7 +137,7 @@ class UserController extends Controller
             public function getAllUsers()
             {
                 // $users = User::all()->with('role')->get() ;
-                $users = User::with('role')->get() ;
+                $users = User::with('role')->where('name','<>','admin')->get() ;
                 return $users ;
             }
 
@@ -147,8 +167,6 @@ class UserController extends Controller
                     $id= ($t['user_id']);
                     $user = User::find($id);
                     $user->delete();
-                    $activity = new ActivityLog();
-                    $activity->logSaver($user_id,'delete','user',$user->id);
                 }
                 return response()->json(['message'=>'Deleted']) ;
 
@@ -284,12 +302,12 @@ class UserController extends Controller
             $decryptedToken =  json_decode($decryptedToken, true) ;
             $isUsed = $decryptedToken['isUsed'] ;
             $tokenDate = $decryptedToken['date'] ;
-
             $user = User::find($decryptedToken['user_id']) ;
             $userToken = $user->token ;
             $userToken =  Crypt::decryptString($userToken) ;
             $userToken =  json_decode($userToken, true) ;
-            // return response()->json(["token"=> $decryptedToken , "userToken"=>$userToken]);
+            // return $userToken ; 
+
             if(!($decryptedToken == $userToken))
             {
                 return response()->json(["isChecked"=> 1]);
@@ -334,5 +352,66 @@ class UserController extends Controller
             return $user ;
         } 
    
+
+
+
+
+
+        public function verifMail($receiver,$newEmail,$name,$user_id)
+        {
+            $today = Carbon::today();
+            $token = array("date"=>$today,"oldEmail"=>$receiver , "newEmail"=> $newEmail,"isUsed"=>0,"user_id"=>$user_id);
+            $cryptedToken = Crypt::encryptString(json_encode($token)) ;
+            $user = User::find($user_id);
+            $user->update([
+                "token" => $cryptedToken,
+                "verified" => 0
+            ]) ; 
+            $user->save();
+            $to_name  = $name;
+            $to_email = $receiver;
+            $data = array('name'=> $name ,'link' => "http://localhost:4200/verifNewEmail/".$cryptedToken);
+            Mail::send('verifEmail', $data, function($message) use ($to_name, $to_email) {
+            $message->to($to_email, $to_name)->subject('Email Validation');
+            $message->from('dossaziz18@gmail.com','Nachd-it');
+            });
+
+            return true  ;
+        }
+
+
+     public function updateEmail(Request $request)
+     {
+
+         $token = $request->token ; 
+         $currentPassword = $request->password ; 
+        
+         
+         $decryptedToken =  Crypt::decryptString($token) ;
+         $decryptedToken =  json_decode($decryptedToken, true) ;
+        
+
+         
+         $user = User::where('email',$decryptedToken['oldEmail'])->first();
+         $isEqual =  Hash::check($currentPassword, $user->password) ;
+         if($isEqual)
+         {
+            $decryptedToken['isUsed'] = 1 ;
+            $cryptedToken = Crypt::encryptString(json_encode($decryptedToken)) ;
+
+             $user->update([
+                 "email"=> $decryptedToken['newEmail'],
+                 "token"=> $cryptedToken,
+                 "verified"=> 1
+             ]) ; 
+             $user->save() ; 
+             return response()->json(["isChanged"=>1]);
+         }
+         return response()->json(["isChanged"=>0]);
+       
+
+         
+
+     }
      }
 

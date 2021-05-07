@@ -242,6 +242,11 @@ Route::group(['middleware' => 'auth:api'], function () {
                                // change password at verification account
                                Route::put('/changePassword','UserController@changePassword') ;
                                Route::post('/checkToken','UserController@checkToken') ;
+                               Route::get('/verifMail','UserController@verifMail') ;
+                               Route::post('/updateEmail','UserController@updateEmail') ;
 
 
 
+                               
+
+                               

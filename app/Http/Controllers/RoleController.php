@@ -95,7 +95,7 @@ class RoleController extends Controller
        // get all Roles by admin
        public function getAllRoles()
        {
-           $roles = Role::all();
+           $roles = Role::where('role_name','<>','admin')->get( );
            return $roles ;
        }
 
