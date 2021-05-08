@@ -155,15 +155,20 @@ class BillController extends Controller
   public function getDateLimits(Request $request)
   {
       $bills = Bill::all() ;
+      $numBill =  count($bills);
+      if($numBill == 1 )
+      {
+        return response()->json(["limit"=>3]);
+      } 
       $ids = array() ;
       foreach($bills as $bill)
       {
           array_push($ids ,$bill['id']) ;
       }
       $key = array_search($request->id, $ids); 
-    
     if($key == 0){
         $key ++ ; 
+        // return $key ; 
      $bill = Bill::find($ids[$key]);
      return response()->json(["bill"=>$bill,"limit"=>0]);
 

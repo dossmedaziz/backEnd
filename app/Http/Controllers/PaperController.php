@@ -213,6 +213,29 @@ class PaperController extends Controller
      }
 
 
- 
+ public function SendMailManu(Request $request)
+ {
+     $config = $request->config ; 
+     $contract_id = $config['contract_id'] ;
+     $to_name  = $config['client_name'];
+     $to_email = $config['client_email'];
+     $subject = $config['subject'];
+     $emailBody = $config['email_body'] ;
+
+     $contract = Paper::find($contract_id);
+    
+
+
+     $data = array('name'=> $to_name ,'body' =>$emailBody );
+     Mail::send('alertEmail', $data, function($message) use ($to_name, $to_email,$subject) {
+     $message->to($to_email, $to_name)->subject($subject);
+     $message->from('dossaziz18@gmail.com','Nachd-it');
+     });
+     $contract->update([
+        'isReminded'=> 1 
+    ]) ; 
+    $contract->save();  
+     return response()->json(["msg"=>"email sent!"]);
+ }
 }
 

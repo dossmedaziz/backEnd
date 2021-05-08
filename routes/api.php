@@ -149,8 +149,6 @@ Route::group(['middleware' => 'auth:api'], function () {
                          Route::post('/deleteQuote','QuoteController@delete') ;
                          Route::get('/getQuote/{id}','QuoteController@getQuoteById') ;
                          Route::post('calcNumQuote','QuoteController@calcNumQuotes');
-                         Route::get('getLastquote','QuoteController@getLastquote');
-                         Route::post('getDateLimits','QuoteController@getDateLimits');
 
                         //manage paper by admin
                         Route::post('/createPaper','PaperController@create') ;
@@ -158,7 +156,8 @@ Route::group(['middleware' => 'auth:api'], function () {
                         Route::post('/deletePaper','PaperController@delete') ;
                         Route::get('getTypeofThePaper/{id}','PaperController@getTypeofThePaper');
                         Route::post('uploadFile','PaperController@uploadFile');
-
+                        Route::post('SendMailManu','PaperController@SendMailManu');
+                        
 
 
                         // Get all activity log by admin
