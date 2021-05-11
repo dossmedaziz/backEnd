@@ -27,4 +27,34 @@ class TaskController extends Controller
     }
 
 
+
+
+    public function editTask(Request $request )
+    {
+        $task = Task::find($request->task_id);
+        $task->update($request->newTask);
+        $task->save();
+        return response()->json(["msg"=>"updated!"]);
+    }
+
+
+
+    public function deleteTask(Request $request)
+    {
+        $task = Task::find($request->task_id);
+        $task->delete();
+        return response()->json(["msg"=>"deleted"]);
+    }
+
+
+    public function taskRelation(Request $request)
+    {
+        $task =  Task::find($request->task_id) ;
+        $task->update([
+            "parent_id" => $request->parent_id,
+        ]);
+        $task->save() ;
+        return response()->json(["msg"=>"updated!!!!!!!"]);
+    }
+
 }

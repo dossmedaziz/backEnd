@@ -226,6 +226,11 @@ Route::group(['middleware' => 'auth:api'], function () {
                         
                         Route::get('getTaskByproject/{id}','TaskController@getTaskByproject');
                         Route::post('addTask','TaskController@addTask') ; 
+                        Route::put('editTask','TaskController@editTask') ; 
+                        Route::post('deleteTask','TaskController@deleteTask') ; 
+                        Route::post('taskRelation','TaskController@taskRelation') ; 
+
+                        
 
                             });
 
@@ -233,7 +238,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                             Route::post('sendMail','UserController@sendMail');
                             Route::post('resetPassword','UserController@resetPassword');
 
-
+                            
 
 
 
