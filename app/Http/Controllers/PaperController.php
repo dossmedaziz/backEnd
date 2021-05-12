@@ -170,7 +170,7 @@ class PaperController extends Controller
                 $data = array('name'=> $cont['project']['client']['client_name'] ,'body' =>$emailBody );
                 Mail::send('alertEmail', $data, function($message) use ($to_name, $to_email,$subject) {
                 $message->to($to_email, $to_name)->subject($subject);
-                $message->from('dossaziz18@gmail.com','Nachd-it');
+                $message->from(env('MAIL_USERNAME'),'Nachd-it');
                 });
                   $id = $cont['id'] ;
                   $contract = Paper::find($id);
@@ -229,7 +229,7 @@ class PaperController extends Controller
      $data = array('name'=> $to_name ,'body' =>$emailBody );
      Mail::send('alertEmail', $data, function($message) use ($to_name, $to_email,$subject) {
      $message->to($to_email, $to_name)->subject($subject);
-     $message->from('dossaziz18@gmail.com','Nachd-it');
+     $message->from(env('MAIL_USERNAME'),'Nachd-it');
      });
      $contract->update([
         'isReminded'=> 1 

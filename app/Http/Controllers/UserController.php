@@ -56,7 +56,7 @@ class UserController extends Controller
                     $data = array('name'=> $user->name ,'link' => "http://localhost:4200/updatePassword/".$cryptedId);
                     Mail::send('verificationEmail', $data, function($message) use ($to_name, $to_email) {
                     $message->to($to_email, $to_name)->subject('Verification');
-                    $message->from('dossaziz18@gmail.com','Nachd-it');
+                    $message->from(env('MAIL_USERNAME'),'Nachd-it');
                     });
                     return response()->json(['message'=>'created','user'=>$user]) ;
 
@@ -264,7 +264,7 @@ class UserController extends Controller
             $data = array('name'=> $user->name ,'link' => "http://localhost:4200/resetPassword/".$cryptedToken);
             Mail::send('emails', $data, function($message) use ($to_name, $to_email) {
             $message->to($to_email, $to_name)->subject('Reset Password');
-            $message->from('dossaziz18@gmail.com','Nachd-it');
+            $message->from(env('MAIL_USERNAME'),'Nachd-it');
             });
             return response()->json(["msg"=>"Mail sent"]);
         }
@@ -373,7 +373,7 @@ class UserController extends Controller
             $data = array('name'=> $name ,'link' => "http://localhost:4200/verifNewEmail/".$cryptedToken);
             Mail::send('verifEmail', $data, function($message) use ($to_name, $to_email) {
             $message->to($to_email, $to_name)->subject('Email Validation');
-            $message->from('dossaziz18@gmail.com','Nachd-it');
+            $message->from(env('MAIL_USERNAME'),'Nachd-it');
             });
 
             return true  ;

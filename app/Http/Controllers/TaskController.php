@@ -57,4 +57,11 @@ class TaskController extends Controller
         return response()->json(["msg"=>"updated!!!!!!!"]);
     }
 
+
+    public function testemail(){
+
+        $test =  env('MAIL_USERNAME') ; 
+        return $test ;  
+    }
+
 }
