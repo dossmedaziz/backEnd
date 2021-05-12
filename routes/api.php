@@ -253,5 +253,4 @@ Route::group(['middleware' => 'auth:api'], function () {
 
                                
 
-                        Route::get('testemail','TaskController@testemail') ; 
                                

@@ -58,10 +58,6 @@ class TaskController extends Controller
     }
 
 
-    public function testemail(){
-
-        $test =  env('MAIL_USERNAME') ; 
-        return $test ;  
-    }
+  
 
 }
