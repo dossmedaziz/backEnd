@@ -16,11 +16,11 @@ class ActionSeeder extends Seeder
                 'action_name'=>'create'
             ]
         );
-        // Action::create(
-        //     [
-        //          'action_name'=>'read'
-        //      ]
-        //  );
+        Action::create(
+            [
+                 'action_name'=>'read'
+             ]
+         );
          Action::create(
             [
                  'action_name'=>'update'

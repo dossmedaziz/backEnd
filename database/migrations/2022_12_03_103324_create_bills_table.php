@@ -15,7 +15,7 @@ class CreateBillsTable extends Migration
     {
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
-            $table->integer('total_ttc');
+            $table->float('total_ttc');
             $table->integer('ht_price');
             $table->integer('rate_tva');
             $table->integer('price_tva');
