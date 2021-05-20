@@ -15,11 +15,11 @@ class CreateQuotesTable extends Migration
     {
         Schema::create('quotes', function (Blueprint $table) {
             $table->id();
-            $table->integer('total_ttc');
+            $table->float('total_ttc',10,3);
             $table->integer('ht_price');
             $table->integer('rate_tva');
             $table->integer('price_tva');
-            $table->integer('fiscal_timber');
+            $table->float('fiscal_timber',10,3);
             $table->string('QuoteNum');
             $table->string('inWord')->nullable();
             $table->string('description')->nullable();
