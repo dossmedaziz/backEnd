@@ -15,11 +15,11 @@ class CreateBillsTable extends Migration
     {
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
-            $table->float('total_ttc');
+            $table->float('total_ttc',10,3);
             $table->integer('ht_price');
             $table->integer('rate_tva');
             $table->integer('price_tva');
-            $table->integer('fiscal_timber');
+            $table->float('fiscal_timber',10,3);
             $table->string('billNum');
             $table->string('inWord')->nullable();
             $table->string('description')->nullable();

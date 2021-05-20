@@ -50,16 +50,16 @@ class BillController extends Controller
          $config = $request->config ;
         $bill = Bill::find($id) ;
         $bill->update([
-            "total_ttc" => $bill['total_ttc'] ,
-            "ht_price" => $bill['ht_price'],
+            "total_ttc" => $newBill['total_ttc'] ,
+            "ht_price" => $newBill['ht_price'],
             "rate_tva" => $config['tva'],
-            "price_tva" => $bill['price_tva'],
+            "price_tva" => $newBill['price_tva'],
             "fiscal_timber" => $config['tax'],
             "billNum" => $config['billNum'],
             "DateFacturation" => $config['dateFacturation'],
-            "description" => $bill['description'],
+            "description" => $newBill['description'],
             "client_id" => $config['clientId'],
-            "inWord" => $bill['inWord']
+            "inWord" => $newBill['inWord']
         ]);
         $bill->save();
 
