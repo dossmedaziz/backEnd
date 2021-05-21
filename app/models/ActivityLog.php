@@ -14,7 +14,7 @@ class ActivityLog extends Model
 
 
 
-    public function logSaver($id,$action_name,$space_name,$serv_name,)
+    public function logSaver($id,$action_name,$space_name,$serv_name)
     {
 
         $action = Action::where('action_name',$action_name)->first();
