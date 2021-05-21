@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\models\Contact;
+use App\models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth ;
 use App\models\ActivityLog;
@@ -15,9 +16,10 @@ class ContactController extends Controller
                 $user_id = Auth::user()->id;
                 $contact = new Contact($request->contact);
                 $contact->client_id = $request->client_id;
+                $client = Client::find($request->client_id);
                 $contact->save();
                 $activity = new ActivityLog();
-                $activity->logSaver($user_id,'create','client',$contact->client_id,"");
+                $activity->logSaver($user_id,'update','client',$client->client_name);
                 return response()->json(['message'=>'created']) ;
 
             }
@@ -33,6 +35,8 @@ class ContactController extends Controller
                 $newContact = $request->newContact;
                 $contact_id = $request->contact_id ;
                 $contact = Contact::find($contact_id);
+                $client = Client::find($contact->client_id);
+
               $contact->update([
                     'contact_name'=> $newContact['contact_name'],
                     'contact_email'=> $newContact['contact_email'],
@@ -42,7 +46,7 @@ class ContactController extends Controller
             ]);
                 $contact->save();
                 $activity = new ActivityLog();
-                $activity->logSaver($user_id,'update','client',$contact->client_id,"");
+                $activity->logSaver($user_id,'update','client',$client->client_name);
 
                 return response()->json('updated');
             }
@@ -77,11 +81,11 @@ class ContactController extends Controller
                 $user_id =  Auth::user()->id;
                 $id = $request->contact_id;
                 $contact = Contact::find($id) ;
-                
+                $client = Client::find($contact->client_id);
                 $contact->delete() ;
 
                 $activity = new ActivityLog();
-                $activity->logSaver($user_id,'delete','client',$contact->client_id,"");
+                $activity->logSaver($user_id,'update','client',$client->client_name);
                 return response()->json(['message'=>'Deleted']) ;
 
             }

@@ -22,7 +22,7 @@ class ProjectController extends Controller
                             $project->save();
 
                             $activity = new ActivityLog();
-                            $activity->logSaver($user_id,'create','project',$project->id,"");
+                            $activity->logSaver($user_id,'create','project',$project->project_name);
                             return response()->json(['message'=>'created','project'=>$project]) ;
             }
 
@@ -38,7 +38,7 @@ class ProjectController extends Controller
                 $project->save();
 
                 $activity = new ActivityLog();
-                $activity->logSaver($user_id,'update','project',$project->id,"");
+                $activity->logSaver($user_id,'update','project',$project->project_name);
                 return response()->json(['message'=>'updated','project'=>$project]) ;
             }
 
@@ -87,7 +87,7 @@ class ProjectController extends Controller
                     $project = Project::find($id);
                     $project->delete();
                     $activity = new ActivityLog();
-                    $activity->logSaver($user_id,'delete','project',$project->id,$project->project_name);
+                    $activity->logSaver($user_id,'delete','project',$project->project_name);
                 }
                 
 

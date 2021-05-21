@@ -36,7 +36,7 @@ class QuoteController extends Controller
        }
 
        $activity = new ActivityLog();
-       $activity->logSaver($user_id,'create','quote',$quote->id,"");
+       $activity->logSaver($user_id,'create','quote',$quote->QuoteNum);
           return response()->json(['message'=>'created']) ;
      }
 
@@ -44,12 +44,12 @@ class QuoteController extends Controller
     public function update(Request $request, $id)
     {
 
-        $user_id = Auth::user()->id ;
+         $user_id = Auth::user()->id ;
          $newQuote = $request->quote ;
          $items = $request->itsmes ;
          $config = $request->config ;
-        $quote = Quote::find($id) ;
-        $quote->update([
+         $quote = Quote::find($id) ;
+         $quote->update([
             "total_ttc" => $quote['total_ttc'] ,
             "ht_price" => $quote['ht_price'],
             "rate_tva" => $config['tva'],
@@ -82,7 +82,7 @@ class QuoteController extends Controller
               $i->save();
         }
         $activity = new ActivityLog();
-        $activity->logSaver($user_id,'update','quote',$quote->id,"");
+        $activity->logSaver($user_id,'update','quote',$quote->QuoteNum);
         return response()->json(['message'=>'updated']) ;
     }
 

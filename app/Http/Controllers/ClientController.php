@@ -25,7 +25,7 @@ class ClientController extends Controller
          $client->save();
 
                     $activity = new ActivityLog();
-                    $activity->logSaver($user_id,'create','client',$client->id,"");
+                    $activity->logSaver($user_id,'create','client',$client->client_name);
 
                     return response()->json(['message'=>'created','client'=>$client]) ;
 
@@ -49,7 +49,7 @@ class ClientController extends Controller
 
       
         $activity = new ActivityLog();
-        $activity->logSaver($user_id,'update','client',$client->id,"");
+        $activity->logSaver($user_id,'update','client',$client->client_name);
         return response()->json(['message'=>'updated','client'=>$client]) ;
 
     }
@@ -67,19 +67,12 @@ class ClientController extends Controller
               $id= ($t['client_id']);
               $client = Client::find($id);
               $projects = Project::Where('client_id',$id)->first();
-            $client->delete() ;
+              $client->delete() ;
 
 
-              if(is_null($projects))
-              {
-                 $client->forceDelete();
-              }else{
-                $client->delete() ;
-
-              }
 
               $activity = new ActivityLog();
-              $activity->logSaver($user_id,'delete','client',$client->id ,$client->client_name);
+              $activity->logSaver($user_id,'delete','client',$client->client_name);
           }
 
           

@@ -26,7 +26,7 @@ class PaperController extends Controller
         $paper->save();
 
         $activity = new ActivityLog();
-        $activity->logSaver($user_id,'create','paper',$paper->id,"");
+        $activity->logSaver($user_id,'create','paper',$paper->paper_name);
         return response()->json(['message'=>'created']) ;
     }
 
@@ -46,7 +46,7 @@ class PaperController extends Controller
         $paper->paper_file = $request->file_path ;}
         $paper->save();
         $activity = new ActivityLog();
-        $activity->logSaver($user_id,'update','paper',$paper->id,"");
+        $activity->logSaver($user_id,'update','paper',$paper->paper_name);
         return response()->json('updated') ;
     }
 
@@ -88,7 +88,7 @@ class PaperController extends Controller
         
 
             $activity = new ActivityLog();
-            $activity->logSaver($user_id,'delete','paper',$paper->id,$paper->paper_name);
+            $activity->logSaver($user_id,'delete','paper',$paper->paper_name);
 
     }
     return response()->json(['message'=>'Deleted']) ;

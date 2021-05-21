@@ -25,13 +25,12 @@ class CreateActivityLogsTable extends Migration
                     ->references('id')
                     ->on('actions')
                     ->onDelete('SET NULL');
-            $table->integer('service_id')->nullable();
             $table->unsignedBigInteger('space_id')->nullable();
             $table->foreign('space_id')
                     ->references('id')
                     ->on('spaces')
                     ->onDelete('SET NULL');
-            $table->string('service_deleted')->nullable();        
+            $table->string('service_name')->nullable();
             $table->timestamps();
         });
     }

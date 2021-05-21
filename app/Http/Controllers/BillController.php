@@ -36,7 +36,7 @@ class BillController extends Controller
       }
 
       $activity = new ActivityLog();
-      $activity->logSaver($user_id,'create','bill',$bill->id,"");
+      $activity->logSaver($user_id,'create','bill',$bill->billNum);
          return response()->json(['message'=>'created']) ;
     }
 
@@ -82,7 +82,7 @@ class BillController extends Controller
               $i->save();
         }
             $activity = new ActivityLog();
-            $activity->logSaver($user_id,'update','bill',$bill->id,"");
+            $activity->logSaver($user_id,'update','bill',$bill->billNum);
         return response()->json(['message'=>'updated']) ;
     }
 
