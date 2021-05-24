@@ -101,9 +101,6 @@ class UserController extends Controller
                 ]);
                 $user->save() ;
 
-
-                $activity = new ActivityLog();
-                $activity->logSaver($user_id,'update','user',$user->id,"");
                 return response()->json(["emailChanged"=>$emailChanged]) ;
             }
 
@@ -348,7 +345,9 @@ class UserController extends Controller
 
         public function getConnectedUser()
         {
-            $user = Auth::user() ;
+            $id = Auth::user()->id ;
+            $user =  User::where('id',$id)->with('role')->first() ; 
+             
             return $user ;
         } 
    
