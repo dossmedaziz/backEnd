@@ -50,14 +50,21 @@ class UserController extends Controller
 
                     // sending verification email
 
-                    $cryptedId = Crypt::encryptString($user->id) ;
+                    $today = Carbon::today();
+                    $token = array("date"=>$today, "user_id"=>$user->id , "isUsed"=> 0);
+                    $cryptedToken = Crypt::encryptString(json_encode($token)) ;
+                  
                     $to_name  = $user->name;
                     $to_email = $user->email;
-                    $data = array('name'=> $user->name ,'link' => "http://localhost:4200/updatePassword/".$cryptedId);
+                    $data = array('name'=> $user->name ,'link' => "http://localhost:4200/updatePassword/".$cryptedToken);
                     Mail::send('verificationEmail', $data, function($message) use ($to_name, $to_email) {
                     $message->to($to_email, $to_name)->subject('Verification');
                     $message->from(env('MAIL_USERNAME'),'Nachd-it');
                     });
+                    $user->update([
+                        'token'=>$cryptedToken 
+                    ]);
+                    $user->save();
                     return response()->json(['message'=>'created','user'=>$user]) ;
 
 
@@ -222,11 +229,17 @@ class UserController extends Controller
         public function changePassword(Request $request)
         {
 
-            $token =  $request->token ;
-            $user_id = Crypt::decryptString($token) ;
+            $token  = $request->token ;
+        $decryptedToken = Crypt::decryptString($token) ;
+        $jsonToken =  json_decode($decryptedToken, true) ;
+        $user_id = $jsonToken['user_id'] ;
+        $jsonToken['isUsed'] = 1 ;
+        $cryptedToken = Crypt::encryptString(json_encode($jsonToken)) ;
+
             $user = User::find($user_id) ;
             $user->update([
                 'password'=>Hash::make($request->password),
+                'token' => $cryptedToken
             ]);
 
             $user->save() ;
@@ -296,10 +309,12 @@ class UserController extends Controller
         {
             $token =  $request->token;
             $decryptedToken =  Crypt::decryptString($token) ;
-            $decryptedToken =  json_decode($decryptedToken, true) ;
-            $isUsed = $decryptedToken['isUsed'] ;
-            $tokenDate = $decryptedToken['date'] ;
+            $decryptedToken =  json_decode($decryptedToken, true) ; 
             $user = User::find($decryptedToken['user_id']) ;
+            if(!$user){
+                return response()->json(["isChecked"=> 1]);
+
+            }
             $userToken = $user->token ;
             $userToken =  Crypt::decryptString($userToken) ;
             $userToken =  json_decode($userToken, true) ;
