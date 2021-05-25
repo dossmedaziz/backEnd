@@ -13,12 +13,12 @@ class ActionSeeder extends Seeder
     {
         Action::create(
            [
-                'action_name'=>'create'
+                'action_name'=>'read'
             ]
         );
         Action::create(
             [
-                 'action_name'=>'read'
+                 'action_name'=>'create'
              ]
          );
          Action::create(
