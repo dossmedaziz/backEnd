@@ -43,6 +43,7 @@ class UserController extends Controller
                         'email'=> $userr['email'],
                         'password'=> Hash::make($password) ,
                         'role_id' => $userr['role_id'],
+                        'photo' => 'files/files/std.png'
                     ]);
 
                     $user->save();

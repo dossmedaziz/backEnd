@@ -54,9 +54,9 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
-        'images' => [
+        'files' => [
             'driver' => 'local',
-            'root' => base_path('public/files/images'),
+            'root' => base_path('public/files/files'),
             'url' => env('APP_URL').'/public',
             'visibility' => 'public',
         ],

@@ -106,7 +106,7 @@ class PaperController extends Controller
             $file = $request->file('file');
             $ex = $file->getClientOriginalExtension();
             $file_name = time().'.'.$ex ;
-            $file_path ='files/images' ;
+            $file_path ='files/files' ;
             $file->move($file_path,$file_name);
             $path = $file_path.'/'.$file_name;
             return response()->json(["path"=>$path]) ;
